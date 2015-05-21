@@ -4,6 +4,8 @@ function draw_sc()
   local S = p.start
   draw_land()
   
+  if p.heading == 0 then
+    
     if map[S-11] ~= nil then
      if map[S-11] > 1 and map[S-11] < 8 then --and p.c == 0 then 
        -- left side wall
@@ -590,11 +592,44 @@ function draw_pick_colours()
  
  lg.setColor(C_BLACK)
  lgp('Strenght: '..tostring(p.st)..' / 10', w/2+128,h/2+32)
- lgp('health: '..tostring(p.hp)..' / 10', w/2+128,h/2+32+16)
- lgp('experience: '..tostring(p.xp)..' / 10', w/2+128,h/2+32+32)
- lgp('')
+ lgp('Health: '..tostring(p.hp)..' / 10', w/2+128,h/2+32+16)
+ lgp('Experience: '..tostring(p.xp)..' / 10', w/2+128,h/2+32+32)
+ 
+ lgp('Click on a part of the body and then on a color')
  -- color to pick
 
+ C = 0
+ local X
+ local I
+ local N
+ N = 0
+ repeat
+    if C~=0 then
+      X = X + 32
+    else
+      I = 0
+      X = 0
+    end
+    if N == 0 then
+      lg.setColor(C_BLACK)
+    elseif N == 1 then
+      lg.setColor(C_BLUE)
+    elseif N == 2 then
+      lg.setColor(C_GREEN)
+    elseif N == 3 then
+      lg.setColor(C_GRAY)
+    elseif N == 4 then
+      lg.setColor(C_WHITE)
+    elseif N == 5 then
+      lg.setColor(C_YELLOW)
+    elseif N == 6 then
+      lg.setColor(C_BROWN)
+   end
+   lg.rectangle('fill', w/2-156+X,h/2+96, 32,32)
+   N = N+1
+   C = C+1
+  until C == 8
+   
 end
 
 function check_paint()

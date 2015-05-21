@@ -53,10 +53,6 @@ function love.mousepressed(x,y, button  )
           i_options[6] = 'new game'
         end
         
-        if i_options[0] == "Play" then
-          world()
-          game.state = 1
-        end
         if i_options [0] == "Remove" then
           if map[S] ~= 0 then
             map[S] = 1
@@ -86,7 +82,7 @@ function love.mousepressed(x,y, button  )
   end
   
   -- interactive option 1 add
-    if x >= 64+128 and x <= 64+256 and y >= 544 and y <= 544 + 32 then  
+    if x >= 172 and x <= 64+320 and y >= 544 and y <= 544 + 32 then  
      ---   if i_options [1] == "Remove ..." then
           --i_options [0] = "<< main"
 
@@ -97,7 +93,11 @@ function love.mousepressed(x,y, button  )
           --i_options [3] = "stones"
           --i_options [4] = "leaves"
         --end
-          if map [S] == 1 then
+            if i_options[6] == 'pick colours' and i_options[1] == "Next" then
+          world()
+          game.state = 1
+        
+        elseif map [S] == 1 then
             if i_options [1] == "Block" and map[S-10] ~= 0 then
               map[S-10] = 2 
             elseif i_options [1] == 'Sticks' then
@@ -171,21 +171,30 @@ function love.mousepressed(x,y, button  )
         
   
 --end  
-   --up button
+   --up button, walk forward
      	if x >= hotspot02.x and x <= hotspot02.x + hotspot02.w and y >= hotspot02.y and y <= hotspot02.y + hotspot02.h then
         --lg.setColor(C_BLUE)
-        if map[S-10] ~= nil then
-         
-          if map[S] ~= 2 and map[S] ~= 3 and map[S-10] ~= 2 then
-            if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then 
-              --hotspot02.toggle = true
-              p.start = p.start-10
-              -- compas()
-              --hotspot02.toggle = false
-              menu()
+          
+          if map[S-10] ~= nil and p.heading == 0 then -- if player facing north
+            
+            if map[S] ~= 2 and map[S] ~= 3 and map[S-10] ~= 2 then
+              if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then
+                   p.start = p.start-10
+              end
+          
+          elseif map[S-1] and p.heading == 1 then -- if player facing east
+                  if 
+                    p.start = p.start+1
+                  elseif p.heading == 2 then -- south
+                    p.start = p.start+10
+                  end
             end
+            
           end
-        end
+          
+          
+    
+        
       end
    
       --back button
@@ -199,14 +208,15 @@ function love.mousepressed(x,y, button  )
        p.start = p.start-1 
        
        --compas movement code
-    --[[   if p.heading > 0 and p.heading <= 3 then
+     if p.heading > 0 and p.heading <= 3 then
          p.heading = p.compas[p.heading-1]
       elseif p.heading == 0 then
         p.heading = 3
       end
+      if p.heading == 0 then  -- if north
       -- end of code of compas
-       ]]--
-       menu()
+         S =
+       end
       end
       
       -- right button
@@ -214,11 +224,11 @@ function love.mousepressed(x,y, button  )
         p.start = p.start+1
         
        --compas movement code
-     --  if p.heading > 0 and p.heading < 3 then
-     --    p.heading = p.compas[p.heading+1]
-     -- elseif p.heading == 3 then
-     --   p.heading = 0
-      --  end
+       if p.heading > 0 and p.heading < 3 then
+         p.heading = p.compas[p.heading+1]
+      elseif p.heading == 3 then
+        p.heading = 0
+        end
        -- end of code of compas
       
       menu()

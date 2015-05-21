@@ -329,8 +329,10 @@ function load_info()
     
     --A = 'map 01'
     --search_for(A)
-    local I = 1
-    local B = 0
+    local I
+    local B
+    I = 1
+    B = 0
     repeat
      map[I] = tonumber(options[I])
      --[[ B = string.sub(A,-2)
@@ -366,7 +368,8 @@ end
         
 function save_game()
  -- if not lf.exists('options.txt') then
-    local F = lf.newFile('options.txt')
+    local F 
+    F = lf.newFile('options.txt')
     F:open('w')
     -- map get saved to a string
    -- F:write('Map 01'.."\n")
@@ -407,8 +410,9 @@ I = I + 1
 end
 
 function search_for(A)
-  local I = 0
+  local I
   local A
+  I = 0
   repeat
     if options[I] == A then
       A = tostring(options[I+1])
@@ -443,8 +447,7 @@ function love.draw()
     --menu()
 
   end
-    gui()
-    menu()
+
   if game.state == 1 then
      draw_sc()
      --lg.setColor(255,255,255,255)
@@ -542,4 +545,6 @@ function love.draw()
    until i == 100 
   
   end
+    gui()
+    menu()
 end
