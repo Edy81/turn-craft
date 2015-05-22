@@ -181,21 +181,16 @@ function love.mousepressed(x,y, button  )
               if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then
                    p.start = p.start-10
               end
-          
-          elseif map[S-1] and p.heading == 1 then -- if player facing east
-                  if 
-                    p.start = p.start+1
-                  elseif p.heading == 2 then -- south
-                    p.start = p.start+10
-                  end
             end
-            
+          elseif map[S-1] then
+            if p.heading == 0 then -- if player facing east
+              p.start = p.start-10
+            elseif p.heading == 2 then -- south
+              p.start = p.start+10
+            end
           end
-          
-          
-    
-        
       end
+
    
       --back button
      	if x >= hotspot03.x and x <= hotspot03.x + hotspot03.w and y >= hotspot03.y and y <= hotspot03.y + hotspot03.h then
@@ -205,17 +200,16 @@ function love.mousepressed(x,y, button  )
       
       -- left button
      	if x >= hotspot04.x and x <= hotspot04.x + hotspot04.w and y >= hotspot04.y and y <= hotspot04.y + hotspot04.h then
-       p.start = p.start-1 
+      -- p.start = p.start-1 
        
        --compas movement code
-     if p.heading > 0 and p.heading <= 3 then
-         p.heading = p.compas[p.heading-1]
-      elseif p.heading == 0 then
-        p.heading = 3
-      end
-      if p.heading == 0 then  -- if north
+     if p.heading >= 0 and p.heading < 3 then
+         p.heading = p.heading + 1
+     lg.setColor(C_WHITE)
+     lgp(p.heading,32,h/2)
+      elseif p.heading == 3 then  -- if north
       -- end of code of compas
-         S =
+         p.heading = 0
        end
       end
       

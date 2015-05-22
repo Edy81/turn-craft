@@ -23,9 +23,9 @@ vars()
     xp = 0, -- experience
     hp = 0, -- health
     backpack = false,
-    heading = 0,
+    heading = 'n',
     compas = {},
-    compas = {0,1,2,3},
+    compas = {10,1,10,1},
     start = 25,
     a = {},
     
@@ -305,6 +305,7 @@ vars()
   
     menu()
   edit_mode = 0  
+  c_i_mod = {}
 
 end
 if arg[#arg] == "-debug" then require("mobdebug").start() end
@@ -450,6 +451,7 @@ function love.draw()
 
   if game.state == 1 then
      draw_sc()
+
      --lg.setColor(255,255,255,255)
      --lg.polygon('line',1,1 , w/2-192,h/2-96, w/2-192,h/2+96, 1,500)
     -- lg.polygon('line',1,1 , w/2-192,h/2-96, w/2-192+64,h/2+96, 1,500)
@@ -543,7 +545,8 @@ function love.draw()
     end
     i = i +1
    until i == 100 
-  
+     lg.setColor(C_WHITE)
+     lgp(p.heading,32,h/2)
   end
     gui()
     menu()

@@ -1,36 +1,125 @@
+function draw_left_side_wall_in()
+  -- left side wall
+  -- /
+  lg.setColor(C_WHITE)
+  lg.polygon('fill',w/3,h/2+96 , w/2-64,h/2+64, w/2-64,h/2-64, w/3,h/2-96)
+end
+
+function draw_left_side_wall()
+  --left wall visible inside a room or if a building is next to it
+  lg.setColor(C_WHITE)
+  lg.polygon('fill',1,1 , w/2-192,h/2-96, w/2-192,h/2+96, 1,h-96)
+end
+
+function draw_horizontal_left_wall()
+  lg.setColor(C_WHITE)
+  lg.rectangle('fill',1,h/2-96,w/3,192)
+end
+
+function draw_front_wall()
+  lg.setColor(C_WHITE)
+  -- front wall
+  lg.rectangle('fill',w/2-192,h/2-96,384,192)
+end
+
+function draw_right_side_wall_in()
+  lg.setColor(C_WHITE)
+  lg.polygon('fill',w-w/3,h/2-96 , w/2+64,h/2-64, w/2+64,h/2+64, w-w/3,h/2+96 )
+end
+
+function draw_right_side_wall()
+  --right side wall
+  lg.setColor(C_WHITE)
+  lg.polygon('fill',w,1 , w/2+192,204, w/2+192,396, w,h-96 ) 
+end
+
+function draw_npc()
+  -- hair
+  -- lg.setColor(C_GREEN)
+  -- lg.rectangle("fill",1,h/2,w,h/2)
+  -- hair
+  lg.setColor(C_BLACK)
+  lg.rectangle("fill",w/2-32,h/2-32,64,32)
+  -- face
+  lg.setColor(C_GRAY)
+  lg.rectangle("fill",w/2-32,h/2+12,48,48)
+  -- body
+  lg.setColor(C_BLACK)
+  lg.rectangle('line',w/2-24,h/2+52,72,72)
+  -- arms
+  lg.rectangle('line',w/2-32,h/2+56,8,64)  -- left arm
+  lg.rectangle('line',w/2+48,h/2+56,8,64)  -- right arm
+  -- legs
+  lg.rectangle('line',w/2-16,h/2+128,24,72)  -- left leg
+  lg.rectangle('line',w/2+16,h/2+128,24,72)  -- right leg
+end
+
 function draw_sc()
   -- map codes
   -- 0 sea
   local S = p.start
   draw_land()
   
-  if p.heading == 0 then
+  if p.heading == 0 then -- if player looking north
     
     if map[S-11] ~= nil then
      if map[S-11] > 1 and map[S-11] < 8 then --and p.c == 0 then 
-       -- left side wall
-      -- /
-      lg.setColor(C_WHITE)
-      lg.polygon('fill',w/3,h/2+96 , w/2-64,h/2+64, w/2-64,h/2-64, w/3,h/2-96)
+       draw_left_side_wall_in()
      end
     end
      if map[S] == 2 or map[S] == 3 or map[S-1] >= 2 and map[S-1] < 7 then
-       --left wall visible inside a room or if a building is next to it
-       lg.setColor(C_WHITE)
-       lg.polygon('fill',1,1 , w/2-192,h/2-96, w/2-192,h/2+96, 1,h-96)
+       draw_left_side_wall()
      end
      
      -- front wall left side of screen
-
      if map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 or map[S-11] == 3 then 
      --map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 and map[S-11] == 3 then
-       lg.setColor(C_WHITE)
-       lg.rectangle('fill',1,h/2-96,w/3,192)
+       draw_horizontal_left_wall()
       end
      if --[[map[S-9] == 2 or map[S-11] == 3 or map[S-1] == 2 or map[S-1] == 3  or--]] map[S] == 2 or map[S] == 3 or map[S-10] == 2 or map[S-10] == 3 then
+        draw_front_wall()
+      end
+      -- front wall right side of screen
+      if -- not (map[S] > 9 and map[S] < 20) or
+    --  map[S] ~= 1 or map[S] > 3 and map[S] < 7 or map[S+1] > 3 and map[S+1] <= 7 
+      --(map[S-9] > 9 and map[S-9] < 20) or 
+      --map[S-9] ~= 1 or 
+      
+      map [S-9] ~= nil then
+      if map[S-9] >= 2 and map[S-9] <= 7 then
        lg.setColor(C_WHITE)
-       -- front wall
-       lg.rectangle('fill',w/2-192,h/2-96,384,192)
+       lg.rectangle('fill',w-w/3,h/2-96,w/3,192)
+      end
+      
+    -- right side wall
+    if map[S] == 2 or map[S] == 3 or map[S+1] == 2 or map[S+1] == 3 then 
+      draw_right_side_wall()
+    elseif map[S-9] ~= nil then
+       -- map[S-10] == 1 or map[S-10] >9 and map[S-10] < 20
+      if map[S-9] > 1 and map[S-9] <8 then
+        draw_right_side_wall_in()
+      end
+    end
+     end  -- end of north
+     
+  elseif p.heading == 1 then -- if player looking east
+    
+    if map[S-11] ~= nil then
+     if map[S-11] > 1 and map[S-11] < 8 then --and p.c == 0 then 
+       draw_left_side_wall_in()
+     end
+    end
+     if map[S] == 2 or map[S] == 3 or map[S-1] >= 2 and map[S-1] < 7 then
+       draw_left_side_wall()
+     end
+     
+     -- front wall left side of screen
+     if map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 or map[S-11] == 3 then 
+     --map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 and map[S-11] == 3 then
+       draw_horizontal_left_wall()
+      end
+     if --[[map[S-9] == 2 or map[S-11] == 3 or map[S-1] == 2 or map[S-1] == 3  or--]] map[S] == 2 or map[S] == 3 or map[S-10] == 2 or map[S-10] == 3 then
+        draw_front_wall()
       end
       -- front wall right side of screen
       if -- not (map[S] > 9 and map[S] < 20) or
@@ -44,42 +133,24 @@ function draw_sc()
        lg.rectangle('fill',w-w/3,h/2-96,w/3,192)
       end
      end
-     
+    
+    -- right side wall
     if map[S] == 2 or map[S] == 3 or map[S+1] == 2 or map[S+1] == 3 then 
-       --right side wall
-       lg.setColor(C_WHITE)
-       lg.polygon('fill',w,1 , w/2+192,204, w/2+192,396, w,h-96 )
+      draw_right_side_wall()
     elseif map[S-9] ~= nil then
        -- map[S-10] == 1 or map[S-10] >9 and map[S-10] < 20
       if map[S-9] > 1 and map[S-9] <8 then
-        lg.setColor(C_WHITE)
-        lg.polygon('fill',w-w/3,h/2-96 , w/2+64,h/2-64, w/2+64,h/2+64, w-w/3,h/2+96 )
+        draw_right_side_wall_in()
       end
     end
+   end  -- end of east
+
+     --outside
      
      -- npc
      if map[S] == 8 then
-       -- hair
-      -- lg.setColor(C_GREEN)
-      -- lg.rectangle("fill",1,h/2,w,h/2)
-       -- hair
-       lg.setColor(C_BLACK)
-       lg.rectangle("fill",w/2-32,h/2-32,64,32)
-       -- face
-       lg.setColor(C_GRAY)
-       lg.rectangle("fill",w/2-32,h/2+12,48,48)
-       -- body
-       lg.setColor(C_BLACK)
-       lg.rectangle('line',w/2-24,h/2+52,72,72)
-       -- arms
-       lg.rectangle('line',w/2-32,h/2+56,8,64)  -- left arm
-       lg.rectangle('line',w/2+48,h/2+56,8,64)  -- right arm
-       -- legs
-       lg.rectangle('line',w/2-16,h/2+128,24,72)  -- left leg
-       lg.rectangle('line',w/2+16,h/2+128,24,72)  -- right leg
+      draw_npc()
     end
-     --outside
-     
      
      -- sticks
      if objects.c[S] ~= nil then
@@ -142,14 +213,25 @@ function draw_sc()
      end
     end
 
-     -- a door will be drawn if there is a building with a entry
-     if map [S-10] ~= nil then    -- this is to prevent errors
-       if map[S-10] == 3 then
-         lg.setColor(C_BLACK)
-         lg.rectangle('line',w/2-32,h/2-32,64,128)
-       end
-     end
-     
+    --[[-- a door will be drawn if there is a building with a entry
+    if p.heading == 0 then     -- player facing noth
+      if map [S-10] ~= nil then    -- this is to prevent errors
+        if map[S-10] == 3 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)
+        end
+      end--]]
+      
+  --  elseif p.heading == 1 then  -- player facing east
+      if map [S-10] ~= nil then    -- this is to prevent errors
+        if map[S-c_i_mod[p.heading]] == 3 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)
+        end             
+    -- end 
+    end
+    
+    
      -- a door will be drawn if the door block is 2 clocks away
      if map [S-20] ~= nil then    -- this is to prevent errors
        if map[S-20] == 3 then
