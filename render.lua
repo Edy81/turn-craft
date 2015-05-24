@@ -1,3 +1,5 @@
+require 'input'
+
 function draw_left_side_wall_in()
   -- left side wall
   -- /
@@ -60,7 +62,7 @@ function draw_sc()
   local S = p.start
   draw_land()
   
-  if p.heading == 0 then -- if player looking north
+  --if p.heading == 0 then -- if player looking north
     
     if map[S-11] ~= nil then
      if map[S-11] > 1 and map[S-11] < 8 then --and p.c == 0 then 
@@ -76,7 +78,7 @@ function draw_sc()
      --map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 and map[S-11] == 3 then
        draw_horizontal_left_wall()
       end
-     if --[[map[S-9] == 2 or map[S-11] == 3 or map[S-1] == 2 or map[S-1] == 3  or--]] map[S] == 2 or map[S] == 3 or map[S-10] == 2 or map[S-10] == 3 then
+     if --[[map[S-9] == 2 or map[S-11] == 3 or map[S-1] == 2 or map[S-1] == 3  or--]] map[S] == 2 or map[S] == 3 or map[S-c_i_mod[p.heading]] == 2 or map[S-c_i_mod[p.heading]] == 3 then
         draw_front_wall()
       end
       -- front wall right side of screen
@@ -90,9 +92,10 @@ function draw_sc()
        lg.setColor(C_WHITE)
        lg.rectangle('fill',w-w/3,h/2-96,w/3,192)
       end
-      
+    end
+    
     -- right side wall
-    if map[S] == 2 or map[S] == 3 or map[S+1] == 2 or map[S+1] == 3 then 
+    if map[S] == 2 or map[S] == 3 or map[S+c_i_mod[p.heading]] == 2 or map[S+c_i_mod[p.heading]] == 3 then 
       draw_right_side_wall()
     elseif map[S-9] ~= nil then
        -- map[S-10] == 1 or map[S-10] >9 and map[S-10] < 20
@@ -100,50 +103,8 @@ function draw_sc()
         draw_right_side_wall_in()
       end
     end
-     end  -- end of north
+    -- end  -- end of north
      
-  elseif p.heading == 1 then -- if player looking east
-    
-    if map[S-11] ~= nil then
-     if map[S-11] > 1 and map[S-11] < 8 then --and p.c == 0 then 
-       draw_left_side_wall_in()
-     end
-    end
-     if map[S] == 2 or map[S] == 3 or map[S-1] >= 2 and map[S-1] < 7 then
-       draw_left_side_wall()
-     end
-     
-     -- front wall left side of screen
-     if map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 or map[S-11] == 3 then 
-     --map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 and map[S-11] == 3 then
-       draw_horizontal_left_wall()
-      end
-     if --[[map[S-9] == 2 or map[S-11] == 3 or map[S-1] == 2 or map[S-1] == 3  or--]] map[S] == 2 or map[S] == 3 or map[S-10] == 2 or map[S-10] == 3 then
-        draw_front_wall()
-      end
-      -- front wall right side of screen
-      if -- not (map[S] > 9 and map[S] < 20) or
-    --  map[S] ~= 1 or map[S] > 3 and map[S] < 7 or map[S+1] > 3 and map[S+1] <= 7 
-      --(map[S-9] > 9 and map[S-9] < 20) or 
-      --map[S-9] ~= 1 or 
-      
-      map [S-9] ~= nil then
-      if map[S-9] >= 2 and map[S-9] <= 7 then
-       lg.setColor(C_WHITE)
-       lg.rectangle('fill',w-w/3,h/2-96,w/3,192)
-      end
-     end
-    
-    -- right side wall
-    if map[S] == 2 or map[S] == 3 or map[S+1] == 2 or map[S+1] == 3 then 
-      draw_right_side_wall()
-    elseif map[S-9] ~= nil then
-       -- map[S-10] == 1 or map[S-10] >9 and map[S-10] < 20
-      if map[S-9] > 1 and map[S-9] <8 then
-        draw_right_side_wall_in()
-      end
-    end
-   end  -- end of east
 
      --outside
      
@@ -213,23 +174,19 @@ function draw_sc()
      end
     end
 
-    --[[-- a door will be drawn if there is a building with a entry
-    if p.heading == 0 then     -- player facing noth
-      if map [S-10] ~= nil then    -- this is to prevent errors
-        if map[S-10] == 3 then
+    --- a door will be drawn if there is a building with a entry
+     -- if map [S-c_i_mod[p.heading]] ~= nil then    -- this is to prevent errors
+        if map[S] == 3 then
+          if map[S-c_i_mod[p.heading]] == 1 or map[S-c_i_mod[p.heading]] > 9 and
+          map[S-c_i_mod[p.heading]] < 20 then
           lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)
-        end
-      end--]]
-      
-  --  elseif p.heading == 1 then  -- player facing east
-      if map [S-10] ~= nil then    -- this is to prevent errors
-        if map[S-c_i_mod[p.heading]] == 3 then
+          lg.rectangle('line',w/2-32,h/2-32,64,128)           
+          end
+         elseif map[S-c_i_mod[p.heading]] == 3 then
           lg.setColor(C_BLACK)
           lg.rectangle('line',w/2-32,h/2-32,64,128)
         end             
-    -- end 
-    end
+   -- end
     
     
      -- a door will be drawn if the door block is 2 clocks away
@@ -427,13 +384,13 @@ function menu_gui()
 --      until i == 10
   --  end
     i = 0
-    x = 64
+    x = 32
     repeat
       if i_options[i] ~= '' then
-        lg.rectangle('line', x,544,128,32)
+        lg.rectangle('line', x,540,64,64)
         lg.print(i_options[i],x+8,552)
       end
-      x = x + 128
+      x = x + 64
       i = i+1
     until i == 5
  -- end

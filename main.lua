@@ -13,7 +13,12 @@ vars()
   game = {
     state = 0,
     }
-  
+  c_i_mod = {
+    n = 10,
+    e = 1,
+    s = 10,
+    w = -1,
+    }
 
   map = {}
   p = {    -- player
@@ -303,9 +308,9 @@ vars()
       i = i +1
     until i == 7
   
-    menu()
+  menu()
   edit_mode = 0  
-  c_i_mod = {}
+  --c_i_mod = {}
 
 end
 if arg[#arg] == "-debug" then require("mobdebug").start() end

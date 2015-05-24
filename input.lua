@@ -11,7 +11,7 @@ function love.mousepressed(x,y, button  )
     save_game()
 	end
   
- -- 	if x >= l_hand.x and x <= l_hand.x + l_hand.w and y >= l_hand.y and y <= l_hand.y + l_hand.h then
+ --[[ 	if x >= l_hand.x and x <= l_hand.x + l_hand.w and y >= l_hand.y and y <= l_hand.y + l_hand.h then
 	--	l_hand.toggle = not l_hand.toggle
 --	end
   
@@ -31,6 +31,7 @@ function love.mousepressed(x,y, button  )
   --      lg.circle ("fill", hotspot01.x, hotspot01.y, hotspot01.w, hotspot01.h)
     --    edit_mode = 1
       --  i_options.toggle = true
+      --]]  
       --[[ if map[i-1] == 1 then
           p.start = p.start - 10
         end
@@ -40,7 +41,7 @@ function love.mousepressed(x,y, button  )
   if edit_mode == 0 then
   --]]
   -- interactive option 0 add or remove
-    if x >= 64 and x <= 64 + 128 and y >= 544 and y <= 544 + 32 then
+    if x > 32 and x < 96 and y > h-64 and y < h then
      --  i_options.b_toggle = true
        -- search_object_stats()
       -- if the scene is a field and it has a doesn't have an object
@@ -51,18 +52,16 @@ function love.mousepressed(x,y, button  )
           i_options[6] = 'pick colours'
         elseif i_options[6] == 'pick colours' and i_options[0] == 'Previous' then
           i_options[6] = 'new game'
-        end
-        
-        if i_options [0] == "Remove" then
-          if map[S] ~= 0 then
-            map[S] = 1
-            menu()
-          end
-        elseif i_options [0] == "Add ..." then --or i_options [0] == "<< Add" then
-          
-          menu_add()
-          
-        elseif i_options [0] == "Objects" then
+        elseif i_options[6] == 'build' then
+          if i_options [0] == "Remove" then
+            if map[S] ~= 0 then
+              map[S] = 1
+              menu()
+            end
+          elseif i_options [0] == "Add ..." then --or i_options [0] == "<< Add" then
+
+            i_options[6] = 'add'
+          elseif i_options [0] == "Objects" then
         menu_ojects()
         
         elseif i_options[0] == "<< Add" then
@@ -76,13 +75,13 @@ function love.mousepressed(x,y, button  )
           i_options [3] = "East"
           i_options [4] = "West"
         end
-     -- end
+     end
           
-   -- end
-  end
+    end
   
   -- interactive option 1 add
-    if x >= 172 and x <= 64+320 and y >= 544 and y <= 544 + 32 then  
+  --menu button 2
+   if x > 96 and x < 160 and y > h-64 and y < h then  
      ---   if i_options [1] == "Remove ..." then
           --i_options [0] = "<< main"
 
@@ -94,8 +93,10 @@ function love.mousepressed(x,y, button  )
           --i_options [4] = "leaves"
         --end
             if i_options[6] == 'pick colours' and i_options[1] == "Next" then
-          world()
+          
           game.state = 1
+          i_options[6] = 'build'
+          world()
         
         elseif map [S] == 1 then
             if i_options [1] == "Block" and map[S-10] ~= 0 then
@@ -121,7 +122,7 @@ function love.mousepressed(x,y, button  )
   
     
     -- interactive option 2 add
-    if x >= 64+256 and x <= 320+256 and y >= 544 and y <= 544 + 32 then
+    if x > 160 and x < 224 and y > h-64 and y < h then
       if i_options [2] == 'Stones' then
         if map [S] == 1 then
           map[S] = 12
@@ -149,8 +150,8 @@ function love.mousepressed(x,y, button  )
       --if i_options [2] == ""
     end]]--
     
-    if x >= 320+256+128 and x <= 320+256+192 and y >= 544 and 576 then
-      if i_options[4] == 'Exit game' then
+    if x > 224 and x < 288 and y > h-64 and y < h then
+      if i_options[4] == 'Quit' then
         love.event.quit()
       end
     end
@@ -175,20 +176,19 @@ function love.mousepressed(x,y, button  )
      	if x >= hotspot02.x and x <= hotspot02.x + hotspot02.w and y >= hotspot02.y and y <= hotspot02.y + hotspot02.h then
         --lg.setColor(C_BLUE)
           
-          if map[S-10] ~= nil and p.heading == 0 then -- if player facing north
+        --  if map[S-10] ~= nil and p.heading == 0 then -- if player facing north
             
-            if map[S] ~= 2 and map[S] ~= 3 and map[S-10] ~= 2 then
-              if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then
-                   p.start = p.start-10
-              end
-            end
-          elseif map[S-1] then
-            if p.heading == 0 then -- if player facing east
+            if map[S] ~= 2 and map[S] ~= 3 and map[S-c_i_mod[p.heading]] ~= 2 then
+              if map[S-c_i_mod[p.heading]] == 1 or map[S-c_i_mod[p.heading]] > 10 or map[S-c_i_mod[p.heading]]<20 or map[S-c_i_mod[p.heading]] == 3 or map[S-c_i_mod[p.heading]] == 4 then
+            if p.heading == 'n' then -- if player facing east
               p.start = p.start-10
-            elseif p.heading == 2 then -- south
+            elseif p.heading == 's' then -- south
               p.start = p.start+10
-            end
+              end
           end
+          end
+
+       --   end
       end
 
    
@@ -203,13 +203,17 @@ function love.mousepressed(x,y, button  )
       -- p.start = p.start-1 
        
        --compas movement code
-     if p.heading >= 0 and p.heading < 3 then
-         p.heading = p.heading + 1
-     lg.setColor(C_WHITE)
-     lgp(p.heading,32,h/2)
-      elseif p.heading == 3 then  -- if north
+     if p.heading == 'n' then
+       p.heading = 'e'
+      elseif p.heading == 'e' then
+         p.heading = 's'
+      elseif p.heading == 's' then 
+        p.heading = 'w'
+     --lg.setColor(C_WHITE)
+     ---lgp(p.heading,32,h/2)
+      elseif p.heading == 'w' then  -- if north
       -- end of code of compas
-         p.heading = 0
+         p.heading = 'n'
        end
       end
       
