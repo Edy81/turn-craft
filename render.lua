@@ -13,7 +13,7 @@ function draw_left_side_wall()
   lg.polygon('fill',1,1 , w/2-192,h/2-96, w/2-192,h/2+96, 1,h-96)
 end
 
-function draw_horizontal_left_wall()
+function draw_front_left_wall()
   lg.setColor(C_WHITE)
   lg.rectangle('fill',1,h/2-96,w/3,192)
 end
@@ -27,6 +27,11 @@ end
 function draw_right_side_wall_in()
   lg.setColor(C_WHITE)
   lg.polygon('fill',w-w/3,h/2-96 , w/2+64,h/2-64, w/2+64,h/2+64, w-w/3,h/2+96 )
+end
+
+function draw_front_right_wall()
+  lg.setColor(C_WHITE)
+  lg.rectangle('fill',w-w/3,h/2-96,w/3,192)
 end
 
 function draw_right_side_wall()
@@ -63,47 +68,198 @@ function draw_sc()
   draw_land()
   
   --if p.heading == 0 then -- if player looking north
-    
-    if map[S-11] ~= nil then
-     if map[S-11] > 1 and map[S-11] < 8 then --and p.c == 0 then 
+    --north
+    if p.heading == 'n' then
+      if map[S-11] ~= nil then
+        if map[S-11] > 1 and map[S-11] < 8 then --and p.c == 0 then 
+          draw_left_side_wall_in()
+        end
+      end
+     --east
+    elseif p.heading == 'e' then
+      if map[S-9] ~= nil then
+        if map[S-9] > 1 and map[S-9] < 8 then
+          draw_left_side_wall_in()
+        end
+      end
+    --south
+    elseif p.heading == 's' then
+      if map[S+11] ~= nil then
+        if map[S+11] > 1 and map[S+11] < 8 then 
+          draw_left_side_wall_in()
+        end
+      end
+    --west
+    elseif p.heading == 'w' then
+     elseif map[S+9] ~= nil then
+     if map[S+9] > 1 and map[S+9] < 8 then 
        draw_left_side_wall_in()
      end
     end
-     if map[S] == 2 or map[S] == 3 or map[S-1] >= 2 and map[S-1] < 7 then
+   --end
+   
+    --north
+    if p.heading == 'n' then
+      if map[S] == 3 or map[S] == 4 or map[S-1] ~= 1 or map[S-1] > 1 and map[S-1] < 8 then
        draw_left_side_wall()
+      end
+    --east
+    elseif p.heading == 'e' then
+      if map[S] == 3 or map[S] == 4 or map[S-10] ~= 1 and map[S-10] > 1 and map[S-10] < 8 then
+       draw_left_side_wall()
+      end
+    --south
+    elseif p.heading == 's' then
+      if map[S] == 2 or map[S] == 3 or map[S+1] > 1 and map[S+1] < 8 then
+       draw_left_side_wall()
+      end
+    --west
+    elseif p.heading == 'w' then
+      if map[S] == 2 or map[S] == 3 or map[S+10] > 1 and map[S+10] < 8 then
+       draw_left_side_wall()
+       end
      end
      
      -- front wall left side of screen
-     if map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 or map[S-11] == 3 then 
+     -- north
+     -- -11-10-9
+     -- -1  00 1
+     -- 9   10 11 
+    if p.heading == 'n' then
+    --if map[S-10] == 2 or map[S-10] == 3 or
+     if map[S] == 3 or map[S] == 4 or map[S-11] > 1 and map[S-11] < 8 then 
      --map[S-1] == 2 or map[S-1] == 3 or map[S-11] == 2 and map[S-11] == 3 then
-       draw_horizontal_left_wall()
+     draw_front_left_wall()
+     end
+     -- east
+    elseif p.heading == 'e' then
+    if map[S] == 3 or map[S] == 4 or map[S-9] > 1 and map[S-9] < 8 then 
+       draw_front_left_wall()
+     end
+     -- south
+     elseif p.heading == 's' then
+     if map[S] == 3 or map[S] == 4 or map[S+11] > 1 and map[S+11] < 8 then 
+       draw_front_left_wall()      
+     end
+     -- west
+     elseif p.heading == 'w' then
+     if map[S] == 3 or map[S] == 4 or map[S+9] > 1 and map[S+9] < 8 then 
+       draw_front_left_wall()
       end
-     if --[[map[S-9] == 2 or map[S-11] == 3 or map[S-1] == 2 or map[S-1] == 3  or--]] map[S] == 2 or map[S] == 3 or map[S-c_i_mod[p.heading]] == 2 or map[S-c_i_mod[p.heading]] == 3 then
+    end
+     
+     -- noth
+     if p.heading == 'n' then
+       if --[[map[S-9] == 2 or map[S-11] == 3 or map[S-1] == 2 or map[S-1] == 3  or--]] map[S] == 2 or map[S] == 3 or map[S-10] > 1 and map[S-10] < 8 then
+        draw_front_wall()
+       end
+     -- east
+   elseif p.heading == 'e' then
+     if map[S] == 2 or map[S] == 3 or map[S+1] > 1 and map[S+1] < 8 then
         draw_front_wall()
       end
+     -- south
+    elseif p.heading == 's' then
+      if map[S] == 2 or map[S] == 3 or map[S+10] > 1 and map[S+10] < 8 then
+        draw_front_wall()
+      end
+     -- west
+    elseif p.heading == 'w' then
+      if map[S] == 3 or map[S] == 4 or map[S-1] > 1 and map[S-1] < 8 then
+        draw_front_wall()
+      end
+    end
+      
       -- front wall right side of screen
-      if -- not (map[S] > 9 and map[S] < 20) or
+    --  if -- not (map[S] > 9 and map[S] < 20) or
     --  map[S] ~= 1 or map[S] > 3 and map[S] < 7 or map[S+1] > 3 and map[S+1] <= 7 
       --(map[S-9] > 9 and map[S-9] < 20) or 
       --map[S-9] ~= 1 or 
       
-      map [S-9] ~= nil then
-      if map[S-9] >= 2 and map[S-9] <= 7 then
-       lg.setColor(C_WHITE)
-       lg.rectangle('fill',w-w/3,h/2-96,w/3,192)
+      --north
+    if p.heading == 'n' then
+      if map [S-9] ~= nil then
+        if map[S-9] > 1 and map[S-9] < 8 then
+           draw_front_right_wall()
+        end
+      end
+      --east
+    elseif p.heading == 'e' then
+    if map [S+11] ~= nil then
+      if map[S+11] > 1 and map[S+11] < 8 then
+           draw_front_right_wall()
+      end
+    end
+      --south
+    elseif p.heading == 's' then
+      if map [S+9] ~= nil then
+        if map[S+9] > 1 and map[S+9] < 8 then
+           draw_front_right_wall()
+        end
+      end
+      --west
+    elseif p.heading == 'w' then
+      if map [S-11] ~= nil then
+        if map[S-11] > 1 and map[S-11] < 7 then
+           draw_front_right_wall()
+        end
+      end
+    end
+
+    
+    -- right side wall
+    --north
+    if p.heading == 'n' then
+      if map[S] == 3 or map[S] == 4 or map[S+1] > 1 and map[S+1] < 8 then 
+        draw_right_side_wall()
+      end
+    --east
+    elseif p.heading == 'e' then
+      if map[S] == 3 or map[S] == 4 or map[S+10] > 1 and map[S+10] < 8 then 
+        draw_right_side_wall()
+      end
+    --south
+    elseif p.heading == 's' then
+      if map[S] == 3 or map[S] == 4 or map[S-1] > 1 and map[S-1] < 8 then 
+        draw_right_side_wall()
+      end
+    --west
+    elseif p.heading == 'w' then
+      if map[S] == 3 or map[S] == 4 or map[S-10] > 1 and map[S-10] < 8 then 
+        draw_right_side_wall()
       end
     end
     
-    -- right side wall
-    if map[S] == 2 or map[S] == 3 or map[S+c_i_mod[p.heading]] == 2 or map[S+c_i_mod[p.heading]] == 3 then 
-      draw_right_side_wall()
-    elseif map[S-9] ~= nil then
-       -- map[S-10] == 1 or map[S-10] >9 and map[S-10] < 20
-      if map[S-9] > 1 and map[S-9] <8 then
-        draw_right_side_wall_in()
+    --noth
+    if p.heading == 'n' then
+      if map[S-9] ~= nil then
+        -- map[S-10] == 1 or map[S-10] >9 and map[S-10] < 20
+        if map[S-9] > 1 and map[S-9] <8 then
+          draw_right_side_wall_in()
+        end
       end
-    end
-    -- end  -- end of north
+    --east
+   elseif p.heading == 'e' then
+      if map[S+11] ~= nil then
+        if map[S+11] > 1 and map[S+11] <8 then
+          draw_right_side_wall_in()
+        end
+      end
+    --south
+   elseif p.heading == 's' then
+      if map[S+9] ~= nil then
+        if map[S+9] > 1 and map[S+9] <8 then
+          draw_right_side_wall_in()
+        end
+      end
+    --noth
+   elseif p.heading == 'w' then
+      if map[S-11] ~= nil then
+        if map[S-11] > 1 and map[S-11] <8 then
+          draw_right_side_wall_in()
+        end
+      end
+    end  -- end of north
      
 
      --outside
@@ -177,12 +333,12 @@ function draw_sc()
     --- a door will be drawn if there is a building with a entry
      -- if map [S-c_i_mod[p.heading]] ~= nil then    -- this is to prevent errors
         if map[S] == 3 then
-          if map[S-c_i_mod[p.heading]] == 1 or map[S-c_i_mod[p.heading]] > 9 and
-          map[S-c_i_mod[p.heading]] < 20 then
+          if map[S-1] == 1 or map[S-1] > 9 and
+          map[S-1] < 20 then
           lg.setColor(C_BLACK)
           lg.rectangle('line',w/2-32,h/2-32,64,128)           
           end
-         elseif map[S-c_i_mod[p.heading]] == 3 then
+         elseif map[S-1] == 3 then
           lg.setColor(C_BLACK)
           lg.rectangle('line',w/2-32,h/2-32,64,128)
         end             
@@ -204,13 +360,58 @@ function draw_sc()
       -- lg.polygon('line',w/2-192,h/2-32,w/2-256,h/2-64,w/2-256,h/2+116, w/2-192, h/2+96)
        
        -- if left side wall has a door it will be drawned  
-       if map[S] == 5 or map[S] == 7 then
-         lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
+      --north
+      if p.heading == 'n' then
+        if map[S] == 5 or map[S] == 7 then
+          lg.setColor(C_WHITE)
+          lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
+        end 
+      --east
+    elseif p.heading == 'e' then
+        if map[S] == 5 or map[S] == 7 then
+          lg.setColor(C_WHITE)
+          lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
+        end
+      --east
+    elseif p.heading == 's' then
+        if map[S] == 5 or map[S] == 7 then
+          lg.setColor(C_WHITE)
+          lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
+        end
+      --east
+    elseif p.heading == 'w' then
+        if map[S] == 5 or map[S] == 7 then
+          lg.setColor(C_WHITE)
+          lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
+        end
+      end
+      
+      --north
+    if p.heading == 'n' then      
+      -- if right side wall has a door it will be drawned  
+      if map[S] == 5 or map[S] == 7 then
+        lg.setColor(C_WHITE)
+        lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
        end
-       -- if right side wall has a door it will be drawned  
-       if map[S] == 5 or map[S] == 7 then
-         lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
+      --east
+    elseif p.heading == 'e' then
+      if map[S] == 5 or map[S] == 7 then
+        lg.setColor(C_WHITE)
+        lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
        end
+       --south
+    elseif p.heading == 's' then        
+      if map[S] == 5 or map[S] == 7 then
+        lg.setColor(C_WHITE)
+        lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
+       end
+      --east
+    elseif p.heading == 'w' then
+      if map[S] == 5 or map[S] == 7 then
+        lg.setColor(C_WHITE)
+        lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
+       end
+    end
       -- lg.polygon('fill',64,64 , w/2-386,h/2-32, w/2-386,h/2+96, 64,500-64)
 end 
 

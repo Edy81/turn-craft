@@ -63,9 +63,9 @@ function love.mousepressed(x,y, button  )
             i_options[6] = 'add'
           elseif i_options [0] == "Objects" then
         menu_ojects()
-        
+       end 
         elseif i_options[0] == "<< Add" then
-          menu()
+          i_options[6] = 'build'
       
         
         elseif i_options [0] == "<< Door" then
@@ -75,7 +75,7 @@ function love.mousepressed(x,y, button  )
           i_options [3] = "East"
           i_options [4] = "West"
         end
-     end
+     --end
           
     end
   
@@ -84,23 +84,28 @@ function love.mousepressed(x,y, button  )
    if x > 96 and x < 160 and y > h-64 and y < h then  
      ---   if i_options [1] == "Remove ..." then
           --i_options [0] = "<< main"
-
-          --if map[S] == 2 then
-          --  i_options [1] = "solid block"
-          --end
           --i_options [2] = "sticks"
           --i_options [3] = "stones"
           --i_options [4] = "leaves"
         --end
             if i_options[6] == 'pick colours' and i_options[1] == "Next" then
           
-          game.state = 1
-          i_options[6] = 'build'
-          world()
+          game.state = 1 
+          i_options[6] = 'build'  -- show edit menu
+       --   world()  -- create a new map randomly 
         
-        elseif map [S] == 1 then
+        elseif i_options[6] == 'add' then -- map [S] == 1 then
             if i_options [1] == "Block" and map[S-10] ~= 0 then
-              map[S-10] = 2 
+             if p.heading == 'n' then 
+              map[S-10] = 2
+            elseif p.heading == 'e' then 
+              map[S+1] = 2
+            elseif p.heading == 's' then 
+              map[S+10] = 2
+            elseif p.heading == 'w' then 
+              map[S-1] = 2
+            end  
+              
             elseif i_options [1] == 'Sticks' then
               if map [S] == 1 then
                 map[S] = 11
@@ -178,17 +183,24 @@ function love.mousepressed(x,y, button  )
           
         --  if map[S-10] ~= nil and p.heading == 0 then -- if player facing north
             
-            if map[S] ~= 2 and map[S] ~= 3 and map[S-c_i_mod[p.heading]] ~= 2 then
-              if map[S-c_i_mod[p.heading]] == 1 or map[S-c_i_mod[p.heading]] > 10 or map[S-c_i_mod[p.heading]]<20 or map[S-c_i_mod[p.heading]] == 3 or map[S-c_i_mod[p.heading]] == 4 then
-            if p.heading == 'n' then -- if player facing east
+            if p.heading == 'n' then
+              if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then
               p.start = p.start-10
-            elseif p.heading == 's' then -- south
+              end
+            elseif p.heading == 'e' then
+              if map[S+1] == 1 or map[S+1] > 10 or map[S+1]<20 or map[S+1] == 3 or map[S-1] == 4 then
+              p.start = p.start+1
+            end
+          elseif p.heading == 'w' then
+              if map[S-1] == 1 or map[S-1] > 10 or map[S-1]<20 or map[S-1] == 3 or map[S-1] == 4 then
+              p.start = p.start-1
+            end
+          elseif p.heading == 's' then -- south
+              if map[S+10] == 1 or map[S+10] > 10 or map[S+10]<20 or map[S+10] == 3 or map[S+10] == 4 then
               p.start = p.start+10
               end
+         -- end
           end
-          end
-
-       --   end
       end
 
    
@@ -204,6 +216,24 @@ function love.mousepressed(x,y, button  )
        
        --compas movement code
      if p.heading == 'n' then
+       p.heading = 'w'
+      elseif p.heading == 'w' then
+         p.heading = 's'
+      elseif p.heading == 's' then 
+        p.heading = 'e'
+     --lg.setColor(C_WHITE)
+     ---lgp(p.heading,32,h/2)
+      elseif p.heading == 'e' then  -- if north
+      -- end of code of compas
+         p.heading = 'n'
+       end
+      end
+      
+      -- right button
+     	if x >= hotspot05.x and x <= hotspot05.x + hotspot05.w and y >= hotspot05.y and y <= hotspot05.y + hotspot05.h then
+        
+       --compas movement code
+     if p.heading == 'n' then
        p.heading = 'e'
       elseif p.heading == 'e' then
          p.heading = 's'
@@ -215,21 +245,9 @@ function love.mousepressed(x,y, button  )
       -- end of code of compas
          p.heading = 'n'
        end
-      end
-      
-      -- right button
-     	if x >= hotspot05.x and x <= hotspot05.x + hotspot05.w and y >= hotspot05.y and y <= hotspot05.y + hotspot05.h then
-        p.start = p.start+1
-        
-       --compas movement code
-       if p.heading > 0 and p.heading < 3 then
-         p.heading = p.compas[p.heading+1]
-      elseif p.heading == 3 then
-        p.heading = 0
-        end
        -- end of code of compas
       
-      menu()
+     -- menu()
       end
       
       -- hotspot to interact with an object in the scene

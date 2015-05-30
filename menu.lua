@@ -30,10 +30,21 @@ function menu()
     end
     
   elseif i_options [6] == "add" then
-    if map [S-c_i_mod[p.heading]] == 1 then
-                  i_options [0] = "<< Add"
-     end
-    
+    if map [S-10] == 1 then
+                  i_options[0] = "<< Add"
+                  i_options[1] = 'Block'
+    elseif map [S+1] == 1 then
+                  i_options[0] = "<< Add"
+                  i_options[1] = 'Block'
+    elseif map [S+10] == 1 then
+                  i_options[0] = "<< Add"
+                  i_options[1] = 'Block'
+    elseif map [S-1] == 1 then
+                  i_options[0] = "<< Add"
+                  i_options[1] = 'Block'
+      else
+        i_options[0] = '<< Add'
+     end  
  -- if i_options[1] == nil then
 
  -- else
