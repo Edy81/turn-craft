@@ -92,7 +92,7 @@ function love.mousepressed(x,y, button  )
           
           game.state = 1 
           i_options[6] = 'build'  -- show edit menu
-       --   world()  -- create a new map randomly 
+        world()  -- create a new map randomly 
         
         elseif i_options[6] == 'add' then -- map [S] == 1 then
             if i_options [1] == "Block" and map[S-10] ~= 0 then
@@ -183,19 +183,19 @@ function love.mousepressed(x,y, button  )
           
         --  if map[S-10] ~= nil and p.heading == 0 then -- if player facing north
             
-            if p.heading == 'n' then
+            if p.heading == 'n' and map[S-10] ~= nil then
               if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then
               p.start = p.start-10
               end
-            elseif p.heading == 'e' then
+            elseif p.heading == 'e' and map[S+1] ~= nil then
               if map[S+1] == 1 or map[S+1] > 10 or map[S+1]<20 or map[S+1] == 3 or map[S-1] == 4 then
               p.start = p.start+1
             end
-          elseif p.heading == 'w' then
+          elseif p.heading == 'w' and map[S-1] ~= nil then
               if map[S-1] == 1 or map[S-1] > 10 or map[S-1]<20 or map[S-1] == 3 or map[S-1] == 4 then
               p.start = p.start-1
             end
-          elseif p.heading == 's' then -- south
+          elseif p.heading == 's' and map[S+10] ~= nil then
               if map[S+10] == 1 or map[S+10] > 10 or map[S+10]<20 or map[S+10] == 3 or map[S+10] == 4 then
               p.start = p.start+10
               end
