@@ -1,7 +1,7 @@
 function love.conf(t)
-    t.title = "lab"        -- The title of the window the game is in (string)
-    t.author = "Eddy81"        -- The author of the game (string)
-    t.identity = "lab"            -- The name of the save directory (string)
+    t.title = "Turn-craft"        -- The title of the window the game is in (string)
+    t.author = "Edy81"        -- The author of the game (string)
+    t.identity = "turn-craft"            -- The name of the save directory (string)
     t.version = "0.9.2"         -- The LÖVE version this game was made for (string)
     
     t.window.title = "Untitled"        -- The window title (string)
