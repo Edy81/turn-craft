@@ -246,7 +246,7 @@ vars()
   i_options[6] = ''
     
       
-    i = 0
+  --[[  i = 0
     menu = {}
     repeat 
       menu[i] = "nil"
@@ -258,7 +258,7 @@ vars()
       menu.item_enabled[i] = false
       i = i + 1
     until i == 5
-    
+   --]] 
     
   elseif lf.exists('options.txt') then
     options = {}
@@ -483,30 +483,8 @@ function love.draw()
 --   if i_options.toggle == true then
 
   --  end
-  
-  -- inventory button, avatar
-  if inv.toggle then
-		--lg.draw(inv.button_clicked, inv.x, inv.y)
-    --lg.draw(inv.inv, w-272, h-256-128)
-      -- inventory is drawn
-      inv.toggle = true
-      draw_inv_avatar()
-      --lg.setColor(C_GRAY)
-      --lg.rectangle('fill',w-192,h-192, 256,96)
-      lg.setColor(C_WHITE)
-      if p.backpack == true then
-        lgp('Backpack contains:',w-188,h-188)
-      end
-      --lgp(tostring(ob+),w-188,h-188)
 
-     if inv.toggle == true then
-       draw_inv_items()
-    end
-	else
-		--lg.draw(inv.button, inv.x, inv.y)
-    draw_inv_avatar()
-    
-	end  
+
 
  --[[ if l_hand.toggle then
    -- lg.draw(l_hand.icon_l_hand, l_hand.x, l_hand.y)
@@ -552,7 +530,7 @@ function love.draw()
    until i == 100 
      lg.setColor(C_WHITE)
      lgp(p.heading,32,h/2)
-  end
+    end
+  menu()
     gui()
-    menu()
 end
