@@ -69,29 +69,22 @@ function draw_sc()
   
   --if p.heading == 0 then -- if player looking north
     --north
-    if p.heading == 'n' then
-      if map[S-11] ~= nil then
+    if p.heading == 'n' and map[S-11] ~= nil then
         if map[S-11] > 1 and map[S-11] < 8 then --and p.c == 0 then 
           draw_left_side_wall_in()
         end
-      end
      --east
-    elseif p.heading == 'e' then
-      if map[S-9] ~= nil then
+    elseif p.heading == 'e' and map[S-9] ~= nil then
         if map[S-9] > 1 and map[S-9] < 8 then
           draw_left_side_wall_in()
         end
-      end
     --south
-    elseif p.heading == 's' then
-      if map[S+11] ~= nil then
+    elseif p.heading == 's' and map[S+11] ~= nil then
         if map[S+11] > 1 and map[S+11] < 8 then 
           draw_left_side_wall_in()
         end
-      end
     --west
-    elseif p.heading == 'w' then
-     elseif map[S+9] ~= nil then
+    elseif p.heading == 'w' and map[S+9] ~= nil then
      if map[S+9] > 1 and map[S+9] < 8 then 
        draw_left_side_wall_in()
      end
@@ -100,7 +93,7 @@ function draw_sc()
    
     --north
     if p.heading == 'n' then
-      if map[S] == 3 or map[S] == 4 or map[S-1] ~= 1 or map[S-1] > 1 and map[S-1] < 8 then
+      if map[S] == 3 or map[S] == 4 or map[S-1] > 1 and map[S-1] < 8 then
        draw_left_side_wall()
       end
     --east
@@ -255,7 +248,7 @@ function draw_sc()
      
 
      --outside
-     
+    -- on_sc_objects() -- on screen objects
      -- npc
      if map[S] == 8 then
       draw_npc()
@@ -324,15 +317,44 @@ function draw_sc()
 
     --- a door will be drawn if there is a building with a entry
      -- if map[S-c_i_mod[p.heading]] ~= nil then    -- this is to prevent errors
-        if map[S] == 3 then
-          if map[S-1] == 1 or map[S-1] > 9 and
-          map[S-1] < 20 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)           
-          end
-         elseif map[S-1] == 3 then
+      if p.heading == 'n' and map[S] == 1 and map[S-10] == 3 then
           lg.setColor(C_BLACK)
           lg.rectangle('line',w/2-32,h/2-32,64,128)
+      elseif p.heading == 'e' and map[S] == 1 and map[S+1] == 3 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)
+      elseif p.heading == 's' and map[S] == 1 and map[S+10] == 3 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)
+      elseif p.heading == 'w' and map[S] == 1 and map[S-1] == 3 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)
+      end
+      --a door will be drawn if the player is inside a building
+       if p.heading == 'n' and map[S] == 3 and map[-10] == 1 then-- or map[S] == 3 then
+         -- then map[S-10] > 9 and map[S-10] and < 20 then
+          --movement rule
+          --[[if map[S-10] == 1 and map[S] == 3 or
+          map[S-10] == 1 and map[S-10] == 4 or
+          map[S-10] == 1 and map[S-10] == 5 or
+          map[S-10] == 1 and map[S-10] == 6 or
+          map[S-10] == 1 and map[S-10] == 7 or--]]
+         -- map[S-1] > 9 and map[S-1] < 20 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)           
+         -- end
+        -- elseif map[S-1] == 3 then
+        --  lg.setColor(C_BLACK)
+          --lg.rectangle('line',w/2-32,h/2-32,64,128)
+      elseif p.heading == 'e' and map[S] == 3 and map[S+1] == 1 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)           
+      elseif p.heading == 's' and map[S] == 3 and map[S+10] == 1 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)              
+      elseif p.heading == 'w' and map[S] == 3 and map[S-1] == 1 then
+          lg.setColor(C_BLACK)
+          lg.rectangle('line',w/2-32,h/2-32,64,128)             
         end             
    -- end
     
@@ -413,6 +435,9 @@ function gui()
   lg.polygon('line',0,h, w,h, w,h-96, w,h-96, w-192,h-96, w-128,h-64 , 0,h-64)
   lg.setColor(C_BLACK)
   lg.polygon('fill',0,h, w-2,h, w-2,h, w,h-94, w-192,h-94, w-128,h-62 , 0,h-62)
+  if game.state == 1 then
+    lg.polygon('fill',0,h, w-64,h, w-2,h, w,h-94, w-192,h-94, w-128,h-62 , 0,h-62)
+  end
   --lg.rectangle('fill',1,h-96,w,h-96)
   lg.setColor(C_WHITE)
   --lgp(p.start,w/2,h-32)
@@ -431,6 +456,29 @@ function gui()
   end
   
   menu_gui()
+    -- inventory button, avatar
+  if inv.toggle then
+		--lg.draw(inv.button_clicked, inv.x, inv.y)
+    --lg.draw(inv.inv, w-272, h-256-128)
+      -- inventory is drawn
+      inv.toggle = true
+      draw_inv_avatar()
+      --lg.setColor(C_GRAY)
+      --lg.rectangle('fill',w-192,h-192, 256,96)
+      lg.setColor(C_WHITE)
+      if p.backpack == true then
+        lgp('Backpack contains:',w-188,h-188)
+      end
+      --lgp(tostring(ob+),w-188,h-188)
+
+     if inv.toggle == true then
+       draw_inv_items()
+    end
+	else
+		--lg.draw(inv.button, inv.x, inv.y)
+    draw_inv_avatar()
+    
+	end  
 end  
   --[[local xa = w/2-192
   local ya = h/2+128
