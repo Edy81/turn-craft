@@ -12,6 +12,8 @@ vars()
   
   game = {
     state = 0,
+    turn = 0,
+    day_cycle = 7
     }
   c_i_mod = {
     n = 10,
@@ -32,8 +34,9 @@ vars()
     compas = {},
     compas = {10,1,10,1},
     start = 25,
+    turn_c = 0, -- current turn
+    turn_p = 0, -- previous turn 
     a = {},
-    
     
     x = 00,
     y = 00,
@@ -56,14 +59,10 @@ vars()
     toogle = false
   }
   
-
-
+ time = 0
   
   save = love.filesystem.getSaveDirectory()
   
-  nx = 00
-  ny = 00
-  nz = 00
   c  = 0
  -- filename = 0000000-- tostring(nx)..tostring(ny)..tostring(nz)..tostring(c)
   f = 0  
@@ -455,6 +454,7 @@ function love.draw()
   end
 
   if game.state == 1 then
+     game_rules_default()
      draw_sc()
 
      --lg.setColor(255,255,255,255)
