@@ -40,6 +40,11 @@ function draw_right_side_wall()
   lg.polygon('fill',w,1 , w/2+192,204, w/2+192,396, w,h-96 ) 
 end
 
+function draw_door()
+  lg.setColor(C_BLACK)
+  lg.rectangle('line',w/2-32,h/2-32,64,128)
+end          
+          
 function draw_npc()
   -- hair
   -- lg.setColor(C_GREEN)
@@ -317,44 +322,31 @@ function draw_sc()
 
     --- a door will be drawn if there is a building with a entry
      -- if map[S-c_i_mod[p.heading]] ~= nil then    -- this is to prevent errors
-      if p.heading == 'n' and map[S] == 1 and map[S-10] == 3 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)
+      if p.heading == 'n' and map[S] == 1 and map[-10] == 3 or
+        p.heading == 'n' and map[S] > 7 and map[S] < 20 and map[S-10] == 3 then
+          draw_door()
       elseif p.heading == 'e' and map[S] == 1 and map[S+1] == 3 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)
+          draw_door()
       elseif p.heading == 's' and map[S] == 1 and map[S+10] == 3 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)
+          draw_door()
       elseif p.heading == 'w' and map[S] == 1 and map[S-1] == 3 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)
+          draw_door()
       end
+      
       --a door will be drawn if the player is inside a building
-       if p.heading == 'n' and map[S] == 3 and map[-10] == 1 then-- or map[S] == 3 then
-         -- then map[S-10] > 9 and map[S-10] and < 20 then
+       if p.heading == 'n' and map[S] == 3 and map[S+10] == 1 then
           --movement rule
-          --[[if map[S-10] == 1 and map[S] == 3 or
-          map[S-10] == 1 and map[S-10] == 4 or
-          map[S-10] == 1 and map[S-10] == 5 or
-          map[S-10] == 1 and map[S-10] == 6 or
-          map[S-10] == 1 and map[S-10] == 7 or--]]
-         -- map[S-1] > 9 and map[S-1] < 20 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)           
+           draw_door()          
          -- end
         -- elseif map[S-1] == 3 then
         --  lg.setColor(C_BLACK)
           --lg.rectangle('line',w/2-32,h/2-32,64,128)
-      elseif p.heading == 'e' and map[S] == 3 and map[S+1] == 1 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)           
-      elseif p.heading == 's' and map[S] == 3 and map[S+10] == 1 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)              
-      elseif p.heading == 'w' and map[S] == 3 and map[S-1] == 1 then
-          lg.setColor(C_BLACK)
-          lg.rectangle('line',w/2-32,h/2-32,64,128)             
+      elseif p.heading == 'e' and map[S] == 3 and map[S-1] == 1 then
+           draw_door()              
+      elseif p.heading == 's' and map[S] == 3 and map[S-10] == 1 then
+           draw_door()               
+      elseif p.heading == 'w' and map[S] == 3 and map[S+1] == 1 then
+           draw_door()               
         end             
    -- end
     
@@ -500,12 +492,36 @@ end
   --lg.polygon('line',w,1 , w/2+192,204, w/2+192,396, w,500 )
 ]]--
 
+function draw_day_cycle()
+    if game.day_cycle >= 7 and game.day_cycle < 8 then
+      lg.setColor(C_L_BLUE)
+      lg.rectangle('fill',1,1,w,h/2)
+    elseif game.day_cycle >= 12 and game.day_cycle < 13 then
+      lg.setColor(C_L_BLUE)
+      lg.rectangle('fill',1,1,w,h/2)
+     elseif game.day_cycle >= 13 and game.day_cycle <= 14 then
+      lg.setColor(C_L_BLUE)
+      lg.rectangle('fill',1,1,w,h/2)
+    end
+  if p.heading == 'e' then
+    if game.day_cycle >= 7 and game.day_cycle < 8 then
+      lg.setColor(C_WHITE)
+      lg.circle('fill', w/2-32,h/2-32, 32, 128)
+    end
+  elseif p.heading == 'w' then
+    if game.day_cycle >= 13 and game.day_cycle < 7 then
+      lg.setColor(C_WHITE)
+      lg.circle('fill', w/2-32,h/2-32, 32, 128)    
+    end
+  end
+end
 
 function draw_land()
   local S = p.start
   --paint the sky
-  lg.setColor(C_L_BLUE)
-  lg.rectangle('fill',1,1,w,h/2)    
+ draw_day_cycle()
+ -- lg.setColor(C_L_BLUE)
+ -- lg.rectangle('fill',1,1,w,h/2)    
   --if map[S] == 0 then
   -- sea , beach and field
   if map[S+1] == 0 and map[S+10] == 0 then --top left corner
