@@ -86,3 +86,13 @@ function place_object_on_grid(o,r)
     
   until C == 10
 end
+
+function game_rules_default()
+  -- day cycle rules
+  if p.turn_p == p.turn_c +1 then
+    time = time + 1
+  end
+  if time == 24 then
+    game.day_cycle = game.day_cycle + 1
+  end
+end      
