@@ -8,7 +8,7 @@ function love.mousepressed(x,y, button  )
    love.mouse.setCursor(cursor)
   	if x >= inv.x and x <= inv.x + inv.w and y >= inv.y and y <= inv.y + inv.h then
 		inv.toggle = not inv.toggle
-    save_game()
+  --  save_game()
 	end
   
  --[[ 	if x >= l_hand.x and x <= l_hand.x + l_hand.w and y >= l_hand.y and y <= l_hand.y + l_hand.h then
@@ -92,7 +92,7 @@ function love.mousepressed(x,y, button  )
           
           game.state = 1 
           i_options[6] = 'build'  -- show edit menu
-        world()  -- create a new map randomly 
+       -- world()  -- create a new map randomly 
         
         elseif i_options[6] == 'add' then -- map [S] == 1 then
             if i_options [1] == "Block" and map[S-10] ~= 0 then
@@ -185,19 +185,27 @@ function love.mousepressed(x,y, button  )
             
             if p.heading == 'n' and map[S-10] ~= nil then
               if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then
-              p.start = p.start-10
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
+                p.start = p.start-10
               end
             elseif p.heading == 'e' and map[S+1] ~= nil then
               if map[S+1] == 1 or map[S+1] > 10 or map[S+1]<20 or map[S+1] == 3 or map[S-1] == 4 then
-              p.start = p.start+1
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
+                p.start = p.start+1
             end
           elseif p.heading == 'w' and map[S-1] ~= nil then
               if map[S-1] == 1 or map[S-1] > 10 or map[S-1]<20 or map[S-1] == 3 or map[S-1] == 4 then
-              p.start = p.start-1
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
+                p.start = p.start-1
             end
           elseif p.heading == 's' and map[S+10] ~= nil then
               if map[S+10] == 1 or map[S+10] > 10 or map[S+10]<20 or map[S+10] == 3 or map[S+10] == 4 then
-              p.start = p.start+10
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
+                p.start = p.start+10
               end
          -- end
           end
@@ -216,14 +224,22 @@ function love.mousepressed(x,y, button  )
        
        --compas movement code
      if p.heading == 'n' then
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
        p.heading = 'w'
       elseif p.heading == 'w' then
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
          p.heading = 's'
       elseif p.heading == 's' then 
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
         p.heading = 'e'
      --lg.setColor(C_WHITE)
      ---lgp(p.heading,32,h/2)
-      elseif p.heading == 'e' then  -- if north
+    elseif p.heading == 'e' then
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
       -- end of code of compas
          p.heading = 'n'
        end
@@ -234,14 +250,22 @@ function love.mousepressed(x,y, button  )
         
        --compas movement code
      if p.heading == 'n' then
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
        p.heading = 'e'
       elseif p.heading == 'e' then
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
          p.heading = 's'
       elseif p.heading == 's' then 
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
         p.heading = 'w'
      --lg.setColor(C_WHITE)
      ---lgp(p.heading,32,h/2)
-      elseif p.heading == 'w' then  -- if north
+    elseif p.heading == 'w' then  -- if north
+                p.turn_p = p.turn_c
+                p.turn_c = p.turn_c + 1
       -- end of code of compas
          p.heading = 'n'
        end
