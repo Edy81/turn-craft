@@ -427,7 +427,7 @@ function gui()
   lg.polygon('line',0,h, w,h, w,h-96, w,h-96, w-192,h-96, w-128,h-64 , 0,h-64)
   lg.setColor(C_BLACK)
   lg.polygon('fill',0,h, w-2,h, w-2,h, w,h-94, w-192,h-94, w-128,h-62 , 0,h-62)
-  if game.state == 1 then
+  if g.state == 1 then
     lg.polygon('fill',0,h, w-64,h, w-2,h, w,h-94, w-192,h-94, w-128,h-62 , 0,h-62)
   end
   --lg.rectangle('fill',1,h-96,w,h-96)
@@ -493,23 +493,55 @@ end
 ]]--
 
 function draw_day_cycle()
-    if game.day_cycle >= 7 and game.day_cycle < 8 then
+  -- sky colors hourly
+    if g.day_cycle == 7 then
+      lg.setColor(C_D_BLUE)
+    elseif g.day_cycle == 8 then
+      lg.setColor(C_BLUE)    
+    elseif g.day_cycle >= 9 and g.day_cycle <= 16 then
       lg.setColor(C_L_BLUE)
-      lg.rectangle('fill',1,1,w,h/2)
-    elseif game.day_cycle >= 12 and game.day_cycle < 13 then
-      lg.setColor(C_L_BLUE)
-      lg.rectangle('fill',1,1,w,h/2)
-     elseif game.day_cycle >= 13 and game.day_cycle <= 14 then
-      lg.setColor(C_L_BLUE)
-      lg.rectangle('fill',1,1,w,h/2)
+     elseif g.day_cycle == 17 then
+      lg.setColor(C_BLUE)
+     elseif g.day_cycle == 18 then
+      lg.setColor(C_D_BLUE)
+    elseif g.day_cycle >= 19 and g.day_cycle <= 24 or
+      g.day_cycle > 0 and g.day_cycle < 7 then
+      lg.setColor(C_BLACK)
+      if g.day_cycle == 24 then
+        g.day_cycle = 0
+      end
     end
+      lg.rectangle('fill',1,1,w,h/2)
+  --sun and moon
   if p.heading == 'e' then
-    if game.day_cycle >= 7 and game.day_cycle < 8 then
+    if g.day_cycle == 7 then
       lg.setColor(C_WHITE)
-      lg.circle('fill', w/2-32,h/2-32, 32, 128)
-    end
+      lg.circle('fill', w/2-32,h/2, 32, 128)
+    elseif g.day_cycle == 8 then
+      lg.setColor(C_WHITE)
+      lg.circle('fill', w/2-32,h/2, 32, 128)
+    elseif g.day_cycle == 9 then
+      lg.setColor(C_WHITE)
+      lg.circle('fill', w/2-32,h/2-h/8, 32, 128)
+    elseif g.day_cycle == 10 then
+      lg.setColor(C_WHITE)
+      lg.circle('fill', w/2-32,h/2-h/4, 32, 128)
+    elseif g.day_cycle == 11 then
+      lg.setColor(C_WHITE)
+      lg.circle('fill', w/2-32,h/2-h/3, 32, 128)
+    elseif g.day_cycle == 12 then
+      --lg.setColor(C_WHITE)
+      lg.circle('fill', w/2-32,0, 32, 128)
+   -- elseif g.day_cycle >= 12 and g.day_cycle < 13 then
+   --   lg.setColor(C_WHITE)
+   --   lg.circle('fill', w/2-32,h/2-32, 32, 128)
+   --afternoon
+   end
   elseif p.heading == 'w' then
-    if game.day_cycle >= 13 and game.day_cycle < 7 then
+    if g.day_cycle == 12 then
+      --lg.setColor(C_WHITE)
+      lg.circle('fill', w/2-32,0, 32, 128)
+    elseif g.day_cycle >= 13 and g.day_cycle < 17 then
       lg.setColor(C_WHITE)
       lg.circle('fill', w/2-32,h/2-32, 32, 128)    
     end
@@ -519,14 +551,14 @@ end
 function draw_land()
   local S = p.start
   --paint the sky
- draw_day_cycle()
+  draw_day_cycle()
  -- lg.setColor(C_L_BLUE)
  -- lg.rectangle('fill',1,1,w,h/2)    
   --if map[S] == 0 then
   -- sea , beach and field
   if map[S+1] == 0 and map[S+10] == 0 then --top left corner
-      lg.setColor(C_BLUE)
-      lg.polygon('fill',w/3,h-192,1,h,1,h/2,w,h/2,w,h-192, w-w/4,h-192)
+    --  lg.setColor(C_BLUE)
+      --lg.polygon('fill',w/3,h-192,1,h,1,h/2,w,h/2,w,h-192, w-w/4,h-192)
       --lg.rectangle('fill',1,h-192,w/2,h/3)
       --lg.rectangle('fill',1,h/2,w/2,h/2)
       lg.setColor(C_GREEN)
@@ -670,7 +702,7 @@ end
 function menu_gui()
   --if edit_mode == 1 then
   --  lg.setColor(C_GREEN)
-  --  if i_options.b_toggle == true then
+  --  if m.b_toggle == true then
    --   lg.setColor(255,165,0,255)
     --  lg.rectangle('line', 64,544,128,32)
             
@@ -702,9 +734,9 @@ function menu_gui()
     i = 0
     x = 32
     repeat
-      if i_options[i] ~= '' then
+      if m[i] ~= '' then
         lg.rectangle('line', x,540,64,64)
-        lg.print(i_options[i],x+8,552)
+        lg.print(m[i],x+8,552)
       end
       x = x + 64
       i = i+1
@@ -828,11 +860,11 @@ end
 
 function draw_start()
 
-  local i = 0
+  --[[local i = 0
   repeat
     map[i] = 1 
     i = i + 1
-  until i == 100
+  until i == 100]]--
   draw_land()
   draw_paper_w()
 
@@ -841,16 +873,17 @@ function draw_start()
 
   -- player can pick gender of the character
     lg.setColor(C_WHITE)
-  if i_options[6] == '' or i_options[6] == 'new game' then
+  
+  if m[6] == 'new game' then
     lgp('New player part 1 of ', w/2-128,h/2-128)
     lgp('Pick the gender of your character', w/2-128,h/2-64)    
-  elseif i_options[6] == 'pick colours' then
+  elseif m[6] == 'pick colours' then
     lgp('New player part 2 of ', w/2-128,h/2-128)
     lgp('Pick the colours of your character', w/2-128,h/2-64)
     draw_pick_colours()
   end
    
-  if i_options[6] == '' or i_options[6] == 'new game' then
+  if m[6] == 'new game' then
     if p.gender == 0 then --or p.gender == 2 then     --if not none or female    
       male_icon(0)
       female_icon(0)
