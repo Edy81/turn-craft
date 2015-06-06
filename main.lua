@@ -2,15 +2,17 @@ require "l_vars"
 require "render"
 require "input"
 require "menu"
+require 'code'
 
 
 
 function love.load()
-vars()
+  vars()
+
   w = lg.getWidth()
   h = lg.getHeight()
-  
-  game = {
+   
+  g = {  -- game table
     state = 0,
     turn = 0,
     day_cycle = 7
@@ -21,9 +23,12 @@ vars()
     s = 10,
     w = -1,
     }
-
+  world = { --world table code named s for sandbox
+    size = 100, -- total grid size 
+    }
   map = {}
-  p = {    -- player
+  sandbox()
+  p = {    -- player table
     --c_sc = ""
     gender = 0,
     st = 0, -- strength
@@ -203,8 +208,8 @@ vars()
   end
 
   
-  title = "The great main hall"
-  love.window.setTitle( title )
+  --title = "The great main hall"
+  --love.window.setTitle( title )
 -- love.window.setMode(1024, 600, {resizable=true, vsync=false, minwidth=400, minheight=300})
   
   -- check if options file exists and if so load it in to a table
@@ -237,12 +242,12 @@ vars()
   
   -- interactive options, a menu like for the player to use
   i = 0
-  i_options = {}
+  m = {} -- main menu of the game
   --  repeat 
-  --    i_options[i] = "nil"
+  --    m[i] = "nil"
   --    i = i +1
   --  until i == 5
-  i_options[6] = ''
+  m[6] = 'intro'
     
       
   --[[  i = 0
@@ -301,15 +306,16 @@ vars()
  -- end
 
   i = 0
-  i_options = {}
+  m = {}
     repeat 
-      i_options[i] = ""
+      m[i] = ""
       i = i +1
     until i == 7
-  
   menu()
   edit_mode = 0  
   --c_i_mod = {}
+  
+lg.setFont(font20)
 
 end
 if arg[#arg] == "-debug" then require("mobdebug").start() end
@@ -446,15 +452,16 @@ function love.draw()
  --  check_background()
    --if graphics == 0 then
      -- an empty room will be drawn
-  if game.state == 0 then
+  if g.state == 0 then
+   --sandbox()
     draw_start()
     --draw_sc()
     --menu()
 
   end
 
-  if game.state == 1 then
-     game_rules_default()
+  if g.state == 1 then
+     --game_rules_default()
      draw_sc()
 
      --lg.setColor(255,255,255,255)
@@ -480,7 +487,7 @@ function love.draw()
    --love.filesystem.write
    -- players interactive options
    --if graphics == 0 and 
---   if i_options.toggle == true then
+--   if m.toggle == true then
 
   --  end
 
@@ -529,7 +536,7 @@ function love.draw()
     i = i +1
    until i == 100 
      lg.setColor(C_WHITE)
-     lgp(p.heading,32,h/2)
+     lgp(p.heading.. p.turn_c,32,h/2)
     end
   menu()
     gui()
