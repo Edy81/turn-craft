@@ -30,7 +30,7 @@ function love.mousepressed(x,y, button  )
 	--	hotspot01.toggle = not hotspot01.toggle
   --      lg.circle ("fill", hotspot01.x, hotspot01.y, hotspot01.w, hotspot01.h)
     --    edit_mode = 1
-      --  i_options.toggle = true
+      --  m.toggle = true
       --]]  
       --[[ if map[i-1] == 1 then
           p.start = p.start - 10
@@ -42,38 +42,42 @@ function love.mousepressed(x,y, button  )
   --]]
   -- interactive option 0 add or remove
     if x > 32 and x < 96 and y > h-64 and y < h then
-     --  i_options.b_toggle = true
+     --  m.b_toggle = true
        -- search_object_stats()
       -- if the scene is a field and it has a doesn't have an object
       --if map[S] == 1 then
         --interactive option 1 add has a menu with a list of objects
         -- possible to add
-        if game.state == 0 and i_options[0] == 'Next' then
-          i_options[6] = 'pick colours'
-        elseif i_options[6] == 'pick colours' and i_options[0] == 'Previous' then
-          i_options[6] = 'new game'
-        elseif i_options[6] == 'build' then
-          if i_options [0] == "Remove" then
+        if m[6] == 'intro' and m[0] == 'New' then
+          m[6] = 'new'
+        end
+          
+        if g.state == 0 and m[0] == 'Next' then
+          m[6] = 'pick colours'
+        elseif m[6] == 'pick colours' and m[0] == 'Previous' then
+          m[6] = 'new game'
+        elseif m[6] == 'build' then
+          if m [0] == "Remove" then
             if map[S] ~= 0 then
               map[S] = 1
               menu()
             end
-          elseif i_options [0] == "Add ..." then --or i_options [0] == "<< Add" then
+          elseif m [0] == "Add ..." then --or m [0] == "<< Add" then
 
-            i_options[6] = 'add'
-          elseif i_options [0] == "Objects" then
+            m[6] = 'add'
+          elseif m [0] == "Objects" then
         menu_ojects()
        end 
-        elseif i_options[0] == "<< Add" then
-          i_options[6] = 'build'
+        elseif m[0] == "<< Add" then
+          m[6] = 'build'
       
         
-        elseif i_options [0] == "<< Door" then
-          i_options [0] = "<< Doors"
-          i_options [1] = "South"    
-          i_options [2] = "North"
-          i_options [3] = "East"
-          i_options [4] = "West"
+        elseif m [0] == "<< Door" then
+          m [0] = "<< Doors"
+          m [1] = "South"    
+          m [2] = "North"
+          m [3] = "East"
+          m [4] = "West"
         end
      --end
           
@@ -82,20 +86,25 @@ function love.mousepressed(x,y, button  )
   -- interactive option 1 add
   --menu button 2
    if x > 96 and x < 160 and y > h-64 and y < h then  
-     ---   if i_options [1] == "Remove ..." then
-          --i_options [0] = "<< main"
-          --i_options [2] = "sticks"
-          --i_options [3] = "stones"
-          --i_options [4] = "leaves"
+     ---   if m [1] == "Remove ..." then
+          --m [0] = "<< main"
+          --m [2] = "sticks"
+          --m [3] = "stones"
+          --m [4] = "leaves"
         --end
-            if i_options[6] == 'pick colours' and i_options[1] == "Next" then
-          
-          game.state = 1 
-          i_options[6] = 'build'  -- show edit menu
-       -- world()  -- create a new map randomly 
+        if m[6] == 'new' and m[1] == 'Tiny map' then
+          world.size = 100
+          sandbox()
+          m[6] = 'new game'
         
-        elseif i_options[6] == 'add' then -- map [S] == 1 then
-            if i_options [1] == "Block" and map[S-10] ~= 0 then
+        elseif m[6] == 'pick colours' and m[1] == "Next" then
+          
+          g.state = 1 
+          m[6] = 'build'  -- show edit menu
+           
+        
+        elseif m[6] == 'add' then -- map [S] == 1 then
+            if m [1] == "Block" and map[S-10] ~= 0 then
              if p.heading == 'n' then 
               map[S-10] = 2
             elseif p.heading == 'e' then 
@@ -104,9 +113,19 @@ function love.mousepressed(x,y, button  )
               map[S+10] = 2
             elseif p.heading == 'w' then 
               map[S-1] = 2
+            end
+          elseif m [1] == "Door" and map[S-10] ~= 0 then
+            if p.heading == 'n' then 
+              map[S-10] = 3
+            elseif p.heading == 'e' then 
+              map[S+1] = 3
+            elseif p.heading == 's' then 
+              map[S+10] = 3
+            elseif p.heading == 'w' then 
+              map[S-1] = 3
             end  
-              
-            elseif i_options [1] == 'Sticks' then
+          
+            elseif m [1] == 'Sticks' then
               if map [S] == 1 then
                 map[S] = 11
                 menu()
@@ -119,7 +138,7 @@ function love.mousepressed(x,y, button  )
               end
             end     
           end
-    --      if i_options [1] == "Blocks" then
+    --      if m [1] == "Blocks" then
             
        -- end
         
@@ -128,35 +147,40 @@ function love.mousepressed(x,y, button  )
     
     -- interactive option 2 add
     if x > 160 and x < 224 and y > h-64 and y < h then
-      if i_options [2] == 'Stones' then
+        if m[6] == 'new' and m[1] == 'Tiny map' then
+          world.size = 1000
+          world()
+        end
+        
+      if m[6] == 'build' and m[2] == 'Stones' then
         if map [S] == 1 then
           map[S] = 12
           menu()
         end
         -- if there are stones on the scene 
         -- and less than 10 we add 1 more
-        if map [S] == 12 and objects.c[S] < 10 then
-          objects.c[S] = objects.c[S] + 1
-          menu()
-        end
+        --if map [S] == 12 and objects.c[S] < 10 then
+        --  objects.c[S] = objects.c[S] + 1
+        --  menu()
+        --end
       end
     end        
     
     -- interactive option 3 add
    --[[ if x >= 320+256 and x <= 320+256+128 and y >= 544 and y <= 544 + 32 then
-      if i_options [2] == "Doors ..." then
-        i_options [0] = "<< Add doors"
-        i_options [1] = "south"    
-        i_options [2] = "north"
-        i_options [3] = "east"
-        i_options [4] = "west"
+      if m [2] == "Doors ..." then
+        m [0] = "<< Add doors"
+        m [1] = "south"    
+        m [2] = "north"
+        m [3] = "east"
+        m [4] = "west"
       end
       
-      --if i_options [2] == ""
+      --if m [2] == ""
     end]]--
     
     if x > 224 and x < 288 and y > h-64 and y < h then
-      if i_options[4] == 'Quit' then
+      if m[4] == 'Quit' then
         love.event.quit()
       end
     end
@@ -185,27 +209,39 @@ function love.mousepressed(x,y, button  )
             
             if p.heading == 'n' and map[S-10] ~= nil then
               if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
                 p.start = p.start-10
+                game_rules_default()
               end
             elseif p.heading == 'e' and map[S+1] ~= nil then
               if map[S+1] == 1 or map[S+1] > 10 or map[S+1]<20 or map[S+1] == 3 or map[S-1] == 4 then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
                 p.start = p.start+1
+                game_rules_default()
             end
           elseif p.heading == 'w' and map[S-1] ~= nil then
               if map[S-1] == 1 or map[S-1] > 10 or map[S-1]<20 or map[S-1] == 3 or map[S-1] == 4 then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
                 p.start = p.start-1
+                game_rules_default()
             end
           elseif p.heading == 's' and map[S+10] ~= nil then
               if map[S+10] == 1 or map[S+10] > 10 or map[S+10]<20 or map[S+10] == 3 or map[S+10] == 4 then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
                 p.start = p.start+10
+                game_rules_default()
               end
          -- end
           end
@@ -224,22 +260,34 @@ function love.mousepressed(x,y, button  )
        
        --compas movement code
      if p.heading == 'n' then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
+                game_rules_default()
        p.heading = 'w'
       elseif p.heading == 'w' then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
+                game_rules_default()
          p.heading = 's'
       elseif p.heading == 's' then 
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
+                game_rules_default()
         p.heading = 'e'
      --lg.setColor(C_WHITE)
      ---lgp(p.heading,32,h/2)
     elseif p.heading == 'e' then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
+                game_rules_default()
       -- end of code of compas
          p.heading = 'n'
        end
@@ -250,22 +298,34 @@ function love.mousepressed(x,y, button  )
         
        --compas movement code
      if p.heading == 'n' then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
+                game_rules_default()
        p.heading = 'e'
       elseif p.heading == 'e' then
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
+                game_rules_default()
          p.heading = 's'
       elseif p.heading == 's' then 
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c - 1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
+                game_rules_default()
         p.heading = 'w'
      --lg.setColor(C_WHITE)
      ---lgp(p.heading,32,h/2)
     elseif p.heading == 'w' then  -- if north
-                p.turn_p = p.turn_c
+                if p.turn_p == p.turn_c -1 then
+                  p.turn_p = p.turn_c
+                end
                 p.turn_c = p.turn_c + 1
+                game_rules_default()
       -- end of code of compas
          p.heading = 'n'
        end
@@ -275,23 +335,23 @@ function love.mousepressed(x,y, button  )
       end
       
       -- hotspot to interact with an object in the scene
-      if game.state == 0 then
+      if g.state == 0 then
       if x >= w/2-72 and x <= w/2 and y >=h/2+16 and y <= h/2+72 then
         -- it's a boy
         p.gender = 1
         p.st = 2
         p.hp = 25
-        i_options[6] = 'new game'
+        m[6] = 'new game'
       end
       if x >= w/2 and x <= w/2+72 and y >=h/2+16 and y <= h/2+72 then
         -- it's a girl
         p.gender = 2
         p.st = 1
         p.hp = 25
-        i_options[6] = 'new game'
+        m[6] = 'new game'
       end
      end
-      if game.state == 1 then
+      if g.state == 1 then
       -- inventory
       if x >= w/2-128 and x <= w/2+128 and y >=h/2+156 and y <= h/2+192 then 
       --if x >= objects.x and x <= objects.x + objects.w and y >= objects.y and y <= objects.y + objects.h then
