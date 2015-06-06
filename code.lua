@@ -1,4 +1,4 @@
-function world()
+function sandbox()
   --[[ world generator
    0 = water
    1 = grass
@@ -11,15 +11,15 @@ function world()
    8 = npc
   11 = sticks object on a field
   12 = stones object on a field
-  13 = leaves object on a field
+  13 = leaves objec
+  t on a field
   14 =
   ]]--  
-  
   i = 0
   repeat
-    objects.c[i] = 0
-    i = i+1
-  until i == 100
+    map[i] = 1 
+    i = i + 1
+  until i == world.size 
   
   i = 0
   repeat
@@ -30,27 +30,53 @@ function world()
     elseif i % 9 == 9 then
       map[i] = 0
     elseif i % 10 ~= 0 then
-      map[i] = 1
+ --     map[i] = 3
+    
+  end
+  i = i +1
+  until i == world.size
+
+  
+  if g.state== 1 then
+  i = 0
+  repeat
+    objects.c[i] = 0
+    i = i+1
+  until i == world.size
+  
+  i = 0
+  repeat
+    if i >= 0 and i <= 9 or i >= 91 and i <= 99 or i % 10 == 0 or i / 9 == 0 then
+      map[i] = 0
+   -- elseif i % 10 == 0 then
+      --map[i] = 0
+    elseif i % 9 == 9 then
+      map[i] = 0
+    elseif i % 10 ~= 0 then
+      map[i] = 3
     
     end
   i = i +1
-  until i == 100
+  until i == world.size
 
   map[23] = 8
+ -- map[35] = 3  
 
   place_object_on_grid(11)
   place_object_on_grid(12)
   place_object_on_grid(14)
   
+  end
+
   i = 0
   repeat
     if map[i] ~= 1 then
       map[15] = 3 -- inside a building   
     else
-      i =lm.random(100) 
+      i =lm.random(world.size) 
     end
     i = i + 1
-  until i == 100
+  until i == world.size
 end
 
 function place_object_on_grid(o,r)
@@ -60,7 +86,8 @@ function place_object_on_grid(o,r)
   --if r == nil then
     local I = lm.random(11,100)
   --end
-  local C = 0
+  local C
+  C = 0
   -- the sticks will be place on fields randonly
   repeat
    local n = lm.random(1,10) -- n for number of objects   
@@ -78,9 +105,9 @@ function place_object_on_grid(o,r)
       objects.c[I] = n
       C = C +1
     else
-      I = lm.random(1,100)
+      I = lm.random(1,world.size)
     end
-    if I <=100 then
+    if I <=world.size then
       I = I+ 1
     end
     
@@ -89,10 +116,11 @@ end
 
 function game_rules_default()
   -- day cycle rules
-  if p.turn_p == p.turn_c +1 then
+  if p.turn_p == p.turn_c -1 then
     time = time + 1
   end
-  if time == 24 then
-    game.day_cycle = game.day_cycle + 1
+  if time % 1 == 0 then
+    g.day_cycle = g.day_cycle + 1
+   -- time = 0
   end
 end      
