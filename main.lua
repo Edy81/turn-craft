@@ -18,7 +18,7 @@ function love.load()
     day_cycle = 7
     }
   c_i_mod = {
-    n = 10,
+    n = -10,
     e = 1,
     s = 10,
     w = -1,
@@ -35,7 +35,7 @@ function love.load()
     xp = 0, -- experience
     hp = 0, -- health
     backpack = false,
-    heading = 'n',
+    view = 'n',
     compas = {},
     compas = {10,1,10,1},
     start = 25,
@@ -536,7 +536,7 @@ function love.draw()
     i = i +1
    until i == 100 
      lg.setColor(C_WHITE)
-     lgp(p.heading.. p.turn_c,32,h/2)
+     lgp(p.view.. p.turn_c,32,h/2)
     end
   menu()
     gui()
