@@ -105,23 +105,23 @@ function love.mousepressed(x,y, button  )
         
         elseif m[6] == 'add' then -- map [S] == 1 then
             if m [1] == "Block" and map[S-10] ~= 0 then
-             if p.heading == 'n' then 
-              map[S-10] = 2
-            elseif p.heading == 'e' then 
+             if map[S+c_i_mod[p.view]] == 1 then 
+              map[S+c_i_mod[p.view]] = 2
+        --[[    elseif p.view == 'e' then 
               map[S+1] = 2
-            elseif p.heading == 's' then 
+            elseif p.view == 's' then 
               map[S+10] = 2
-            elseif p.heading == 'w' then 
-              map[S-1] = 2
+            elseif p.view == 'w' then 
+              map[S-1] = 2]]--
             end
           elseif m [1] == "Door" and map[S-10] ~= 0 then
-            if p.heading == 'n' then 
+            if p.view == 'n' then 
               map[S-10] = 3
-            elseif p.heading == 'e' then 
+            elseif p.view == 'e' then 
               map[S+1] = 3
-            elseif p.heading == 's' then 
+            elseif p.view == 's' then 
               map[S+10] = 3
-            elseif p.heading == 'w' then 
+            elseif p.view == 'w' then 
               map[S-1] = 3
             end  
           
@@ -205,9 +205,9 @@ function love.mousepressed(x,y, button  )
      	if x >= hotspot02.x and x <= hotspot02.x + hotspot02.w and y >= hotspot02.y and y <= hotspot02.y + hotspot02.h then
         --lg.setColor(C_BLUE)
           
-        --  if map[S-10] ~= nil and p.heading == 0 then -- if player facing north
+        --  if map[S-10] ~= nil and p.view == 0 then -- if player facing north
             
-            if p.heading == 'n' and map[S-10] ~= nil then
+            if p.view == 'n' and map[S-10] ~= nil then
               if map[S-10] == 1 or map[S-10] > 10 or map[S-10]<20 or map[S-10] == 3 or map[S-10] == 4 then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
@@ -216,7 +216,7 @@ function love.mousepressed(x,y, button  )
                 p.start = p.start-10
                 game_rules_default()
               end
-            elseif p.heading == 'e' and map[S+1] ~= nil then
+            elseif p.view == 'e' and map[S+1] ~= nil then
               if map[S+1] == 1 or map[S+1] > 10 or map[S+1]<20 or map[S+1] == 3 or map[S-1] == 4 then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
@@ -225,7 +225,7 @@ function love.mousepressed(x,y, button  )
                 p.start = p.start+1
                 game_rules_default()
             end
-          elseif p.heading == 'w' and map[S-1] ~= nil then
+          elseif p.view == 'w' and map[S-1] ~= nil then
               if map[S-1] == 1 or map[S-1] > 10 or map[S-1]<20 or map[S-1] == 3 or map[S-1] == 4 then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
@@ -234,7 +234,7 @@ function love.mousepressed(x,y, button  )
                 p.start = p.start-1
                 game_rules_default()
             end
-          elseif p.heading == 's' and map[S+10] ~= nil then
+          elseif p.view == 's' and map[S+10] ~= nil then
               if map[S+10] == 1 or map[S+10] > 10 or map[S+10]<20 or map[S+10] == 3 or map[S+10] == 4 then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
@@ -259,37 +259,37 @@ function love.mousepressed(x,y, button  )
       -- p.start = p.start-1 
        
        --compas movement code
-     if p.heading == 'n' then
+     if p.view == 'n' then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
                 end
                 p.turn_c = p.turn_c + 1
                 game_rules_default()
-       p.heading = 'w'
-      elseif p.heading == 'w' then
+       p.view = 'w'
+      elseif p.view == 'w' then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
                 end
                 p.turn_c = p.turn_c + 1
                 game_rules_default()
-         p.heading = 's'
-      elseif p.heading == 's' then 
+         p.view = 's'
+      elseif p.view == 's' then 
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
                 end
                 p.turn_c = p.turn_c + 1
                 game_rules_default()
-        p.heading = 'e'
+        p.view = 'e'
      --lg.setColor(C_WHITE)
-     ---lgp(p.heading,32,h/2)
-    elseif p.heading == 'e' then
+     ---lgp(p.view,32,h/2)
+    elseif p.view == 'e' then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
                 end
                 p.turn_c = p.turn_c + 1
                 game_rules_default()
       -- end of code of compas
-         p.heading = 'n'
+         p.view = 'n'
        end
       end
       
@@ -297,37 +297,37 @@ function love.mousepressed(x,y, button  )
      	if x >= hotspot05.x and x <= hotspot05.x + hotspot05.w and y >= hotspot05.y and y <= hotspot05.y + hotspot05.h then
         
        --compas movement code
-     if p.heading == 'n' then
+     if p.view == 'n' then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
                 end
                 p.turn_c = p.turn_c + 1
                 game_rules_default()
-       p.heading = 'e'
-      elseif p.heading == 'e' then
+       p.view = 'e'
+      elseif p.view == 'e' then
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
                 end
                 p.turn_c = p.turn_c + 1
                 game_rules_default()
-         p.heading = 's'
-      elseif p.heading == 's' then 
+         p.view = 's'
+      elseif p.view == 's' then 
                 if p.turn_p == p.turn_c - 1 then
                   p.turn_p = p.turn_c
                 end
                 p.turn_c = p.turn_c + 1
                 game_rules_default()
-        p.heading = 'w'
+        p.view = 'w'
      --lg.setColor(C_WHITE)
-     ---lgp(p.heading,32,h/2)
-    elseif p.heading == 'w' then  -- if north
+     ---lgp(p.view,32,h/2)
+    elseif p.view == 'w' then  -- if north
                 if p.turn_p == p.turn_c -1 then
                   p.turn_p = p.turn_c
                 end
                 p.turn_c = p.turn_c + 1
                 game_rules_default()
       -- end of code of compas
-         p.heading = 'n'
+         p.view = 'n'
        end
        -- end of code of compas
       

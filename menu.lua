@@ -10,9 +10,10 @@ function menu()
     until I == 4   
   if m[6] == 'intro' then
     m[0] = 'New'
-  if lf.exists('options.txt') then
-    m[1] = 'Load ...'
-  end 
+    if lf.exists('options.txt') then
+      m[1] = 'Load ...'
+    end
+    
     --m[2] = 'Options ...'
   
   elseif m[6] == 'new game' then
@@ -36,24 +37,24 @@ function menu()
    -- m[1] = ''
    
   elseif m[6] == 'build' then
-    if map[S-c_i_mod[p.heading]] == 1 then --and map[S-c_i_mod[p.heading]] ~= 3  then
+    if map[S+c_i_mod[p.view]] == 1 or map[S-c_i_mod[p.view]] == 2  then
       m[0] = 'Add ...'
-      elseif map[S-c_i_mod[p.heading]] ~= 1 then --and map[S-c_i_mod[p.heading]]
+      elseif map[S+c_i_mod[p.view]] ~= 1 then --and map[S-c_i_mod[p.view]]
       
       --m[0] = ""
-    elseif map[S] > 8 and map[S] <20 or map[S] == 3 then
+    elseif map[S] > 8 and map[S] <20 then--or map[S] == 3 then
       m[0] = "Remove"
-    elseif map [S-c_i_mod[p.heading]] ~= nil then
-      if not (map[S-c_i_mod[p.heading]] == 0) or not (map[S-c_i_mod[p.heading]] > 1 and map[S-10] < 20) or map[S] == 3 then
+    elseif map [S+c_i_mod[p.view]] ~= nil then
+      if not (map[S+c_i_mod[p.view]] == 0) or not (map[S+c_i_mod[p.view]] > 1 and map[S-10] < 20) or map[S] == 3 then
         m[1] = 'Remove'
       end
     end
     
   elseif m [6] == "add" then
-    if map [S-10] == 1 then
-                  m[0] = "<< Add"
-                  m[1] = 'Block'
-    elseif map [S+1] == 1 then
+    m[0] = '<< Add'
+    if map [S+c_i_mod[p.view]] == 1 then
+      m[1] = 'Block'
+    --[[elseif map [S+1] == 1 then
                   m[0] = "<< Add"
                   m[1] = 'Block'
     elseif map [S+10] == 1 then
@@ -61,9 +62,15 @@ function menu()
                   m[1] = 'Block'
     elseif map [S-1] == 1 then
                   m[0] = "<< Add"
-                  m[1] = 'Block'
-      else
-        m[0] = '<< Add'
+                  m[1] = 'Block']]--
+      elseif map[S+c_i_mod[p.view]] == 2 then
+        m[1] = 'n door'
+      elseif map[S+c_i_mod[p.view]] == 2 then
+        m[1] = 'e door'
+      elseif map[S+c_i_mod[p.view]] == 2 then
+        m[1] = 's door'
+      elseif map[S+c_i_mod[p.view]] == 2 then
+        m[1] = 'w door'
      end  
  -- if m[1] == nil then
 
@@ -100,7 +107,7 @@ function menu_add()
     
     m [0] = "<< Add"
     
-    if map [S-c_i_mod[p.heading]] ~= nil and map [S-c_i_mod[p.heading]] == 1 then --and map [S-c_i_mod[p.heading]] < 8 then
+    if map [S-c_i_mod[p.view]] ~= nil and map [S-c_i_mod[p.view]] == 1 then --and map [S-c_i_mod[p.view]] < 8 then
               m [1] = "Block"
         m [2] = "Stones"
         m [3] = "Leaves"
