@@ -28,6 +28,7 @@ function love.load()
     }
   map = {}
   sandbox()
+  p={}
   p = {    -- player table
     --c_sc = ""
     gender = 0,
@@ -38,7 +39,7 @@ function love.load()
     view = 'n',
     compas = {},
     compas = {10,1,10,1},
-    start = 25,
+    start = 35,
     turn_c = 0, -- current turn
     turn_p = 0, -- previous turn 
     a = {},
@@ -79,7 +80,7 @@ function love.load()
   repeat
     sc_initial_text[i] = ""
     i = i + 1
-  until i == 1000009
+  until i==1000009
   
   --the inventory
 	inv = {}
@@ -99,7 +100,7 @@ function love.load()
     repeat
       inv.slot.c[i] = 0
       i = i+1
-    until i == 4
+    until i==4
     inv.toggle = false
     
     --icon_empty_hand =
@@ -246,7 +247,7 @@ function love.load()
   --  repeat 
   --    m[i] = "nil"
   --    i = i +1
-  --  until i == 5
+  --  until i==5
   m[6] = 'intro'
     
       
@@ -255,13 +256,13 @@ function love.load()
     repeat 
       menu[i] = "nil"
       i = i +1
-    until i == 5
+    until i==5
     i = 0
     menu.item_enabled = {}
     repeat
       menu.item_enabled[i] = false
       i = i + 1
-    until i == 5
+    until i==5
    --]] 
     
   elseif lf.exists('options.txt') then
@@ -299,8 +300,8 @@ function love.load()
  -- filename = tostring(nx)..tostring(ny)..tostring(nz)..tostring(c)
   f = 0
 
- --if f == 0 then
- --  if love.filesystem.exists(filename..'.png') == true then
+ --if f==0 then
+ --  if love.filesystem.exists(filename..'.png')==true then
   --   f = 1
   -- end  
  -- end
@@ -310,7 +311,7 @@ function love.load()
     repeat 
       m[i] = ""
       i = i +1
-    until i == 7
+    until i==7
   menu()
   edit_mode = 0  
   --c_i_mod = {}
@@ -318,7 +319,7 @@ function love.load()
 lg.setFont(font20)
 
 end
-if arg[#arg] == "-debug" then require("mobdebug").start() end
+if arg[#arg]=="-debug" then require("mobdebug").start() end
 end
 
 
@@ -347,32 +348,32 @@ function load_info()
     repeat
      map[I] = tonumber(options[I])
      --[[ B = string.sub(A,-2)
-        if not (B >= '00' and B <= '99') then
+        if not (B>='00' and B<='99') then
           B = string.sub(A,-1) 
         end
-      if B == 'a' then
+      if B=='a' then
         map[I] = 0
-      elseif B == 'b' then
+      elseif B=='b' then
         map[I] = 1
-      elseif B == 'c' then
+      elseif B=='c' then
         map[I] = 2
-      elseif B == 'd' then
+      elseif B=='d' then
         map[I] = 3
-      elseif B == 'e' then
+      elseif B=='e' then
         map[I] = 4
-      elseif B == 'f' then
+      elseif B=='f' then
         map[I] = 5
-      elseif B == 'g' then
+      elseif B=='g' then
         map[I] = 6
-      elseif B == 'h' then
+      elseif B=='h' then
         map[I] = 7
-      elseif B == 'i' then
+      elseif B=='i' then
         map[I] = 8
-      elseif B == 'j' then
+      elseif B=='j' then
       map[0] = 9
       end]]--
     I = I + 1
-    until I == 100
+    until I==100
 end
 
 
@@ -388,25 +389,25 @@ function save_game()
     I= 0
     repeat
     --[[local B = map[I]
-    if B == 0 then
+    if B==0 then
       B = 'a'
-    elseif B == 1 then
+    elseif B==1 then
       B = 'b'
-    elseif B == 2 then
+    elseif B==2 then
       B = 'c'
-    elseif B == 3 then
+    elseif B==3 then
       B = 'd'
-    elseif B == 4 then
+    elseif B==4 then
       B = 'e'
-    elseif B == 5 then
+    elseif B==5 then
       B = 'f'
-    elseif B == 6 then
+    elseif B==6 then
       B = 'g'
-    elseif B == 7 then
+    elseif B==7 then
       B = 'h'
-    elseif B == 8 then
+    elseif B==8 then
       B = 'i'
-    elseif B == 9 then
+    elseif B==9 then
       B = 'j']]
    --end
    --B = B..','
@@ -415,7 +416,7 @@ function save_game()
       F:write(map[I].."\n")
     end
 I = I + 1
-  until I == 100
+  until I==100
     F:close()
  -- end
 end
@@ -425,19 +426,19 @@ function search_for(A)
   local A
   I = 0
   repeat
-    if options[I] == A then
+    if options[I]==A then
       A = tostring(options[I+1])
       return(A)
     end
   I = I + 1
-  until I == 10
+  until I==10
 end
 
 
 function love.update(dt)
   local x = love.mouse.getX()
   local y = love.mouse.getY()
- --[[   	if x >= sc00_hotspot01.x and x <= sc00_hotspot01.x + sc00_hotspot01.w and y >= sc00_hotspot01.y and y <= sc00_hotspot01.y + sc00_hotspot01.h then
+ --[[   	if x>=sc00_hotspot01.x and x<=sc00_hotspot01.x + sc00_hotspot01.w and y>=sc00_hotspot01.y and y<=sc00_hotspot01.y + sc00_hotspot01.h then
 		sc00_hotspot01.toggle = true-- not sc00_hotspot01.toggle
         lg.circle ("fill", sc00_hotspot01.x, sc00_hotspot01.y, sc00_hotspot01.w, sc00_hotspot01.h)
     love.graphics.printf("This text is aligned center",100, h-520, 200,"center")
@@ -450,17 +451,17 @@ function love.draw()
    
     -- if no images found we make a empty room
  --  check_background()
-   --if graphics == 0 then
+   --if graphics==0 then
      -- an empty room will be drawn
-  if g.state == 0 then
+  --if g.state==0 then
    --sandbox()
     draw_start()
     --draw_sc()
     --menu()
 
-  end
+  --end
 
-  if g.state == 1 then
+  --if g.state==1 then
      --game_rules_default()
      draw_sc()
 
@@ -471,7 +472,7 @@ function love.draw()
 --     lg.polygon('line',w,1 , w/2+192,204, w/2+192,396, w,500 )
    
      -- player can add a story if he or she wants to.
- --    if sc_initial_text[tonumber(filename)] == nil then
+ --    if sc_initial_text[tonumber(filename)]==nil then
    --[[    lg.setColor(255,255,128,255)
        lg.rectangle('fill',1,1,256,128)
        i = 1
@@ -481,13 +482,13 @@ function love.draw()
        lg.print(dialogs[i],16,y)
        y = y + 16
        i = i+1
-     until i == 3
+     until i==3
     end]]--
   -- contents, size = love.filesystem.read( save..'/'..a , all )
    --love.filesystem.write
    -- players interactive options
-   --if graphics == 0 and 
---   if m.toggle == true then
+   --if graphics==0 and 
+--   if m.toggle==true then
 
   --  end
 
@@ -515,29 +516,29 @@ function love.draw()
  -- end
  -- love.graphics.setColor(255,255,255,255)
   --love.graphics.print(save, 320, 20)
-  --if inv == 0 then
+  --if inv==0 then
  --- lg.draw(inv.button, w-64,h-128 )
   
-  --elseif inv == 1 then
+  --elseif inv==1 then
   --lg.draw(inv_button_c, w-64,h-128 )
   --end--]]
   i = 0
-  x = w-192
-  y = 8
+  x = w-256
+  y = 128
   repeat
-    if i % 10 == 0 then
+    if i % 10==0 then
       y=y+16
-      x=w-192
+      x=w-256
       lgp(map[i] ,x,y)
     elseif i % 10 ~= 10 then
       x = x + 24
       lgp(map[i],x,y)
     end
     i = i +1
-   until i == 100 
+   until i==100 
      lg.setColor(C_WHITE)
      lgp(p.view.. p.turn_c,32,h/2)
-    end
+    
   menu()
     gui()
 end
