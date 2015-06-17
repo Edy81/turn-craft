@@ -9,7 +9,7 @@ function menu()
       I = I +1
     until I==4   
   if m[6]=='intro' then
-    m[0] = 'New'
+    --m[0] = 'New'
     if lf.exists('options.txt') then
       m[1] = 'Load ...'
     end
