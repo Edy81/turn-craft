@@ -1,94 +1,7 @@
 require 'input'
+require "lib_draw"
 
-function draw_left_side_wall_in()
-  -- left side wall
-  -- /
-  lg.setColor(C_WHITE)
-lg.polygon('line',w/3,h/2+96 , w/2-64,h/2+56, w/2-64,h/2-24, w/3,h/2-96 )
-  --lg.polygon('line',w/3,h/2+96 , w/2-48,h/2+56, w/2-48,h/2-24, w/3,h/2-96)
-end
 
-function draw_left_side_wall()
-  --left wall visible inside a room or if a building is next to it
-  lg.setColor(C_WHITE)
-  lg.polygon('line',0,0 , 0,h-64, w/3,h/2+96, w/3,h/2-96 )
-end
-
-function draw_front_left_wall()
-  lg.setColor(C_WHITE)
-  lg.rectangle('line',1,h/2-96,w/3,192)
-end
-
-function draw_front_wall()
-  lg.setColor(C_WHITE)
-  -- front wall
-  lg.rectangle('line',w/3,h/2-96,w/3,h/4)--224,192)
-end
-
-function draw_right_side_wall_in()
-  lg.setColor(C_WHITE)
-  lg.polygon('line',w-w/3,h/2-96 , w/2+48,h/2-24, w/2+48,h/2+56, w-w/3,h/2+96 )
-end
-
-function draw_front_right_wall()
-  lg.setColor(C_WHITE)
-  lg.rectangle('fill',w-w/3,h/2-96,w/3,192)
-end
-
-function draw_right_side_wall()
-  --right side wall
-  lg.setColor(C_WHITE)
-  lg.polygon('line',w,h-96 , w,0, w-w/3,h/2-96, w-w/3,h/2+96 ) 
-end
-
-function draw_door()
-  lg.setColor(C_BLACK)
-  lg.rectangle('line',w/2-32,h/2-32,64,128)
-end          
-
-function draw_distance_2_block()
-  lg.setColor(C_WHITE)
-  lg.rectangle('fill',w/2-96,h/2-48,192,96)
-end
-
-function draw_distance_2_door()
-  lg.setColor(C_BLACK)
-  lg.rectangle('line',w/2-16,h/2-16,32,64)
-end
-          
-function draw_npc()
-  -- hair
-  -- lg.setColor(C_GREEN)
-  -- lg.rectangle("fill",1,h/2,w,h/2)
-  -- hair
-  lg.setColor(C_BLACK)
-  lg.rectangle("fill",w/2-16,h/2-12,48,16)
-  -- face
-  lg.setColor(C_GRAY)
-  lg.rectangle("fill",w/2-16,h/2+4,48,48)
-  -- body
-  lg.setColor(C_BLACK)
-  lg.rectangle('line',w/2-24,h/2+52,72,72)
-  lg.setColor(C_WHITE)
-  lg.rectangle('fill',w/2-24,h/2+52,70,70)  
-  lg.setColor(C_SKIN)  
-  lg.polygon('fill', w/2,h/2+52, w/2+24,h/2+52, w/2+12,h/2+72) 
-    --w/2-22,h/2+52, w/2-22,h/2+52+70, w/2-22+70,h/2+52+70,
-    --w/2-22+70,h/2+52, w/2-22+44,h/2+52, w/2-22+32,h/2+52+24,
-    --w/2-22+16,h/2+52)
-  --lg.rectangle('fill',w/2-24,h/2+52,72,72)  
-  
-  -- arms
-  lg.setColor(C_BLACK)
-  lg.rectangle('line',w/2-32,h/2+56,8,64)  -- left arm
-  lg.setColor(C_WHITE)
-  lg.rectangle('fill',w/2-32,h/2+56,6,62)
-  
-  lg.rectangle('line',w/2+48,h/2+56,8,64)  -- right arm
-  -- legs
-  lg.rectangle('line',w/2-16,h/2+126,24,64)  -- left leg
-  lg.rectangle('line',w/2+16,h/2+126,24,64)  -- right leg
-end
 
 function draw_sc()
   -- map codes
@@ -199,6 +112,7 @@ function draw_sc()
         end
     end
     
+      
      -- north
     if map[S+c_i_mod[p.view]] ~= nil then --and p.view=='n' then
         if --[[map[S-9]==2 or map[S-11]==3 or map[S-1]==2 or map[S-1]==3  or--]] map[S]>1 and map[S]<14 or map[S+c_i_mod[p.view]]>1 and map[S+c_i_mod[p.view]]<14 then
@@ -336,11 +250,28 @@ function draw_sc()
       end
     end      
      
-
+    -- table in front
+    if map[S+c_i_mod[p.view]] ~= nil then --and p.view=='n' then
+        if --[[map[S-9]==2 or map[S-11]==3 or map[S-1]==2 or map[S-1]==3  or--]] map[S]==17 then
+          table()
+        end
+      end
+      
+      -- table visible form right side
+      if p.view == 'n' and map[S+1] == 17 then
+        lg.setColor(C_BLACK)
+        lg.rectangle('line', w-64,h/2+h/4-64, 64, 64)
+        lg.polygon('line',  w-64,h/2+h/8, w-64,h/2+h/4, w-w/4,h/2+h/8,
+          w-w/4,h/2+8, w-64,h/2+h/8+8)
+        --top
+        lg.polygon('line',w-w/4,h/2+h/8-64,  w-128,h/2+16,
+          w,h/2+h/8)
+      end
+      
      --outside
     -- on_sc_objects() -- on screen objects
      -- npc
-     if map[S]==15 or map[16]==16 then
+     if map[S]==30 then
       draw_npc()
     end
      
@@ -601,26 +532,49 @@ function draw_sc()
       
     --ceiling
     if map[S]>2 and map[S]<16 then
-      lg.setColor(C_GRAY)
-      lg.polygon('line',0,0, w/2-168,h/2-96, w-w/2+168,h/2-96, w,0)
+      draw_ceiling()
     end
 
     --ceiling distance 1 block away
     if map[S+c_i_mod[p.view]]>2 and map[S+c_i_mod[p.view]]<16 then
-      lg.setColor(C_GRAY)
-      lg.polygon('line', w/2-168,h/2-96, w-w/2+168,h/2-96, w/2+48,h/2-24,
-        w/2-64,h/2-24)
+      draw_distance_1_ceiling()
     end
     
     --ceiling distance 2 block away
     -- North
     if map[S-20]>2 and map[S-20]<16 then
-      lg.setColor(C_GRAY)
-      lg.polygon('line', w/2-96,h/2-48, w/2-48,h/2-48, w/2+48,h/2-48,
-        w-w/2+96,h/2-48)
+      draw_distance_2_ceiling()
     end
     
+    --indoor floor 1 block far
+    --north
+    if p.view == 'n' and map[S-20]>2 and map[S-20]<16 then
+      draw_distance_2_floor()
+    --east
+    elseif p.view == 'e' and map[S+2]>2 and map[S+2]<16 then
+      draw_distance_2_floor()
+    --south
+    elseif p.view == 's' and map[S+20]>2 and map[S+20]<16 then
+      draw_distance_2_floor()
+    --west
+    elseif p.view == 'w' and map[S-2]>2 and map[S-2]<16 then
+      draw_distance_2_floor()
+    end    
     
+    --indoor floor 1 block far
+    if map[S+c_i_mod[p.view]]>2 and map[S+c_i_mod[p.view]]<16 then
+      draw_distance_1_floor()
+    end   
+    
+    --indoor floor    
+    if map[S]>2 and map[S]<30 then
+      draw_indoor_floor()
+      if map[S] == 15 then
+        draw_npc()
+      elseif map[S] == 16 then
+        draw_table()
+      end
+    end 
       -- lg.polygon('fill',64,64 , w/2-386,h/2-32, w/2-386,h/2+96, 64,500-64)
 end 
 
@@ -1082,6 +1036,16 @@ function draw_start()
   until i==100]]--
   draw_land()
   --draw_paper_w()
+  --[[ tutorial building
+  XXXXXX
+  X | | X
+  XxX XXX
+       : x
+  X-X@: x
+  X X xxx 
+  ]]--
+  
+  
   map[15] = 14
   map[14] = 3
   map[16] = 3
@@ -1089,10 +1053,16 @@ function draw_start()
   map[25] = 14
   map[26] = 14
   map[27] = 6
-  map[34] = 6
-  map[35] = 15
-  map[36] = 6
-  map[37] = 6
+  map[34] = 13
+  map[35] = 13
+  map[44] = 6
+  map[45] = 15
+  map[46] = 17
+  map[53] = 13
+  map[54] = 6
+  map[55] = 13
+  map[56] = 2
+  map[57] = 2
   
   --lg.rectangle('fill',0,h/2, w,h/2)
 
