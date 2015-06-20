@@ -1,8 +1,6 @@
 require 'input'
 require "lib_draw"
 
-
-
 function draw_sc()
   -- map codes
   -- 0 sea
@@ -253,19 +251,13 @@ function draw_sc()
     -- table in front
     if map[S+c_i_mod[p.view]] ~= nil then --and p.view=='n' then
         if --[[map[S-9]==2 or map[S-11]==3 or map[S-1]==2 or map[S-1]==3  or--]] map[S]==17 then
-          table()
+          draw_table()
         end
       end
       
       -- table visible form right side
       if p.view == 'n' and map[S+1] == 17 then
-        lg.setColor(C_BLACK)
-        lg.rectangle('line', w-64,h/2+h/4-64, 64, 64)
-        lg.polygon('line',  w-64,h/2+h/8, w-64,h/2+h/4, w-w/4,h/2+h/8,
-          w-w/4,h/2+8, w-64,h/2+h/8+8)
-        --top
-        lg.polygon('line',w-w/4,h/2+h/8-64,  w-128,h/2+16,
-          w,h/2+h/8)
+        draw_table_right_side()
       end
       
      --outside
@@ -331,7 +323,7 @@ function draw_sc()
      -- draw a building from 2 blocks away
      --north
     if map[S-20] ~= nil then    -- this is to prevent errors
-     if p.view=='n' and map[S-20]> 1 and map[S-20]<8 then
+     if p.view=='n' and map[S-20]>1 and map[S-20]<8 then
        draw_distance_2_block()
      end
      --east
@@ -412,8 +404,24 @@ function draw_sc()
     
     
      -- a door will be drawn if the door block is 2 clocks away
+     --north
      if map[S-20] ~= nil then    -- this is to prevent errors
        if map[S-20]==3 then
+         draw_distance_2_door()
+        end
+      --east
+     elseif map[S+2] ~= nil then    -- this is to prevent errors
+       if map[S+2]==3 then
+         draw_distance_2_door()
+        end
+      --south
+    elseif map[S+20] ~= nil then    -- this is to prevent errors
+       if map[S+20]==3 then
+         draw_distance_2_door()
+        end
+      --west
+    elseif map[S-2] ~= nil then    -- this is to prevent errors
+       if map[S-2]==3 then
          draw_distance_2_door()
         end
       end
@@ -512,54 +520,73 @@ function draw_sc()
     --  -1 0 1 2 3
     --
     --
-    --north
-    if map[S-21]>2 and map[S-21]<16 then
-      lg.setColor(C_GRAY)
-   --   lg.polygon('line',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24, w/2-128,h/2-24)
-    --east
-    elseif map[S+19]>2 and map[S+19]<16 then
-      lg.setColor(C_GRAY)
-      lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24, w/2-128,h/2-24)
-    --south
-    elseif map[S+21]>2 and map[S+21]<16 then
-      lg.setColor(C_GRAY)
-      lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24, w/2-128,h/2-24)
-    --west
-    elseif map[S-19]>2 and map[S+19]<16 then
-      lg.setColor(C_GRAY)
-      lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24, w/2-128,h/2-24)
-    end
-      
+    if map[-21]~=nil then
+      --north
+      if map[S-21]>2 and map[S-21]<16 then
+        lg.setColor(C_GRAY)
+     --   lg.polygon('line',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24, w/2-128,h/2-24)
+      --east
+      elseif map[S+19]>2 and map[S+19]<16 then
+        lg.setColor(C_GRAY)
+        lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24,
+          w/2-128,h/2-24)
+      --south
+      elseif map[S+21]>2 and map[S+21]<16 then
+        lg.setColor(C_GRAY)
+        lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24,
+          w/2-128,h/2-24)
+      --west
+      elseif map[S-19]>2 and map[S+19]<16 then
+        lg.setColor(C_GRAY)
+        lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24,
+          w/2-128,h/2-24)
+      end
+    end 
+    
     --ceiling
     if map[S]>2 and map[S]<16 then
       draw_ceiling()
     end
 
     --ceiling distance 1 block away
+    --if map[S+20]
     if map[S+c_i_mod[p.view]]>2 and map[S+c_i_mod[p.view]]<16 then
       draw_distance_1_ceiling()
     end
     
     --ceiling distance 2 block away
-    -- North
-    if map[S-20]>2 and map[S-20]<16 then
-      draw_distance_2_ceiling()
+    if map[-21]~=nil then
+      -- North
+      if p.view == 'n' and map[S-20]>2 and map[S-20]<16 then
+        draw_distance_2_ceiling()
+      --east
+      elseif p.view == 'e' and map[S+2]>2 and map[S+2]<16 then
+        draw_distance_2_ceiling()
+      --south
+      elseif p.view == 's' and map[S+20]>2 and map[S+20]<16 then
+        draw_distance_2_ceiling()
+      --west
+      elseif p.view == 'w' and map[S-2]>2 and map[S-2]<16 then
+        draw_distance_2_ceiling()
+      end    
     end
     
     --indoor floor 1 block far
-    --north
-    if p.view == 'n' and map[S-20]>2 and map[S-20]<16 then
-      draw_distance_2_floor()
-    --east
-    elseif p.view == 'e' and map[S+2]>2 and map[S+2]<16 then
-      draw_distance_2_floor()
-    --south
-    elseif p.view == 's' and map[S+20]>2 and map[S+20]<16 then
-      draw_distance_2_floor()
-    --west
-    elseif p.view == 'w' and map[S-2]>2 and map[S-2]<16 then
-      draw_distance_2_floor()
-    end    
+    if map[-20]~=nil then
+      --north
+      if p.view == 'n' and map[S-20]>2 and map[S-20]<16 then
+        draw_distance_2_floor()
+      --east
+      elseif p.view == 'e' and map[S+2]>2 and map[S+2]<16 then
+        draw_distance_2_floor()
+      --south
+      elseif p.view == 's' and map[S+20]>2 and map[S+20]<16 then
+        draw_distance_2_floor()
+      --west
+      elseif p.view == 'w' and map[S-2]>2 and map[S-2]<16 then
+        draw_distance_2_floor()
+      end
+    end
     
     --indoor floor 1 block far
     if map[S+c_i_mod[p.view]]>2 and map[S+c_i_mod[p.view]]<16 then
@@ -590,15 +617,22 @@ function gui()
   --lg.rectangle('fill',1,h-96,w,h-96)
   lg.setColor(C_WHITE)
   --lgp(p.start,w/2,h-32)
-  lg.rectangle('line',w-192,h-96,32,32)
-  lgp('U',w-192+8,h-96+8)
-  lg.rectangle('line',w-192,h-48,32,32)
-  lgp('D',w-192+8,h-48+8)
-  lg.rectangle('line',w-234,h-72,32,32)
-  lgp('L',w-234+8,h-72+8)
-  lg.rectangle('line',w-148,h-72,32,32)
-  lgp('R',w-148+8,h-72+8)
-  
+  if b_up.toggle==true then
+    lg.rectangle('line',w-192,h-96,32,32)
+    lgp('U',w-192+8,h-96+8)
+  end
+  if b_back.toggle==true then
+    lg.rectangle('line',w-192,h-48,32,32)
+    lgp('D',w-192+8,h-48+8)
+  end
+  if b_right.toggle==true then
+    lg.rectangle('line',w-234,h-72,32,32)
+    lgp('L',w-234+8,h-72+8)
+  end
+  if b_left.toggle==true then
+    lg.rectangle('line',w-148,h-72,32,32)
+    lgp('R',w-148+8,h-72+8)
+  end
   -- Inventory
   if inv.toogle==true then
     draw_inv_items()
@@ -1043,9 +1077,6 @@ function draw_start()
        : x
   X-X@: x
   X X xxx 
-  ]]--
-  
-  
   map[15] = 14
   map[14] = 3
   map[16] = 3
@@ -1058,11 +1089,11 @@ function draw_start()
   map[44] = 6
   map[45] = 15
   map[46] = 17
-  map[53] = 13
+  map[53] = 14
   map[54] = 6
-  map[55] = 13
+  map[55] = 14
   map[56] = 2
-  map[57] = 2
+  map[57] = 2]]--
   
   --lg.rectangle('fill',0,h/2, w,h/2)
 
