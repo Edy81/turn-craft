@@ -16,7 +16,10 @@ function sandbox()
   13 = all 4 doors
   14 = no door or ceiling
   15 = npc inside
-  16 = npc out
+  16 = obstacle block with ceiling
+  30 = npc out
+  31 = obstacle block 
+  32 = 
   
   11 = sticks object on a field
   12 = stones object on a field
@@ -125,6 +128,8 @@ function place_object_on_grid(o,r)
 end
 
 function game_rules_default()
+  local S
+  S=p.start
   -- day cycle rules
   if p.turn_p==p.turn_c -1 then
     time = time + 1
@@ -133,4 +138,42 @@ function game_rules_default()
     g.day_cycle = g.day_cycle + 1
    -- time = 0
   end
+  
+  --movement
+  --show or hide arrows
+  --up cursor
+  if b_up.toggle==true then
+    if map[S+c_i_mod[p.view]]==2 or map[S+c_i_mod[p.view]]>10 or
+    map[S+c_i_mod[p.view]]<12 or map[S+c_i_mod[p.view]]>3 and
+    map[S+c_i_mod[p.view]]<7 or map[S+c_i_mod[p.view]]==13 then
+      b_up.toggle=false
+    elseif p.view=='n' and map[S-20]==nil then
+      b_up.toggle=false
+    elseif p.view=='e' and map[S+2]==nil then
+      b_up.toggle=false
+    elseif p.view=='s' and map[S+20]==nil then
+      b_up.toggle=false
+    elseif p.view=='w' and map[S-2]==nil then
+      b_up.toggle=false
+      
+    --rules for inside buildings
+    elseif p.view=='n' and map[S]==4 and map[S-10]==1 then
+      b_up.toggle=true
+    elseif p.view=='e' and map[S]==6 and map[S+1]==1 then
+      b_up.toggle=true
+    elseif p.view=='s' and map[S]==3 and map[S+10]==1 then
+      b_up.toggle=true
+    elseif p.view=='w' and map[S]==5 and map[S-1]==1 then
+      b_up.toggle=true
+    end
+  end
+  if b_up.toggle==false then
+    if map[S-20]~=nil then
+      b_up.toggle=true
+    end
+  end
+  
+     -- if map[S-20]==nil then
+       --   b_up.toggle=false
+     -- end
 end      
