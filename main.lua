@@ -39,7 +39,7 @@ function love.load()
     view = 'n',
     compas = {},
     compas = {10,1,10,1},
-    start = 35,
+    start = 45,
     turn_c = 0, -- current turn
     turn_p = 0, -- previous turn 
     a = {},
@@ -112,51 +112,51 @@ function love.load()
     h = 32,
     status = 0,
     --icon_l_hand = lg.newImage("images/hotspots/portal_1.png"),
-    toggle = false
+    toggle = true
     
   }
   
-      hotspot02 = {
+      b_up = {
    	x = w-192,
 		y = h-96,
     w = 32,
     h = 32,
     status = 0,
     --icon_l_hand = lg.newImage("images/hotspots/portal_1.png"),
-    toggle = false
+    toggle = true
     
   }
   
-      hotspot03 = {
+      b_back = {
    	x = w-192,
 		y = h-48,
     w = 32,
     h = 32,
     status = 0,
     --icon_l_hand = lg.newImage("images/hotspots/portal_1.png"),
-    toggle = false
+    toggle = true
     
   }
   
-      hotspot04 = {
+      b_left = {
    	x = w-234,
 		y = h-72,
     w = 32,
     h = 32,
     status = 0,
     --icon_l_hand = lg.newImage("images/hotspots/portal_1.png"),
-    toggle = false
+    toggle = true
     
   }
   
-  hotspot05 = {
+  b_right = {
    	x = w-148,
 		y = h-72,
     w = 128,
     h = 32,
     status = 0,
     --icon_l_hand = lg.newImage("images/hotspots/portal_1.png"),
-    toggle = false
+    toggle = true
     
   }	
   
