@@ -26,9 +26,11 @@ end
 function draw_front_wall()
   -- front wall  
   lg.setColor(C_BLACK)
-  lg.rectangle('line',w/3,h/2-96,w/3,h/4)--224,192)
+  lg.rectangle('line',w/2-168,h/2-96,--w/3,h/2-96,
+    w/3,h/3)--224,192)
   lg.setColor(C_WHITE)
-  lg.rectangle('fill',w/3,h/2-96,w/3,h/4)--224,192)
+  lg.rectangle('fill',w/2-168,h/2-96,--w/3,h/2-96,
+    w/3,h/3)--224,192)
 end
 
 function draw_right_side_wall_in()
@@ -120,7 +122,7 @@ function draw_distance_1_ceiling()
   w/2-64,h/2-24)
 end
   
-function table()
+function draw_table()
   lg.setColor(C_GRAY)
   lg.polygon('fill',w/4,h/2+h/8, w-w/4,h/2+h/8, w-w/4,h/2+h/4, w/4,h/2+h/4)
   lg.polygon('fill',w/4,h/2+h/8, w/2-96,h/2+56, w/2+96,h/2+56,
@@ -131,6 +133,16 @@ function table()
   lg.polygon('line',w/4,h/2+h/8, w/2-96,h/2+56, w/2+96,h/2+56,
   w-w/4,h/2+h/8)
 end
+
+function draw_table_right_side()
+  lg.setColor(C_BLACK)
+  lg.rectangle('line', w-64,h/2+h/4-64, 64, 64)
+  lg.polygon('line',  w-64,h/2+h/8, w-64,h/2+h/4, w-w/4,h/2+h/8,
+    w-w/4,h/2+8, w-64,h/2+h/8+8)
+  --top
+  lg.polygon('line',w-w/4,h/2+h/8-64,  w-128,h/2+16, w,h/2+h/8)
+end
+
 function draw_npc()
   -- hair
   -- lg.setColor(C_GREEN)
