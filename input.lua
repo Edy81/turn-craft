@@ -192,7 +192,8 @@ function love.mousepressed(x,y, button  )
   
 --end  
    --up button, walk forward
-     	if x>=hotspot02.x and x<=hotspot02.x + hotspot02.w and y>=hotspot02.y and y<=hotspot02.y + hotspot02.h then
+     	if --x>=b_up.x and x<=b_up.x + b_up.w and y>=b_up.y and y<=b_up.y + b_up.h and
+      b_up.toggle== true then
         --lg.setColor(C_BLUE)
           
         --  if map[S-10] ~= nil and p.view==0 then -- if player facing north
@@ -234,18 +235,19 @@ function love.mousepressed(x,y, button  )
                 game_rules_default()
               end
          -- end
-          end
+        end
+        
       end
 
    
       --back button
-     	if x>=hotspot03.x and x<=hotspot03.x + hotspot03.w and y>=hotspot03.y and y<=hotspot03.y + hotspot03.h then
+     	if x>=b_back.x and x<=b_back.x + b_back.w and y>=b_back.y and y<=b_back.y + b_back.h then
         p.start = p.start+10
         menu()
       end
       
       -- left button
-     	if x>=hotspot04.x and x<=hotspot04.x + hotspot04.w and y>=hotspot04.y and y<=hotspot04.y + hotspot04.h then
+     	if x>=b_left.x and x<=b_left.x + b_left.w and y>=b_left.y and y<=b_left.y + b_left.h then
       -- p.start = p.start-1 
        
        --compas movement code
@@ -281,10 +283,11 @@ function love.mousepressed(x,y, button  )
       -- end of code of compas
          p.view = 'n'
        end
+       game_rules_default()
       end
       
       -- right button
-     	if x>=hotspot05.x and x<=hotspot05.x + hotspot05.w and y>=hotspot05.y and y<=hotspot05.y + hotspot05.h then
+     	if x>=b_right.x and x<=b_right.x + b_right.w and y>=b_right.y and y<=b_right.y + b_right.h then
         
        --compas movement code
      if p.view=='n' then
