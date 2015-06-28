@@ -1,3 +1,4 @@
+
 function draw_left_side_wall_in()
   -- left side wall
   -- /
@@ -5,6 +6,16 @@ function draw_left_side_wall_in()
 lg.polygon('line',w/3,h/2+96 , w/2-64,h/2+56, w/2-64,h/2-24, w/3,h/2-96 )
   lg.setColor(C_WHITE)
 lg.polygon('fill',w/3,h/2+96 , w/2-64,h/2+56, w/2-64,h/2-24, w/3,h/2-96 )
+  --lg.polygon('line',w/3,h/2+96 , w/2-48,h/2+56, w/2-48,h/2-24, w/3,h/2-96)
+end
+
+function draw_left_side_wall_in_2()
+  -- left side wall
+  -- /
+  lg.setColor(C_BLACK)
+lg.polygon('line',w/3,h/2+48 , w/2-64,h/2+38, w/2-64,h/2-12, w/3,h/2-48 )
+  lg.setColor(C_WHITE)
+lg.polygon('fill',w/3,h/2+48 , w/2-64,h/2+38, w/2-64,h/2-12, w/3,h/2-48 )
   --lg.polygon('line',w/3,h/2+96 , w/2-48,h/2+56, w/2-48,h/2-24, w/3,h/2-96)
 end
 
@@ -21,6 +32,13 @@ function draw_front_left_wall()
   lg.rectangle('line',1,h/2-96,w/3,192)
   lg.setColor(C_WHITE)
   lg.rectangle('fill',1,h/2-96,w/3,192)
+end
+
+function draw_front_left_wall_in_2()
+  lg.setColor(C_BLACK)
+  lg.rectangle('line',1,h/2-48,w/3,98)
+  lg.setColor(C_WHITE)
+  lg.rectangle('fill',1,h/2-48,w/3,98)
 end
 
 function draw_front_wall()
@@ -40,11 +58,27 @@ function draw_right_side_wall_in()
   lg.polygon('fill',w-w/3,h/2-96 , w/2+48,h/2-24, w/2+48,h/2+56, w-w/3,h/2+96 )
 end
 
+function draw_right_side_wall_in_2()
+  lg.setColor(C_BLACK)
+  lg.polygon('fill',w-w/3,h/2-48 , w/2+48,h/2-12, w/2+48,h/2+32,
+    w-w/3,h/2+48 )
+  lg.setColor(C_WHITE)
+  lg.polygon('fill',w-w/3,h/2-48 , w/2+48,h/2-12, w/2+48,h/2+32,
+    w-w/3,h/2+48 )
+end
+  
 function draw_front_right_wall()
   lg.setColor(C_BLACK)
   lg.rectangle('line',w-w/3,h/2-96,w/3,192)  
   lg.setColor(C_WHITE)
   lg.rectangle('fill',w-w/3,h/2-96,w/3,192)
+end
+
+function draw_front_right_wall_in_2()
+  lg.setColor(C_BLACK)
+  lg.rectangle('line',w-w/3,h/2-48,w/3,98)  
+  lg.setColor(C_WHITE)
+  lg.rectangle('fill',w-w/3,h/2-48,w/3,98)
 end
 
 function draw_right_side_wall()
