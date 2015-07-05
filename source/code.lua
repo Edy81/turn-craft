@@ -117,6 +117,8 @@ end
 function game_rules_default()
   local S
   S=p.start
+   
+  
   -- day cycle rules
   if p.turn_p==p.turn_c -1 then
     time=time + 1
@@ -130,8 +132,10 @@ function game_rules_default()
   --show or hide arrows
   --up cursor
   if b_up.toggle==true then
-    if map[S+c_i_mod[p.view]]==2 or map[S+c_i_mod[p.view]]>10 or
-    map[S+c_i_mod[p.view]]<12 or map[S+c_i_mod[p.view]]>3 and
+ --   if map[S+c_i_mod[p.view]]==2 or map[S+c_i_mod[p.view]]>10 and
+    --map[S+c_i_mod[p.view]]<12 or
+    if map[S+c_i_mod[p.view]]~=nil then
+      if map[S+c_i_mod[p.view]]>3 and
     map[S+c_i_mod[p.view]]<7 or map[S+c_i_mod[p.view]]==13 then
       b_up.toggle=false
     if p.view=='n' and map[S-20]==nil then
@@ -143,18 +147,22 @@ function game_rules_default()
     elseif p.view=='w' and map[S-2]==nil then
       b_up.toggle=false
     end
-    end
+  end
+  end
   end
   
   if b_up.toggle==false then
     --rules for inside buildings
-    if p.view=='n' and map[S]==4 and map[S-10]==1 then
+    if p.view=='n' and map[S]==4 and map[S-10]==0 and map[S-10]==1 then
       b_up.toggle=true
-    elseif p.view=='e' and map[S]==6 and map[S+1]==1 then
+    elseif p.view=='e' and map[S]==6 and map[S+1]==0 and
+    map[S+1]==1 then
       b_up.toggle=true
-    elseif p.view=='s' and map[S]==3 and map[S+10]==1 then
+    elseif p.view=='s' and map[S]==3 and  map[S+10]==0 and 
+    map[S+10]==1 then
       b_up.toggle=true
-    elseif p.view=='w' and map[S]==5 and map[S-1]==1 then
+    elseif p.view=='w' and map[S]==5 and map[S-1]==0 and
+    map[S-1]==1 then
       b_up.toggle=true
     end
   end

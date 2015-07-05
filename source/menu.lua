@@ -42,24 +42,37 @@ function menu()
   
   --elseif m[6]=='build' then
     --Check if there is a empty space or a block in front
-    if map[S+c_i_mod[p.view]]==1 or map[S+c_i_mod[p.view]]==2 or
+    if map[S+c_i_mod[p.view]]==1 or map[S+c_i_mod[p.view]]==2 then
     --north
-    p.view~='n' and map[S-10]==3 or p.view~='n' and map[S-10]>6 and
-    map[S-10]<10 or 
-    -- south
-    p.view~='s' and map[S+10]==4 or p.view~='s' and map[S+10]==7 or
-    p.view~='s' and map[S+10]>9 and map[S+10]<12 or
-    p.view~='s' and map[S+10]>6 and map[S+10]<10 or
+    if map[S-10]~=nil then
+      if p.view~='n' and map[S-10]==3 or p.view~='n' 
+      and map[S-10]>6 and map[S-10]<10 then
+        m[0]='Add ...'
+      end
+    --south
+    elseif map[S+10]~=nil then
+      if p.view~='s' and map[S+10]==4 or p.view~='s'
+      and map[S+10]==7 or p.view~='s' and map[S+10]>9
+      and map[S+10]<12 or p.view~='s' and map[S+10]>6
+      and map[S+10]<10 then
+        m[0]='Add ...'
+      end
     --east
-    p.view=='e' and map[S+1]==5 or p.view=='e' and map[S+1]==8 or
-    p.view=='e' and map[S+1]==10 or p.view=='e' and map[S+1]==12 or
+    elseif map[S+1]~=nil then
+      if p.view=='e' and map[S+1]==5 or p.view=='e' and
+      map[S+1]==8 or p.view=='e' and map[S+1]==10 or
+      p.view=='e' and map[S+1]==12 then
+        m[0]='Add ...'
+      end
     -- west
-    p.view=='w' and map[S-1]==6 then
+    elseif map[S-1]~=nil then
+    if p.view=='w' and map[S-1]==6 then
     --> 0 and map[S+c_i_mod[p.view]]<3 or
     --map[S+c_i_mod[p.view]] --> 3 and map[S+c_i_mod[p.view]]<13 then
     --p.view=='w' then
-      m[0]='Add ...'
-      elseif map[S+c_i_mod[p.view]] ~= 1 then --and map[S-c_i_mod[p.view]]
+        m[0]='Add ...'
+      end
+    elseif map[S+c_i_mod[p.view]] ~= 1 then --and map[S-c_i_mod[p.view]]
       
       --m[0]=""
     elseif map[S]>8 and map[S] <20 then--or map[S]==3 then
@@ -69,7 +82,7 @@ function menu()
         m[1]='Remove'
       end
     end 
-
+  end
   
   if m[6]=="add" then
     m[0]='<< Add'

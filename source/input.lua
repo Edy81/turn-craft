@@ -136,14 +136,13 @@ function love.mousepressed(x,y, button  )
   
 --end  
    --up button, walk forward
-     	if x>=b_up.x and x<=b_up.x + b_up.w and y>=b_up.y and y<=b_up.y + b_up.h then
-      if b_up.toggle== true then
+     	if x>=b_up.x and x<=b_up.x + b_up.w and y>=b_up.y and y<=b_up.y + b_up.h and b_up.toggle== true then
         --lg.setColor(C_BLUE)
           
         --  if map[S-10] ~= nil and p.view==0 then -- if player facing north
             
             if p.view=='n' and map[S-10] ~= nil then
-              if map[S-10]==1 or map[S-10]>10 or map[S-10]<20 or map[S-10]==3 or map[S-10]==4 then
+              if map[S-10]==0 or map[S-10]==1 or map[S-10]>10 or map[S-10]<20 or map[S-10]==3 or map[S-10]==4 then
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
@@ -178,7 +177,7 @@ function love.mousepressed(x,y, button  )
         end
         game_rules_default()
       end
-   end
+  -- end
    
       --back button
      	if x>=b_back.x and x<=b_back.x + b_back.w and y>=b_back.y and y<=b_back.y + b_back.h then

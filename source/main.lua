@@ -453,8 +453,8 @@ function love.draw()
      -- an empty room will be drawn
   --if g.state==0 then
    --sandbox()
-    draw_start()
-    --draw_sc()
+    --draw_start()
+ --   draw_sc()
     --menu()
 
   --end
@@ -546,7 +546,7 @@ function love.draw()
    until i==100 
        lg.setColor(C_WHITE)
      lgp(p.view.. p.turn_c,32,h/2)
-    
+         
   menu()
     gui()
 end
