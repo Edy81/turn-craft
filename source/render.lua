@@ -155,10 +155,12 @@ function draw_sc()
     end
     
     --ceiling left side screen
-    if  map[S-1]>3 and map[S-1]<6 or map[S-1]>6 and map[S-1]<9 or
-    map[S-1]>9 and map[S-1]<11 then
-      lg.setColor(C_GRAY)
-      lg.polygon('fill', 0,0, 0,h/2-96, w/2-192,h/2-96)
+    if map[S-1]~=nil then
+      if map[S-1]>3 and map[S-1]<6 or map[S-1]>6 and map[S-1]<9 or
+      map[S-1]>9 and map[S-1]<11 then
+        lg.setColor(C_GRAY)
+        lg.polygon('fill', 0,0, 0,h/2-96, w/2-192,h/2-96)
+      end
     end
 
     --ceiling left side screen distance 1
@@ -740,7 +742,9 @@ function draw_land()
   -- sea , beach and field
     
   if p.view=='n' and map[S+1]==0 and map[S+10]==0
-  and map[S]==0 then --top left corner
+  and map[S]==0  --top left corner
+  or p.view=='e' and map[S+1]==0 and map[S+10]==0
+  and map[S]==0 then
     --  lg.setColor(C_BLUE)
       --lg.polygon('fill',w/3,h-192,1,h,1,h/2,w,h/2,w,h-192, w-w/4,h-192)
       --lg.rectangle('fill',1,h-192,w/2,h/3)
@@ -751,7 +755,8 @@ function draw_land()
       lg.setColor(C_YELLOW)
       lg.polygon('fill',1,h,w/3,h-192,w-w/3,h-192,w,h-192,w,h)
       --lg.rectangle("fill",w/2,h-192,w/8,h/3)
-    elseif map[S-1]==0 and map[S-10]==0 then --top right corner
+    elseif p.view=='n' and map[S-1]==0 and map[S]==0 and
+    map[S-10]==0 then --top right corner
       lg.setColor(C_YELLOW)
       lg.rectangle('fill',1,h-192,w-w/3,h/2,w,h-192)
       --lg.setColor(C_GREEN)
@@ -803,9 +808,11 @@ function draw_land()
 
     --lg.rectangle("fill",1,h-192,w,h/8)
   elseif p.view=='n' and map[S]==0 and map[S-10]==nil -- top side
-  or p.view=='e' and map[S]==0 and map[S-1]==nil 
+  or p.view=='e' and map[S-1]~=0 and map[S-10]==0 and
+  map[S+10]==0 and map[S]==0
   or p.view=='s' and map[S]==0 and map[S+10]==nil   
-  or p.view=='w' and map[S]==0 and map[S+1]==nil then
+  or p.view=='w' and map[S+1]~=0 and map[S-10]==0 and
+  map[S+10]==0 and map[S]==0 then
     lg.setColor(C_BLUE)
     lg.rectangle("fill",1,h/2,w,h/3)
     lg.setColor(C_GREEN)
@@ -815,9 +822,10 @@ function draw_land()
   
   --top side in
   elseif p.view=='n' and map[S]==0 and map[S+10]==nil
-  or p.view=='e' and map[S]==0 and map[S+1]==nil 
+  or p.view=='e' and map[S]==0 and map[S-1]==nil 
   or p.view=='s' and map[S]==0 and map[S-10]==nil   
-  or p.view=='w' and map[S]==0 and map[S-1]==nil then
+  or p.view=='w' and map[S+1]~=0 and map[S-10]==0 and
+  map[S+10]==0 and map[S]==0 then
     lg.setColor(C_GREEN)
     lg.rectangle("fill",0,h/2,w,h/6)
     lg.setColor(C_BLUE)
@@ -860,13 +868,14 @@ function draw_land()
           lg.rectangle('fill',1,h/2,w,h/8)
         end
     -- north
-    elseif p.view=='s' and map[S]~=0 and map[S-10] ~= nil then    -- this is to prevent errors
+  elseif p.view=='s' and map[S]~=0 and map[S+10]==0 and
+  map[S+10]~= nil then    -- this is to prevent errors
         if map[S-10]==0 then
           lg.setColor(C_BLUE)
           lg.rectangle('fill',1,h/2,w,h/8)
         end
     -- north
-    elseif p.view=='w' and map[S]~=0 and map[S-1] ~= nil then    -- this is to prevent errors
+    elseif p.view=='w' and map[S]~=0 and map[S-1]~= nil then    -- this is to prevent errors
         if map[S-1]==0 then
           lg.setColor(C_BLUE)
           lg.rectangle('fill',1,h/2,w,h/8)
@@ -884,15 +893,16 @@ function draw_land()
         lg.setColor(C_BLUE)
         lg.rectangle('fill',1,h/2,w,h/12)
       end 
-    elseif p.view=='s' and map[S]~=0 and map[S+20] ~= nil then    -- this is to prevent errors
+    elseif p.view=='s' and map[S]~=0 and map[S-20]==0 and 
+    map[S+20] ~= nil then    -- this is to prevent errors
      if map[S+20]==0 then
        lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/12)
       end      
     elseif p.view=='w' and map[S]~=0 and map[S-2] ~= nil then    -- this is to prevent errors
      if map[S-2]==0 then
-       --lg.setColor(C_BLUE)
-       --lg.rectangle('fill',1,h/2,w,h/12)
+       lg.setColor(C_BLUE)
+       lg.rectangle('fill',1,h/2,w,h/12)
       end
     end  
     
@@ -909,7 +919,7 @@ function draw_land()
       end
     elseif map[S+30] ~= nil and map[S]~=0 and p.view=='s' then    -- this is to prevent errors
      if map[S+30]==0 then
-       lg.setColor(C_BLUE)
+      lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/24)
       end
     elseif map[S-3] ~= nil and map[S]~=0 and p.view=='w' then    -- this is to prevent errors
