@@ -77,6 +77,12 @@ function sandbox()
     end
     i=i + 1
   until i==world.size
+  
+  i=9
+  repeat
+    map[i]=0
+    i=i+10
+  until i>=world.size  
 end
 
 function place_object_on_grid(o,r)
