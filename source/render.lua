@@ -740,29 +740,32 @@ function draw_land()
  -- lg.rectangle('fill',1,1,w,h/2)    
   --if map[S]==0 then
   -- sea , beach and field
-    
-  if p.view=='n' and map[S+1]==0 and map[S+10]==0
-  and map[S]==0  --top left corner
+  
+  --top left corner
+  if p.view=='n' and map[S+1]==0 and map[S-10]==0
+  and map[S]==0 
   or p.view=='e' and map[S+1]==0 and map[S+10]==0
+  and map[S]==0
+  or p.view=='s' and map[S+10]==0 and map[S-1]==0
   and map[S]==0 then
     --  lg.setColor(C_BLUE)
       --lg.polygon('fill',w/3,h-192,1,h,1,h/2,w,h/2,w,h-192, w-w/4,h-192)
       --lg.rectangle('fill',1,h-192,w/2,h/3)
       --lg.rectangle('fill',1,h/2,w/2,h/2)
-      lg.setColor(C_GREEN)
-      
-      --lg.rectangle("fill",w/2,h-192,w/2,h/3)
-      lg.setColor(C_YELLOW)
-      lg.polygon('fill',1,h,w/3,h-192,w-w/3,h-192,w,h-192,w,h)
-      --lg.rectangle("fill",w/2,h-192,w/8,h/3)
-    elseif p.view=='n' and map[S-1]==0 and map[S]==0 and
+    lg.setColor(C_GREEN)
+    lg.rectangle("fill",w/2,h-192,w/2,h/3)
+    lg.setColor(C_YELLOW)
+   -- lg.polygon('fill',1,h,w/3,h-192,w-w/3,h-192,w,h-192,w,h)
+      lg.rectangle("fill",w/2,h-192,w/8,h/3)
+ --[[ elseif p.view=='n' and map[S-1]==0 and map[S]==0 and
     map[S-10]==0 then --top right corner
-      lg.setColor(C_YELLOW)
-      lg.rectangle('fill',1,h-192,w-w/3,h/2,w,h-192)
-      --lg.setColor(C_GREEN)
-      --lg.rectangle("fill",1,h-192,w/6,h/2)
-     lg.setColor(C_BLUE)
-     lg.polygon('fill',1,h/2,w,h/2,w,h,w/4,h-192,1,h-192)--w,h,w-w/3,h-192,1,h-192)
+    lg.setColor(C_BLUE)
+    lg.polygon('fill', w/3,h, w/2-64,h/2, 0,h/2, 0,h)
+    --lg.rectangle('fill',1,h-192,w-w/3,h/2,w,h-192)
+    lg.setColor(C_GREEN)
+    lg.polygon('fill', w-w/3,h, w/2+64,h/2, w,h/2, w,h)
+    lg.setColor(C_BLUE)
+    lg.rectangle('fill',0,0, w,h/2)  ]]-- --lg.polygon('fill',0,h/2,w,h/2,w,h,w/4,h-192,1,h-192)--w,h,w-w/3,h-192,1,h-192)
 
  -- elseif map[S]==0 and map[S+1]>=11 and map[S+1]<=13 or map[S]==0 and map[S+1]<=11 and map[S+1]<=13 then -- left side
     
@@ -773,46 +776,44 @@ function draw_land()
     lg.setColor(C_GREEN)
     lg.rectangle("fill",w-w/8,h/2,w/8,h/2)
  --]]
- end
 
  --sea shore
-  if p.view=='n' and map[S]==0 and map[S-10]==0 and map[S-1]==nil
-  or p.view=='e' and map[S]==0 and map[S-1]==0 and map[S-10]==nil
-  or p.view=='s' and map[S]==0 and map[S+10]==0 and map[S+1]==nil
-  or p.view=='w' and map[S]==0 and map[S+1]==0 and map[S+10]==nil
-  then
-    lg.setColor(C_BLUE)
+  elseif p.view=='n' and map[S]==0 and map[S+10]==0 and map[S-10]==0
+  and map[S+1]~=0
+  or p.view=='e' and map[S]==0 and map[S+1]==0 and map[S-1]==0
+  and map[S-10]~=0
+  or p.view=='s' and map[S]==0 and map[S+10]==0 and map[S-10]==0
+  and map[S-1]~=0
+  or p.view=='w' and map[S]==0 and map[S+1]==0 and map[S-1]==0 and
+  map[S+10]==nil then
+    lg.setColor(C_BLUE)  --water to the left
     lg.polygon('fill',0,h, w/3,h, w/2-64,h/2, 0,h/2)
-    --lg.rectangle("fill",1,h/2,w-w/3,h/3)
     lg.setColor(C_YELLOW)
     lg.polygon('fill',w/3,h, w/2-64,h/2, w-w/2+64,h/2, w-w/3,h)
     lg.setColor(C_GREEN)
     lg.polygon('fill',w-w/3,h, w/2+64,h/2, w,h/2, w,h )
-    --lg.rectangle("fill",1,h-192,w,h/6)
-    --lg.polygon('fill',w/3,h, w/2-168,h/2, w-w/2+168,h/2, 0,h)
-    --lg.rectangle("fill",1,h-192,w,h/8)
- --sea shore
-  elseif p.view=='n' and map[S]==0 and map[S-10]==0 and map[S+1]==nil
-  or p.view=='e' and map[S]==0 and map[S-1]==0 and map[S+10]==nil
-  or p.view=='s' and map[S]==0 and map[S+10]==0 and map[S-1]==nil
-  or p.view=='w' and map[S]==0 and map[S+1]==0 and map[S-10]==nil
+ --sea shore left and right
+  elseif p.view=='n' and map[S]==0 and map[S+10]==0 and map[S-10]==0
+  and map[S-1]~=0
+  or p.view=='e' and map[S]==0 and map[S+1]==0 and map[S-1]==0
+  and map[S+10]~=0
+  or p.view=='s' and map[S]==0 and map[S+10]==0 and map[S-10]==0
+  and map[S+1]~=0
+  or p.view=='w' and map[S]==0 and map[S+1]==0 and map[S-1]==0 
+  and map[S-10]==nil
   then
-    lg.setColor(C_BLUE)
+    lg.setColor(C_BLUE)  --water to the right
     lg.polygon('fill',w-w/3,h, w,h, w,h/2, w/2+64,h/2)
     lg.setColor(C_YELLOW)
     lg.polygon('fill',0,h, w/2-64,h/2, w/2+64,h/2, w,h)
-    --lg.rectangle("fill",1,h/2,w-w/3,h/3)
     lg.setColor(C_GREEN)
     lg.polygon('fill',0,h/2, 0,h, w/3,h, w/2-32,h/2 )
-    --lg.rectangle("fill",1,h-192,w,h/6)
-
-    --lg.rectangle("fill",1,h-192,w,h/8)
   elseif p.view=='n' and map[S]==0 and map[S-10]==nil -- top side
   or p.view=='e' and map[S-1]~=0 and map[S-10]==0 and
   map[S+10]==0 and map[S]==0
   or p.view=='s' and map[S]==0 and map[S+10]==nil   
   or p.view=='w' and map[S+1]~=0 and map[S-10]==0 and
-  map[S+10]==0 and map[S]==0 then
+ map[S+10]==0 and map[S]==0 then
     lg.setColor(C_BLUE)
     lg.rectangle("fill",1,h/2,w,h/3)
     lg.setColor(C_GREEN)
@@ -822,7 +823,7 @@ function draw_land()
   
   --top side in
   elseif p.view=='n' and map[S]==0 and map[S+10]==nil
-  or p.view=='e' and map[S]==0 and map[S-1]==nil 
+  or p.view=='e' and map[S]==0 and map[S-1]~=0 
   or p.view=='s' and map[S]==0 and map[S-10]==nil   
   or p.view=='w' and map[S+1]~=0 and map[S-10]==0 and
   map[S+10]==0 and map[S]==0 then
@@ -862,11 +863,11 @@ function draw_land()
           lg.rectangle('fill',1,h/2,w,h/8)
         end
     -- north
-    elseif p.view=='e' and map[S]~=0 and map[S+1] ~= nil then    -- this is to prevent errors
-        if map[S+1]==0 then
+  elseif p.view=='e' and map[S]~=0 and map[S+1] ~= nil 
+  -- this is to prevent errors
+  and  map[S+1]==0 then
           lg.setColor(C_BLUE)
           lg.rectangle('fill',1,h/2,w,h/8)
-        end
     -- north
   elseif p.view=='s' and map[S]~=0 and map[S+10]==0 and
   map[S+10]~= nil then    -- this is to prevent errors
