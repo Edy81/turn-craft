@@ -2,8 +2,6 @@ function menu()
   -- main menu
   local I
    I=0
-    local S
-    S=p.start
     repeat
       m[I]=''
       I=I +1
@@ -39,80 +37,139 @@ function menu()
    -- m[0]='<< Options'
    -- m[1]=''
   end
-  
-  --elseif m[6]=='build' then
+ 
+  if m[6]=='build' then
     --Check if there is a empty space or a block in front
-    if map[S+c_i_mod[p.view]]==1 or map[S+c_i_mod[p.view]]==2 then
+    if map[p.l+c_mod[p.v]]==1 or map[p.l+c_mod[p.v]]==2 or
     --north
-    if map[S-10]~=nil then
-      if p.view~='n' and map[S-10]==3 or p.view~='n' 
-      and map[S-10]>6 and map[S-10]<10 then
-        m[0]='Add ...'
-      end
+       map[p.l+c_mod[p.v]]~=nil and map[p.l+c_mod[p.v]]==3 then
+      --  and map[p.l-10]>6 and map[p.l-10]<10 then
+          m[0]='Add ...'
+       -- end
     --south
-    elseif map[S+10]~=nil then
-      if p.view~='s' and map[S+10]==4 or p.view~='s'
-      and map[S+10]==7 or p.view~='s' and map[S+10]>9
-      and map[S+10]<12 or p.view~='s' and map[S+10]>6
-      and map[S+10]<10 then
-        m[0]='Add ...'
-      end
+      elseif map[p.l+10]~=nil then
+        if p.v~='s' and map[p.l+10]==4 or p.v~='s'
+        and map[p.l+10]==7 or p.v~='s' and map[p.l+10]>9
+        and map[p.l+10]<12 or p.v~='s' and map[p.l+10]>6
+        and map[p.l+10]<10 then
+          m[0]='Add ...'
+        end
     --east
-    elseif map[S+1]~=nil then
-      if p.view=='e' and map[S+1]==5 or p.view=='e' and
-      map[S+1]==8 or p.view=='e' and map[S+1]==10 or
-      p.view=='e' and map[S+1]==12 then
+    elseif map[p.l+1]~=nil then
+      if p.v=='e' and map[p.l+1]==5 or p.v=='e' and
+      map[p.l+1]==8 or p.v=='e' and map[p.l+1]==10 or
+      p.v=='e' and map[p.l+1]==12 then
         m[0]='Add ...'
       end
     -- west
-    elseif map[S-1]~=nil then
-    if p.view=='w' and map[S-1]==6 then
-    --> 0 and map[S+c_i_mod[p.view]]<3 or
-    --map[S+c_i_mod[p.view]] --> 3 and map[S+c_i_mod[p.view]]<13 then
-    --p.view=='w' then
+    elseif map[p.l-1]~=nil then
+    if p.v=='w' and map[p.l-1]==6 then
+    --> 0 and map[p.l+c_mod[p.v]]<3 or
+    --map[p.l+c_mod[p.v]] --> 3 and map[p.l+c_mod[p.v]]<13 then
+    --p.v=='w' then
         m[0]='Add ...'
       end
-    elseif map[S+c_i_mod[p.view]] ~= 1 then --and map[S-c_i_mod[p.view]]
+    elseif map[p.l+c_mod[p.v]] ~= 1 then --and map[p.l-c_mod[p.v]]
       
       --m[0]=""
-    elseif map[S]>8 and map[S] <20 then--or map[S]==3 then
+    elseif map[p.l]>8 and map[p.l] <20 then--or map[p.l]==3 then
       m[0]="Remove"
-    elseif map[S+c_i_mod[p.view]] ~= nil then
-      if not (map[S+c_i_mod[p.view]]==0) or not (map[S+c_i_mod[p.view]]>1 and map[S-10]<20) or map[S]==3 then
+    elseif map[p.l+c_mod[p.v]] ~= nil then
+      if not (map[p.l+c_mod[p.v]]==0) or not (map[p.l+c_mod[p.v]]>1 and map[p.l-10]<20) or map[p.l]==3 then
         m[1]='Remove'
       end
+    end
+    --interactive
+    if map[p.l]==30 then --if actual grid has a npc
+     m[2]='Interact ...'
     end 
+    m[4]="Quit"
   end
   
-  if m[6]=="add" then
-    m[0]='<< Add'
-    if map[S-20]~=nil then
-      
-      if map[S-20]==1 or map[S-20]==2 or map[S-20]==5
-      or map[S-20]==6 or map[S-20]>9 and map[S-20]<14 then
+  if m[6]=='interact' then
+    m[0]='<< Back'
+    m[1]='talk'
+    --m[2]==''
+  end
+  
+  if m[6]=='talk0' then
+    m[0]='<< Back'
+    m[1]='Greet ...'
+    m[2]='Ask ...'
+    m[3]='Order ...'
+  end
+  
+  if m[6]=='add' then
+    m[0]='<< Back'
+    if p.v=='n' and map[p.l-20]~=nil then
+      --north
+      if map[p.l-20]==1 or map[p.l-20]==2 or map[p.l-20]==5
+      or map[p.l-20]==6 or map[p.l-20]>9 and map[p.l-20]<14 then
         m[1]='Block'
-      elseif map[S-20]==3 or map[S-20]==2 or map[S-20]==5
-      or map[S-20]==6 or map[S-20]>9 and map[S-20]<14 then
-    --    if map [S+c_i_mod[p.view]]==1 then
+        m[2]='Door'
+      elseif map[p.l-20]==3 or map[p.l-20]==2 or map[p.l-20]==5
+      or map[p.l-20]==6 or map[p.l-20]>9 and map[p.l-20]<14 then
+    --    if map [p.l+c_mod[p.v]]==1 then
         m[1]='Door'
       end
-    
-    --[[elseif map [S+1]==1 then
+
+    elseif p.v=='e' and map[p.l+2]~=nil then
+      --north
+      if map[p.l+2]==1 or map[p.l+2]==2 or map[p.l+2]==5
+      or map[p.l+2]==6 or map[p.l+2]>9 and map[p.l+2]<14 then
+        m[1]='Block'
+        m[2]='Door'
+      elseif map[p.l+2]==3 or map[p.l+2]==2 or map[p.l+2]==5
+      or map[p.l+2]==6 or map[p.l+2]>9 and map[p.l+2]<14 then
+    --    if map [p.l+c_mod[p.v]]==1 then
+        m[1]='Door'
+      end
+      
+    elseif p.v=='s' and map[p.l+20]~=nil then
+      --north
+      if map[p.l+20]==1 or map[p.l+20]==2 or map[p.l+20]==5
+      or map[p.l+20]==6 or map[p.l+20]>9 and map[p.l+20]<14 then
+        m[1]='Block'
+        m[2]='Door'
+      elseif map[p.l+20]==3 or map[p.l+20]==2 or map[p.l+20]==5
+      or map[p.l+20]==6 or map[p.l+20]>9 and map[p.l+20]<14 then
+    --    if map [p.l+c_mod[p.v]]==1 then
+        m[1]='Door'
+      end
+
+    elseif p.v=='w' and map[p.l-2]~=nil then
+      --north
+      if map[p.l-2]==1 or map[p.l-2]==2 or map[p.l-2]==5
+      or map[p.l-2]==6 or map[p.l-2]>9 and map[p.l-2]<14 then
+        m[1]='Block'
+        m[2]='Door'
+      elseif map[p.l-2]==3 or map[p.l-2]==2 or map[p.l-2]==5
+      or map[p.l-2]==6 or map[p.l-2]>9 and map[p.l-2]<14 then
+    --    if map [p.l+c_mod[p.v]]==1 then
+        m[1]='Door'
+      end       
+    --[[elseif map [p.l+1]==1 then
                   m[0]="<< Add"
                   m[1]='Block'
-    elseif map [S+10]==1 then
+    elseif map [p.l+10]==1 then
                   m[0]="<< Add"
                   m[1]='Block'
-    elseif map [S-1]==1 then
+    elseif map [p.l-1]==1 then
                   m[0]="<< Add"
                   m[1]='Block']]--
-      --elseif map[S+c_i_mod[p.view]]==2 or
-    elseif p.view=='n' and map[S-10]>3 and map[S-10]<10 or
-    map[S-10]==2 then
+      --elseif map[p.l+c_mod[p.v]]==2 or
+    
+    -- if there is a block with no door on the wall player is look at
+    -- or a block player can place a door
+    elseif p.v==c_mod[p.v] and map[p.l+c_mod[p.v]]>3 and
+    map[p.l+c_mod[p.v]]<10 or map[p.l+c_mod[p.v]]==2 then
         m[1]='Door'
      end
-    end
- -- if m[1]==nil then
+
+  end
+
+  ---end
+ --[[ if m[1]==nil then
 
  -- else
    -- local I=2
@@ -124,43 +181,41 @@ function menu()
       --I=I +1
     --until I==4 
   --end
-  
+  ]]--
 
-    m[4]="Quit"
+
 end
 
 function menu_objects()
-  --if m [0]=="<< Objects" then
-    --  if map[S]==1 then
-        m [0]="<< Objects"
-        m [1]="Sticks"
-        m [2]="Stones"
-        m [3]="Leaves"
+  --if m[0]=="<< Objects" then
+    --  if map[p.l]==1 then
+        m[0]="<< Objects"
+        m[1]="Sticks"
+        m[2]="Stones"
+        m[3]="Leaves"
 end
 
 function menu_add()
-  local S 
-  S=p.start
   if m[6]=='add' then
     
-    m [0]="<< Add"
+    m[0]="<< Add"
     
-    if map [S-c_i_mod[p.view]] ~= nil and map [S-c_i_mod[p.view]]==1 then --and map [S-c_i_mod[p.view]]<8 then
-              m [1]="Block"
-        m [2]="Stones"
-        m [3]="Leaves"
+    if map [p.l-c_mod[p.v]] ~= nil and map [p.l-c_mod[p.v]]==1 then --and map [p.l-c_mod[p.v]]<8 then
+              m[1]="Block"
+        m[2]="Stones"
+        m[3]="Leaves"
     else
-      m [1]="Block"
+      m[1]="Block"
     end
    -- else
-   --   m [2]="Block"
-    if map[S]==2 and m [2] ~= "Block" then
-      m [2]="Doors ..."
+   --   m[2]="Block"
+    if map[p.l]==2 and m[2] ~= "Block" then
+      m[2]="Doors ..."
     --else
-    --  m [2]="Objects ..."
+    --  m[2]="Objects ..."
     end
-    if m [2]=="Doors ..."then
-      m [3]="Objects ..."
+    if m[2]=="Doors ..."then
+      m[3]="Objects ..."
     end
   end
 end
