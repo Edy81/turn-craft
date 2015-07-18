@@ -4,7 +4,6 @@ require "code"
   
 
 function love.mousepressed(x,y, button  )
-  local S=p.start
    love.mouse.setCursor(cursor)
   	if x>=inv.x and x<=inv.x + inv.w and y>=inv.y and y<=inv.y + inv.h then
 		inv.toggle=not inv.toggle
@@ -33,7 +32,7 @@ function love.mousepressed(x,y, button  )
       --  m.toggle=true
       --]]  
       --[[ if map[i-1]==1 then
-          p.start=p.start - 10
+          p.l=p.l - 10
         end
     love.graphics.printf("This text is aligned center",100, h-520, 200,"center")
 	end
@@ -45,7 +44,7 @@ function love.mousepressed(x,y, button  )
      --  m.b_toggle=true
        -- search_object_stats()
       -- if the scene is a field and it has a doesn't have an object
-      --if map[S]==1 then
+      --if map[p.l]==1 then
         --interactive option 1 add has a menu with a list of objects
         -- possible to add
         if m[6]=='intro' and m[0]=='New' then
@@ -57,20 +56,21 @@ function love.mousepressed(x,y, button  )
         elseif m[6]=='pick colours' and m[0]=='Previous' then
           m[6]='new game'
         elseif m[6]=='build' then
-          if m [0]=="Remove" then
-            if map[S] ~= 0 then
-              map[S]=1
+          if m[0]=="Remove" then
+            if map[p.l]~=0 then
+              map[p.l]=1
               menu()
             end
-          elseif m[0]=="Add ..." then --or m [0]=="<< Add" then
+          elseif m[0]=="Add ..." then --or m[0]=="<< Add" then
 
             m[6]='add'
           elseif m[0]=="Objects" then
             menu_ojects()
           end       
-        elseif m[0]=="<< Add" then
+        end
+        if m[0]=="<< Back" then
           m[6]='build'
-        end  
+        end
     end
   
   -- interactive option 1 add
@@ -81,39 +81,23 @@ function love.mousepressed(x,y, button  )
     
     -- interactive option 2 add
     if x>160 and x<224 and y>h-64 and y<h then
-        if m[6]=='new' and m[1]=='Tiny map' then
-          world.size=1000
-          world()
-        end
-        
-      if m[6]=='build' and m[2]=='Stones' then
-        if map [S]==1 then
-          map[S]=12
-          menu()
-        end
-        -- if there are stones on the scene 
-        -- and less than 10 we add 1 more
-        --if map [S]==12 and objects.c[S]<10 then
-        --  objects.c[S]=objects.c[S] + 1
-        --  menu()
-        --end
-      end
+      menu02()
     end        
     
     -- interactive option 3 add
    --[[ if x>=320+256 and x<=320+256+128 and y>=544 and y<=544 + 32 then
-      if m [2]=="Doors ..." then
-        m [0]="<< Add doors"
-        m [1]="south"    
-        m [2]="north"
-        m [3]="east"
-        m [4]="west"
+      if m[2]=="Doors ..." then
+        m[0]="<< Add doors"
+        m[1]="south"    
+        m[2]="north"
+        m[3]="east"
+        m[4]="west"
       end
       
-      --if m [2]==""
+      --if m[2]==""
     end]]--
     
-    if x>224 and x<288 and y>h-64 and y<h then
+    if x>288 and x<342 and y>h-64 and y<h then
       if m[4]=='Quit' then
         love.event.quit()
       end
@@ -139,39 +123,39 @@ function love.mousepressed(x,y, button  )
      	if x>=b_up.x and x<=b_up.x + b_up.w and y>=b_up.y and y<=b_up.y + b_up.h and b_up.toggle== true then
         --lg.setColor(C_BLUE)
           
-        --  if map[S-10] ~= nil and p.view==0 then -- if player facing north
+        --  if map[p.l-10] ~= nil and p.v==0 then -- if player facing north
             
-            if p.view=='n' and map[S-10] ~= nil then
-              if map[S-10]==0 or map[S-10]==1 or map[S-10]>10 or map[S-10]<20 or map[S-10]==3 or map[S-10]==4 then
+            if p.v=='n' and map[p.l-10] ~= nil then
+              if map[p.l-10]==0 or map[p.l-10]==1 or map[p.l-10]>10 or map[p.l-10]<20 or map[p.l-10]==3 or map[p.l-10]==4 then
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
                 p.turn_c=p.turn_c + 1
-                p.start=p.start-10
+                p.l=p.l-10
               end
-            elseif p.view=='e' and map[S+1] ~= nil then
-              if map[S+1]==1 or map[S+1]>10 or map[S+1]<20 or map[S+1]==3 or map[S-1]==4 then
+            elseif p.v=='e' and map[p.l+1] ~= nil then
+              if map[p.l+1]==1 or map[p.l+1]>10 or map[p.l+1]<20 or map[p.l+1]==3 or map[p.l-1]==4 then
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
                 p.turn_c=p.turn_c + 1
-                p.start=p.start+1
+                p.l=p.l+1
             end
-          elseif p.view=='w' and map[S-1] ~= nil then
-              if map[S-1]==1 or map[S-1]>10 or map[S-1]<20 or map[S-1]==3 or map[S-1]==4 then
+          elseif p.v=='w' and map[p.l-1] ~= nil then
+              if map[p.l-1]==1 or map[p.l-1]>10 or map[p.l-1]<20 or map[p.l-1]==3 or map[p.l-1]==4 then
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
                 p.turn_c=p.turn_c + 1
-                p.start=p.start-1
+                p.l=p.l-1
             end
-          elseif p.view=='s' and map[S+10] ~= nil then
-              if map[S+10]==1 or map[S+10]>10 or map[S+10]<20 or map[S+10]==3 or map[S+10]==4 then
+          elseif p.v=='s' and map[p.l+10] ~= nil then
+              if map[p.l+10]==1 or map[p.l+10]>10 or map[p.l+10]<20 or map[p.l+10]==3 or map[p.l+10]==4 then
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
                 p.turn_c=p.turn_c + 1
-                p.start=p.start+10
+                p.l=p.l+10
                 
               end
         end
@@ -181,42 +165,42 @@ function love.mousepressed(x,y, button  )
    
       --back button
      	if x>=b_back.x and x<=b_back.x + b_back.w and y>=b_back.y and y<=b_back.y + b_back.h then
-        --p.start=p.start+10
+        --p.l=p.l+10
         menu()
       end
       
       -- left button
      	if x>=b_left.x and x<=b_left.x + b_left.w and y>=b_left.y and y<=b_left.y + b_left.h then
-      -- p.start=p.start-1 
+      -- p.l=p.l-1 
 
        --compas movement code
-     if p.view=='n' then
+     if p.v=='n' then
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
                 p.turn_c=p.turn_c + 1
-       p.view='w'
-      elseif p.view=='w' then
+       p.v='w'
+      elseif p.v=='w' then
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
                 p.turn_c=p.turn_c + 1
-         p.view='s'
-      elseif p.view=='s' then 
+         p.v='s'
+      elseif p.v=='s' then 
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
                 p.turn_c=p.turn_c + 1
-        p.view='e'
+        p.v='e'
      --lg.setColor(C_WHITE)
-     ---lgp(p.view,32,h/2)
-    elseif p.view=='e' then
+     ---lgp(p.v,32,h/2)
+    elseif p.v=='e' then
                 if p.turn_p==p.turn_c - 1 then
                   p.turn_p=p.turn_c
                 end
                 p.turn_c=p.turn_c + 1
       -- end of code of compas
-         p.view='n'
+         p.v='n'
        end
        game_rules_default()
       end
@@ -248,32 +232,32 @@ function love.mousepressed(x,y, button  )
       if x>=w/2-128 and x<=w/2+128 and y >=h/2+156 and
       y<=h/2+192 then 
       --if x>=objects.x and x<=objects.x + objects.w and y>=objects.y and y<=objects.y + objects.h then
-        if map[S]==11 then
+        if map[p.l]==11 then
           
-        --  local I=lm.random(1, objects.c[S])
+        --  local I=lm.random(1, objects.c[p.l])
         --[[  if inv.lefthand==0 then
-            inv.lefthand=objects.id[S] + I
-            objects.c[S]=objects.c[S] - I 
+            inv.lefthand=objects.id[p.l] + I
+            objects.c[p.l]=objects.c[p.l] - I 
          
-            --objects.c[S]=objects.c[S]
+            --objects.c[p.l]=objects.c[p.l]
             objects.toogle=false
           elseif inv.righthand==0 then
-            inv.righthand=objects.id[S] + I
-            objects.c[S]=objects.c[S] - I 
+            inv.righthand=objects.id[p.l] + I
+            objects.c[p.l]=objects.c[p.l] - I 
             
-            --objects.c[S]=objects.c[S]
+            --objects.c[p.l]=objects.c[p.l]
             objects.toogle=false
           else--]]
             local E=0
             -- check inventory is empty or full , if so add item
             repeat
             
-            if-- inv.slot.id[E]==map[S] and inv.slot.c[E]<10 or 
+            if-- inv.slot.id[E]==map[p.l] and inv.slot.c[E]<10 or 
                inv.slot[E]==nil then
-              inv.slot.id[E]=map[S]  
-              objects.c[S]=objects.c[S] -1
+              inv.slot.id[E]=map[p.l]  
+              objects.c[p.l]=objects.c[p.l] -1
               inv.slot.c[E]=inv.slot.c[E]+ 1 
-              inv.slot.id[0]=map[S]
+              inv.slot.id[0]=map[p.l]
               E=E+1
             elseif inv.slot.id[E] ~= nil and inv.slot.c[E]==10 then
               E=E + 1
@@ -281,33 +265,31 @@ function love.mousepressed(x,y, button  )
             until E==1
           end
         
-        elseif map[S]==12 then
+        elseif map[p.l]==12 then
         
-          local I=lm.random(1, objects.c[S])
+          local I=lm.random(1, objects.c[p.l])
           if inv.lefthand ~= 0 or inv.lefthand<=10 then
-            inv.lefthand= objects.id[S] + I
-            objects.c[S]=objects.c[S] - I 
-            objects.c[S]=objects.c[S]
+            inv.lefthand= objects.id[p.l] + I
+            objects.c[p.l]=objects.c[p.l] - I 
+            objects.c[p.l]=objects.c[p.l]
             objects.toogle=false
           elseif inv.righthand ~= 0 or inv.righthand<=10 then
-            inv.righthand=objects.id[S] + I
-            objects.c[S]=objects.c[S] - I 
-            objects.c[S]=objects.c[S]
+            inv.righthand=objects.id[p.l] + I
+            objects.c[p.l]=objects.c[p.l] - I 
+            objects.c[p.l]=objects.c[p.l]
             objects.toogle=false
           end
           
         end
-        --p.start=+10
+        --p.l=+10
 end
 
 function menu01()
-  local S
-  S = p.start
-     --[[   if m [1]=="Remove ..." then
-          --m [0]="<< main"
-          --m [2]="sticks"
-          --m [3]="stones"
-          --m [4]="leaves"
+     --[[   if m[1]=="Remove ..." then
+          --m[0]="<< main"
+          --m[2]="sticks"
+          --m[3]="stones"
+          --m[4]="leaves"
         end]]--
   if m[6]=='new' and m[1]=='Tiny map' then
     world.size=100
@@ -319,86 +301,128 @@ function menu01()
     g.state=1 
     m[6]='build'  -- show edit menu
                  
-  elseif m[6]=='add' then -- map [S]==1 then
-    if m[1]=="Block" and map[S-10] ~= 0 then
-      map[S+c_i_mod[p.view]]=2        
+  elseif m[6]=='add' then -- map [p.l]==1 then
+    if m[1]=="Block" and map[p.l-10] ~= 0 then
+      map[p.l+c_mod[p.v]]=2        
     elseif m[1]=='Door' then
-      map[S+c_i_mod[p.view]]=7
-    elseif map[S+c_i_mod[p.view]]==1 then --or map[c_i_mod[p.view]]
+      map[p.l+c_mod[p.v]]=7
+    elseif map[p.l+c_mod[p.v]]==1 then --or map[c_mod[p.v]]
     --==3 then 
-    map[S+c_i_mod[p.view]]=2
-    --[[    elseif p.view=='e' then 
-      map[S+1]=2
-      elseif p.view=='s' then 
-      map[S+10]=2
-      elseif p.view=='w' then 
-      map[S-1]=2]]--
+    map[p.l+c_mod[p.v]]=2
+    --[[    elseif p.v=='e' then 
+      map[p.l+1]=2
+      elseif p.v=='s' then 
+      map[p.l+10]=2
+      elseif p.v=='w' then 
+      map[p.l-1]=2]]--
         
-    elseif m[1]=='Door' and map[S+c_i_mod[p.view]]==2 then 
-      if p.view=='n' then
+    elseif m[1]=='Door' and map[p.l+c_mod[p.v]]==2 then 
+      if p.v=='n' then
         --if there is a building with a door in 2 blocks
         --a block with both south and noth will be added
-        if map[-20]~=nil and map[S-20]==3 then
-          if map[S-20]==3 or map[S-20]==7 or map[S-20]==13 then
-            map[S-10]=7
-          elseif map[S-10]==2 then
-            map[S-10]=3
+        if map[-20]~=nil and map[p.l-20]==3 then
+          if map[p.l-20]==3 or map[p.l-20]==7 or map[p.l-20]==13 then
+            map[p.l-10]=7
+          elseif map[p.l-10]==2 then
+            map[p.l-10]=3
           end
-        elseif map[S-10]==2 then
-          map[S-10]=3
+        elseif map[p.l-10]==2 then
+          map[p.l-10]=3
         end 
-      elseif p.view=='s' then
-        map[S+10]=4
-      elseif p.view=='e' then
-        map[S+1]=5
-      elseif p.view=='w' then
-        map[S-1]=6
+      elseif p.v=='s' then
+        map[p.l+10]=4
+      elseif p.v=='e' then
+        map[p.l+1]=5
+      elseif p.v=='w' then
+        map[p.l-1]=6
       end
     elseif m[1]=='Sticks' then
-      if map [S]==1 then
-        map[S]=11
+      if map [p.l]==1 then
+        map[p.l]=11
         menu()
       end
     -- if there are sticks on the scene 
     -- and less than 10 we add 1 more
     end 
-    if map [S]==11 and objects.c[S]<10 then
-      objects.c[S]=objects.c[S] + 1
+    if map [p.l]==11 and objects.c[p.l]<10 then
+      objects.c[p.l]=objects.c[p.l] + 1
       menu()
     end
-  end     
+  --end     
+ elseif m[6]=='interact' then
+   if m[1]=='Greet ...' then
+     p.says='Hello'
+     ai_talk()
+  end
+ end  
  end
 end  
 
+function menu02()
+  if m[6]=='new' and m[1]=='Tiny map' then
+    world.size=1000
+    world()
+        
+  elseif m[6]=='add' then
+    if m[2]=='Door' then
+      if p.v=='n' then
+        map[p.l-10]=3
+      elseif p.v=='e' then
+        map[p.l+1]=5
+      elseif p.v=='s' then
+        map[p.l+10]=4
+      elseif p.v=='w' then
+        map[p.l-1]=6
+      end
+    end
+    
+    if m[2]=='Stones' then
+      if map[p.l]==1 then
+        map[p.l]=12
+        menu()
+      end
+    end
+  end      -- if there are stones on the scene 
+        -- and less than 10 we add 1 more
+        --if map [p.l]==12 and objects.c[p.l]<10 then
+        --  objects.c[p.l]=objects.c[p.l] + 1
+        --  menu()
+        --end
+  if m[2]=='Interact ...' then
+    m[6]='interact'
+  end
+   
+end
+
 function a_left()
   --compas movement code
-  if p.view=='n' then
+  if p.v=='n' then
     if p.turn_p==p.turn_c - 1 then
       p.turn_p=p.turn_c
     end
       p.turn_c=p.turn_c + 1
-      p.view='e'
-    elseif p.view=='e' then
+      p.v='e'
+    elseif p.v=='e' then
       if p.turn_p==p.turn_c - 1 then
         p.turn_p=p.turn_c
       end
     p.turn_c=p.turn_c + 1
-    p.view='s'
-  elseif p.view=='s' then 
+    p.v='s'
+  elseif p.v=='s' then 
     if p.turn_p==p.turn_c - 1 then
       p.turn_p=p.turn_c
     end
     p.turn_c=p.turn_c + 1
-    p.view='w'
+    p.v='w'
   --lg.setColor(C_WHITE)
-  --lgp(p.view,32,h/2)
-  elseif p.view=='w' then  -- if north
+  --lgp(p.v,32,h/2)
+  elseif p.v=='w' then  -- if north
     if p.turn_p==p.turn_c -1 then
       p.turn_p=p.turn_c
     end
     p.turn_c=p.turn_c + 1
   -- end of code of compas
-    p.view='n'
+    p.v='n'
   end
   -- end of code of compas
   game_rules_default()
