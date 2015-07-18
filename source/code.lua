@@ -82,13 +82,13 @@ function sandbox()
   repeat
     map[i]=0
     i=i+10
-  until i>=world.size  
+  until i>=world.size
+  map[25]=30
 end
 
 function place_object_on_grid(o,r)
     -- how many sticks and how many places have them.
   --t -- t for times that the loop must loop until 
-  --local S=p.start
   --if r==nil then
     local I=lm.random(11,100)
   --end
@@ -120,11 +120,11 @@ function place_object_on_grid(o,r)
   until C==10
 end
 
+
+
+
 function game_rules_default()
-  local S
-  S=p.start
-   
-  
+
   -- day cycle rules
   if p.turn_p==p.turn_c -1 then
     time=time + 1
@@ -138,19 +138,19 @@ function game_rules_default()
   --show or hide arrows
   --up cursor
   if b_up.toggle==true then
- --   if map[S+c_i_mod[p.view]]==2 or map[S+c_i_mod[p.view]]>10 and
-    --map[S+c_i_mod[p.view]]<12 or
-    if map[S+c_i_mod[p.view]]~=nil then
-      if map[S+c_i_mod[p.view]]>3 and
-    map[S+c_i_mod[p.view]]<7 or map[S+c_i_mod[p.view]]==13 then
+ --   if map[p.l+c_mod[p.v]]==2 or map[p.l+c_mod[p.v]]>10 and
+    --map[p.l+c_mod[p.v]]<12 or
+    if map[p.l+c_mod[p.v]]~=nil then
+      if map[p.l+c_mod[p.v]]>3 and
+    map[p.l+c_mod[p.v]]<7 or map[p.l+c_mod[p.v]]==13 then
       b_up.toggle=false
-    if p.view=='n' and map[S-20]==nil then
+    if p.v=='n' and map[p.l-20]==nil then
       b_up.toggle=false
-    elseif p.view=='e' and map[S+2]==nil then
+    elseif p.v=='e' and map[p.l+2]==nil then
       b_up.toggle=false
-    elseif p.view=='s' and map[S+20]==nil then
+    elseif p.v=='s' and map[p.l+20]==nil then
       b_up.toggle=false
-    elseif p.view=='w' and map[S-2]==nil then
+    elseif p.v=='w' and map[p.l-2]==nil then
       b_up.toggle=false
     end
   end
@@ -159,26 +159,26 @@ function game_rules_default()
   
   if b_up.toggle==false then
     --rules for inside buildings
-    if p.view=='n' and map[S]==4 and map[S-10]==0 and map[S-10]==1 then
+    if p.v=='n' and map[p.l]==4 and map[p.l-10]==0 and map[p.l-10]==1 then
       b_up.toggle=true
-    elseif p.view=='e' and map[S]==6 and map[S+1]==0 and
-    map[S+1]==1 then
+    elseif p.v=='e' and map[p.l]==6 and map[p.l+1]==0 and
+    map[p.l+1]==1 then
       b_up.toggle=true
-    elseif p.view=='s' and map[S]==3 and  map[S+10]==0 and 
-    map[S+10]==1 then
+    elseif p.v=='s' and map[p.l]==3 and  map[p.l+10]==0 and 
+    map[p.l+10]==1 then
       b_up.toggle=true
-    elseif p.view=='w' and map[S]==5 and map[S-1]==0 and
-    map[S-1]==1 then
+    elseif p.v=='w' and map[p.l]==5 and map[p.l-1]==0 and
+    map[p.l-1]==1 then
       b_up.toggle=true
     end
   end
   if b_up.toggle==false then
-    if map[S-20]~=nil then
+    if map[p.l-20]~=nil then
       b_up.toggle=true
     end
   end
   
-     -- if map[S-20]==nil then
+     -- if map[p.l-20]==nil then
        --   b_up.toggle=false
      -- end
 end      

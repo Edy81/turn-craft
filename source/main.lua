@@ -15,7 +15,7 @@ function love.load()
     turn=0,
     day_cycle=7
     }
-  c_i_mod={
+  c_mod={
     n=-10,
     e=1,
     s=10,
@@ -29,15 +29,15 @@ function love.load()
   p={}
   p={    -- player table
     --c_sc=""
+    l=25, --location
     gender=0,
     st=0, -- strength
     xp=0, -- experience
     hp=0, -- health
     backpack=false,
-    view='n',
+    v='n',
     compas={},
     compas={10,1,10,1},
-    start=45,
     turn_c=0, -- current turn
     turn_p=0, -- previous turn 
     a={},
@@ -45,7 +45,7 @@ function love.load()
     x=00,
     y=00,
     z=00,  -- altitud    
-    l=0,   -- 0 north, 1 northeast, 2 east, 3 southeast, 4 south, 5 southwest,
+    --l=0,   -- 0 north, 1 northeast, 2 east, 3 southeast, 4 south, 5 southwest,
             -- 6 west, 7 northwest
     location=tittle,
     sc_name="The hall",
@@ -220,7 +220,7 @@ function love.load()
   -- player info location, looking at
 
   
- -- p.start=25
+ -- p.l=25
 
   
   --[[menu={
@@ -312,7 +312,7 @@ function love.load()
     until i==7
   menu()
   edit_mode=0  
-  --c_i_mod={}
+  --c_mod={}
   
 lg.setFont(font20)
 
@@ -443,8 +443,6 @@ function love.update(dt)
 	end]]
 end
 
-
-
 function love.draw()
    
     -- if no images found we make a empty room
@@ -455,10 +453,9 @@ function love.draw()
    --sandbox()
     --draw_start()
  --   draw_sc()
-    --menu()
+ --   menu()
 
   --end
-
   --if g.state==1 then
      --game_rules_default()
      draw_sc()
@@ -527,7 +524,7 @@ function love.draw()
     if i % 10==0 then
       y=y+16
       x=w-256
-     if i == p.start then
+     if i == p.l then
        lg.setColor(C_YELLOW)
      else
        lg.setColor(C_WHITE)
@@ -535,7 +532,7 @@ function love.draw()
       lgp(map[i] ,x,y)
     elseif i % 10 ~= 10 then
       x=x + 24
-     if i == p.start then
+     if i == p.l then
        lg.setColor(C_YELLOW)
      else
        lg.setColor(C_WHITE)
@@ -545,8 +542,8 @@ function love.draw()
     i=i +1
    until i==100 
        lg.setColor(C_WHITE)
-     lgp(p.view.. p.turn_c,32,h/2)
-         
+     lgp(p.v.. p.l,32,h/2)
+      love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)    
   menu()
-    gui()
+  gui()
 end
