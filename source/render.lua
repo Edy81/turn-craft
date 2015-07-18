@@ -4,8 +4,6 @@ require "lib_draw"
 function draw_sc()
   -- map codes
   -- 0 sea
-  local S
-  S=p.start
   draw_land()
   if m[6]=='introa' then
     lg.setColor(0,0,0,125)
@@ -19,145 +17,158 @@ function draw_sc()
  -- far()
   near()
   here()
-     
+  
+ -- drawing_rules()  -- what has to be draw is checked and drawed.
     -- table in front
-    if map[S+c_i_mod[p.view]] ~= nil then --and p.view=='n' then
-        if --[[map[S-9]==2 or map[S-11]==3 or map[S-1]==2 or map[S-1]==3  or--]] map[S]==17 then
+    if map[p.l+c_mod[p.v]] ~= nil then --and p.v=='n' then
+        if --[[map[p.l-9]==2 or map[p.l-11]==3 or map[p.l-1]==2 or map[p.l-1]==3  or--]] map[p.l]==17 then
           draw_table()
         end
       end
       
       -- table visible form right side
-      if p.view == 'n' and map[S+1] == 17 then
-        draw_table_right_side()
+      if p.v == 'n' and map[p.l+1] == 17 then
+        draw_table_r_side()
       end
     
     --- a door will be drawn if there is a building with a entry
-    -- if map[S-c_i_mod[p.view]] ~= nil then    -- this is to prevent errors
-    if p.view=='n' and 
-      --map[S+c_i_mod[p.view]]
-      map[S]==1 and map[S-10]==3 or
-      --  p.view=='n' and 
-      p.view=='n' and map[S]>7 and map[S]<20 and map[S-10]==3 or
-      p.view=='n' and map[S]==3 and map[S-10]==2 or
-      p.view=='n' and map[S]==3 and map[S-10]==4 then
+    -- if map[p.l-c_mod[p.v]] ~= nil then    -- this is to prevent errors
+    if p.v=='n' and map[p.l]==1 and map[p.l-10]==3
+    or p.v=='n' and map[p.l]==30 and map[p.l-10]==3 then
+      --[[  p.v=='n' and 
+      p.v=='n' and map[p.l]>7 and map[p.l]<20 and map[p.l-10]==3 or
+     p.v=='n' and map[p.l]==3 and map[p.l-10]==2 or
+     p.v=='n' and map[p.l]==3 and map[p.l-10]==4 then]]--
         draw_door()
-    elseif p.view=='e' and map[S+1]==5 or
-      p.view=='e' and map[S+1]==8 or
-      p.view=='e' and map[S+1]==10 or
-      p.view=='e' and map[S+1]==12 then
+    elseif p.v=='e' and map[p.l]==1 and map[p.l+1]==5 or
+     p.v=='e' and map[p.l]==30 and map[p.l+1]==5 then
+      --[[p.v=='e' and map[p.l+1]==8 or
+      p.v=='e' and map[p.l+1]==10 or
+      p.v=='e' and map[p.l+1]==12 then
+      ]]--
+         draw_door()
+      elseif p.v=='s' and map[p.l]==1 and map[p.l+10]==4 or
+        p.v=='s' and map[p.l]==30 and map[p.l+10]==4 then 
+      --p.v=='s' and map[p.l]>7 and map[p.l]<20 and map[p.l+10]==4 then
           draw_door()
-      elseif p.view=='s' and map[S]==1 and map[S+10]==4 or 
-      p.view=='s' and map[S]>7 and map[S]<20 and map[S+10]==4 then
-          draw_door()
-      elseif p.view=='w' and map[S]==1 and map[S-1]==6 or 
-      p.view=='w' and map[S]>7 and map[S]<20 and map[S-1]==6 then
+      elseif p.v=='w' and map[p.l]==1 and map[p.l-1]==6 or 
+      p.v=='e' and map[p.l]==30 and map[p.l-1]==6 then
           draw_door()
       end
       
       --a door will be drawn if the player is inside a building
-       if p.view=='s' and map[S]==3 and map[S+10]==1 then
+      if p.v=='s' and map[p.l]==3 and map[p.l+10]==1 or
+      p.v=='s' and map[p.l]==3 and map[p.l+10]==30 then
          draw_door()
       -- if there is a block or a room next to this door I added
       -- a room is carved out the block or linked
-    elseif p.view=='s' and map[S]==3 and map[S+10]==2 then
-       draw_door()
-     --  map[S+10]=4
-    elseif p.view=='s' and map[S]==3 and map[S+10]==4 then
-       draw_door()
-       --map[S+10]=7
-    elseif p.view=='s' and map[S]==3 and map[S+10]==5 then
-    elseif p.view=='s' and map[S]==3 and map[S+10]==6 then
-          --movement rule
-           draw_door()  
+    --[[elseif p.v=='s' and map[p.l]==3 and map[p.l+10]==2 then 
+       --draw_door()
+     --  map[p.l+10]=4
+    elseif p.v=='s' and map[p.l]==3 and map[p.l+10]==4 then
+      -- draw_door()
+       --map[p.l+10]=7
+    elseif p.v=='s' and map[p.l]==3 and map[p.l+10]==5 then
+    elseif p.v=='s' and map[p.l]==3 and map[p.l+10]==6 then
+          movement rule
+        --   draw_door()  
         
         
-        elseif p.view=='s' and map[S]==3 and map[S+10]==2 then
+        ---elseif p.v=='s' and map[p.l]==3 and map[p.l+10]==2 then
          -- end
-        -- elseif map[S-1]==3 then
+        -- elseif map[p.l-1]==3 then
         --  lg.setColor(C_BLACK)
-          --lg.rectangle('line',w/2-32,h/2-32,64,128)
-      elseif p.view=='w' and map[S]==6 and map[S-1]==1 or
-      p.view=='w' and map[S]==6 and map[S-1]==5 then
+          --lg.rectangle('line',w/2-32,h/2-32,64,128)]]--
+      elseif p.v=='w' and map[p.l]==6 and map[p.l-1]==1 or
+             p.v=='w' and map[p.l]==6 and map[p.l-1]==30 then
            draw_door()              
-      elseif p.view=='n' and map[S]==3 and map[S-10]==1 or
-      p.view=='n' and map[S]==3 and map[S-10]>6 and map[S-10]<10 or
-      p.view=='n' and map[S]==3 and map[S-10]==13 or
+      --[[elseif p.v=='n' and map[p.l]==3 and map[p.l-10]==1 or
+      p.v=='n' and map[p.l]==3 and map[p.l-10]>6 and map[p.l-10]<10 or
+      p.v=='n' and map[p.l]==3 and map[p.l-10]==13 or
       -- if we have doors of each wall
-      p.view=='n' and map[S]==13 and map[S-10]==1 or
-      p.view=='n' and map[S]==13 and map[S-10]>6 and
-      map[S-10]<10 then
-           draw_door()               
-      elseif p.view=='e' and map[S]==5 and map[S+1]==1 then
+      p.v=='n' and map[p.l]==13 and map[p.l-10]==1 or
+      p.v=='n' and map[p.l]==13 and map[p.l-10]>6 and
+      map[p.l-10]<10 then
+           draw_door()    ]]--           
+      elseif p.v=='e' and map[p.l]==5 and map[p.l+1]==1 or
+             p.v=='e' and map[p.l]==5 and map[p.l+1]==30 then
            draw_door()               
         end             
    -- end
      
     
-     -- left
-    -- if map[S-10]==3 then
+     --[[ left
+     if map[p.l-10]==3 then
 
       -- lg.setColor(C_BLACK)
       -- lg.polygon('line',w/2-192,h/2-32,w/2-256,h/2-64,w/2-256,h/2+116, w/2-192, h/2+96)
+      ]]--
        
-       -- if left side wall has a door it will be drawned  
+       -- a door will be drawned on the left side wall 
       --north
-      if p.view=='n' then
-        if map[S]==5 or map[S]==7 then
-          lg.setColor(C_WHITE)
-          lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
-        end 
+      if p.v=='n' and map[p.l]==1 and map[p.l-1]==6 or
+    p.v=='n'and map[p.l]==1 and map[p.l-1]==7 or
+    -- rules npc 
+    p.v=='n' and map[p.l]==30 and map[p.l-1]==6 or
+    p.v=='n'and map[p.l]==30 and map[p.l-1]==7 then
+      draw_door_l_wall()
       --east
-    elseif p.view=='e' then
-        if map[S]==5 or map[S]==7 then
-          lg.setColor(C_WHITE)
-          lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
-        end
-      --east
-    elseif p.view=='s' then
-        if map[S]==5 or map[S]==7 then
-          lg.setColor(C_WHITE)
-          lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
-        end
-      --east
-    elseif p.view=='w' then
-        if map[S]==5 or map[S]==7 then
-          lg.setColor(C_WHITE)
-          lg.polygon('line',w/2-192-64,h/2-32,w/2-256-128,h/2-64,w/2-256-128,h/2+116+40, w/2-192-64, h/2+96+16)
-        end
-      end
-      
-      --north
-    if p.view=='n' then      
+    elseif p.v=='e'and map[p.l]==1 and map[p.l-10]==3 or
+    p.v=='e'and map[p.l]==1 and map[p.l-10]==7 or
+    --rules npc 
+    p.v=='e' and map[p.l]==30 and map[p.l-10]==3 or
+    p.v=='e'and map[p.l]==30 and map[p.l-10]==7 then
+      draw_door_l_wall()
+    --south
+    elseif p.v=='s' and map[p.l]==1 and map[p.l+1]==5 or 
+    p.v=='s' and map[p.l]==5 and map[p.l+1]==7 or
+    --rules npc
+    p.v=='s' and map[p.l]==30 and map[p.l+1]==5 or 
+    p.v=='s' and map[p.l]==5 and map[p.l+1]==7 then
+      draw_door_l_wall()
+      --west
+    elseif p.v=='w' and map[p.l]==1 and map[p.l-10]==4 or
+      p.v=='w' and map[p.l]==1 and map[p.l-10]==7 or
+      --rules npc 
+      p.v=='w' and map[p.l]==30 and map[p.l-10]==4 then
+      draw_door_l_wall()
+
+      -- a door will be drawned on the right side wall
+      --north      
       -- if right side wall has a door it will be drawned  
-      if map[S]==5 or map[S]==7 then
-        lg.setColor(C_WHITE)
-        lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
-       end
+    elseif p.v=='n' and map[p.l]==1 and map[p.l+1]==5 or
+    p.v=='n'and map[p.l]==1 and map[p.l+1]==7 or
+    --rules npc 
+    p.v=='n' and map[p.l]==30 and map[p.l+1]==5 or
+    p.v=='n'and map[p.l]==30 and map[p.l+1]==7 then
+      draw_door_r_wall()
       --east
-    elseif p.view=='e' then
-      if map[S]==5 or map[S]==7 then
-        lg.setColor(C_WHITE)
-        lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
-       end
-       --south
-    elseif p.view=='s' then        
-      if map[S]==5 or map[S]==7 then
-        lg.setColor(C_WHITE)
-        lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
-       end
-      --east
-    elseif p.view=='w' then
-      if map[S]==5 or map[S]==7 then
-        lg.setColor(C_WHITE)
-        lg.polygon('line',w/2+192+64,h/2-32,w/2+256+128,h/2-64,w/2+256+128,h/2+116+40, w/2+192+64, h/2+96+16)
-       end
+    elseif p.v=='e'and map[p.l]==1 and map[p.l+10]==4 or
+    p.v=='e'and map[p.l]==1 and map[p.l+10]==7 or
+    --rules npc 
+    p.v=='e'and map[p.l]==30 and map[p.l+10]==4 or
+    p.v=='e'and map[p.l]==30 and map[p.l+10]==7 then
+       draw_door_r_wall()
+      --south
+    elseif p.v=='s' and map[p.l]==1 and map[p.l-1]==6 or 
+    p.v=='s' and map[p.l]==5 and map[p.l-1]==7 or
+    --rules npc
+    p.v=='s' and map[p.l]==30 and map[p.l-1]==6 or 
+    p.v=='s' and map[p.l]==30 and map[p.l-1]==7 then
+        draw_door_r_wall()
+      --west
+    elseif p.v=='w' and map[p.l]==1 and map[p.l-10]==3 or
+      p.v=='w' and map[p.l]==1 and map[p.l+10]==7 or
+      --rules npc
+      p.v=='w' and map[p.l]==30 and map[p.l-10]==3 or
+      p.v=='w' and map[p.l]==30 and map[p.l+10]==7 then
+        draw_door_r_wall()
     end
     
     --ceiling left side screen
-    if map[S-1]~=nil then
-      if map[S-1]>3 and map[S-1]<6 or map[S-1]>6 and map[S-1]<9 or
-      map[S-1]>9 and map[S-1]<11 then
+    if map[p.l-1]~=nil then
+      if map[p.l-1]>3 and map[p.l-1]<6 or map[p.l-1]>6 and map[p.l-1]<9 or
+      map[p.l-1]>9 and map[p.l-1]<11 then
         lg.setColor(C_GRAY)
         lg.polygon('fill', 0,0, 0,h/2-96, w/2-192,h/2-96)
       end
@@ -165,48 +176,42 @@ function draw_sc()
 
     --ceiling left side screen distance 1
     --north
-    if map[S-11]==5 or map[S-11]==10 or map[S-11]==12 and map[S-11]==13 then
+    if map[p.l-11]==5 or map[p.l-11]==10 or map[p.l-11]==12 and map[p.l-11]==13 then
       lg.setColor(C_GRAY)
       lg.polygon('fill',0,h/2-96, w/2-192,h/2-96, w/2-96,h/2-48, w/2-256,h/2-48)
     --east
-    elseif map[S-9]==5 or map[S-9]==10 or map[S-9]==12 and map[S-9]==13 then
+    elseif map[p.l-9]==5 or map[p.l-9]==10 or map[p.l-9]==12 and map[p.l-9]==13 then
       lg.setColor(C_GRAY)
       lg.polygon('fill',0,h/2-96, w/2-192,h/2-96, w/2-96,h/2-48, w/2-256,h/2-48)
     --south
-    elseif map[S+9]==5 or map[S+9]==10 or map[S+9]==12 and map[S+9]==13 then
+    elseif map[p.l+9]==5 or map[p.l+9]==10 or map[p.l+9]==12 and map[p.l+9]==13 then
       lg.setColor(C_GRAY)
       lg.polygon('fill',0,h/2-96, w/2-192,h/2-96, w/2-96,h/2-48, w/2-256,h/2-48)
     --west
-    elseif map[S+11]==5 or map[S+11]==10 or map[S+11]==12 and map[S+11]==13 then
+    elseif map[p.l+11]==5 or map[p.l+11]==10 or map[p.l+11]==12 and map[p.l+11]==13 then
       lg.setColor(C_GRAY)
       lg.polygon('fill',0,h/2-96, w/2-192,h/2-96, w/2-96,h/2-48, w/2-256,h/2-48)
 
     end
     
     --ceiling left side screen distance 2
-    --
-    --  -21
-    --  -11 
-    --  -1 0 1 2 3
-    --
-    --
     if map[-21]~=nil then
       --north
-      if map[S-21]>2 and map[S-21]<16 then
+      if map[p.l-21]>2 and map[p.l-21]<16 then
         lg.setColor(C_GRAY)
      --   lg.polygon('line',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24, w/2-128,h/2-24)
       --east
-      elseif map[S+19]>2 and map[S+19]<16 then
+      elseif map[p.l+19]>2 and map[p.l+19]<16 then
         lg.setColor(C_GRAY)
         lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24,
           w/2-128,h/2-24)
       --south
-      elseif map[S+21]>2 and map[S+21]<16 then
+      elseif map[p.l+21]>2 and map[p.l+21]<16 then
         lg.setColor(C_GRAY)
         lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24,
           w/2-128,h/2-24)
       --west
-      elseif map[S-19]>2 and map[S+19]<16 then
+      elseif map[p.l-19]>2 and map[p.l+19]<16 then
         lg.setColor(C_GRAY)
         lg.polygon('fill',w/2-256,h/2-48, w/2-96,h/2-48, w/2-48,h/2-24,
           w/2-128,h/2-24)
@@ -316,7 +321,7 @@ function draw_day_cycle()
     end
       lg.rectangle('fill',1,1,w,h/2)
   --sun and moon
-  if p.view=='e' then
+  if p.v=='e' then
     if g.day_cycle==7 then
       lg.setColor(C_WHITE)
       lg.circle('fill', w/2-32,h/2, 32, 128)
@@ -340,7 +345,7 @@ function draw_day_cycle()
    --   lg.circle('fill', w/2-32,h/2-32, 32, 128)
    --afternoon
    end
-  elseif p.view=='w' then
+  elseif p.v=='w' then
     if g.day_cycle==12 then
       --lg.setColor(C_WHITE)
       lg.circle('fill', w/2-32,0, 32, 128)
@@ -364,100 +369,166 @@ function draw_day_cycle()
 end
 
 function furthest()
-  local S
-  S=p.start
   --right side in distance 2
   --noth
-  if p.view=='n' and map[S-19] ~= nil then
-    -- map[S-10]==1 or map[S-10] >9 and map[S-10]<20
-    if map[S-19]>1 and map[S-19] <8 then
-      draw_right_side_wall_in_2()
+  if p.v=='n' and map[p.l-19] ~= nil then
+    -- map[p.l-10]==1 or map[p.l-10] >9 and map[p.l-10]<20
+    if map[p.l-19]>1 and map[p.l-19] <8 then
+      draw_r_side_wall_in_2()
     end
   --east
-  elseif p.view=='e' and map[S+21] ~= nil then
-    if map[S+21]>1 and map[S+21] <8 then
-      draw_right_side_wall_in_2()
+  elseif p.v=='e' and map[p.l+21] ~= nil then
+    if map[p.l+21]>1 and map[p.l+21] <8 then
+      draw_r_side_wall_in_2()
     end
   --south
-  elseif p.view=='s' and map[S+19] ~= nil then
-    if map[S+19]>1 and map[S+19] <8 then
-      draw_right_side_wall_in_2()
+  elseif p.v=='s' and map[p.l+19] ~= nil then
+    if map[p.l+19]>1 and map[p.l+19] <8 then
+      draw_r_side_wall_in_2()
     end
   --west
-  elseif p.view=='w' and map[S-21] ~= nil then
-    if map[S-21]>1 and map[S-21] <16 then
-       draw_right_side_wall_in_2()
+  elseif p.v=='w' and map[p.l-21] ~= nil then
+    if map[p.l-21]>1 and map[p.l-21] <16 then
+       draw_r_side_wall_in_2()
     end
   end
     
-    --draw_front_left_wall_in_2
+    --draw_front_l_wall_in_2
     --north
-  if p.view=='n' and map[S-21]~=nil then
-    --if map[S-10]==2 or map[S-10]==3 or
-    if --map[S]>1 and map[S]<14 or
-      map[S-21]>1 and map[S-21]<14 then 
-      draw_front_left_wall_in_2()
+  if p.v=='n' and map[p.l-21]~=nil then
+    --if map[p.l-10]==2 or map[p.l-10]==3 or
+    if --map[p.l]>1 and map[p.l]<14 or
+      map[p.l-21]>1 and map[p.l-21]<14 then 
+      draw_front_l_wall_in_2()
+      if map[p.l-21]>1 and map[p.l-21]<7 then
+        draw_l_side_wall_in_2()
+      end
+    end
+  -- left side of screen door
+    if map[p.l-21]==3 then
+      draw_front_l_door_in_2()
     end
     -- east
-  elseif map[S-19] ~= nil and p.view=='e' then
-    if --map[S]==3 or map[S]==4 or
-      map[S-19]>1 and map[S-19]<14 then 
-      draw_front_left_wall_in_2()
+  elseif map[p.l-19] ~= nil and p.v=='e' then
+    if --map[p.l]==3 or map[p.l]==4 or
+      map[p.l-19]>1 and map[p.l-19]<14 then 
+      draw_front_l_wall_in_2()
+    end
+    if map[p.l-19]>1 and map[p.l-19]<7 then
+        draw_l_side_wall_in_2()
+    end
+  -- left side of screen door
+    if map[p.l-19]==5 then
+      draw_front_l_door_in_2()
     end
      -- south
-  elseif map[S+21] ~= nil and p.view=='s' then
-    if map[S]==3 or map[S]==4 or map[S+21]>1 and map[S+21]<14 then
-      draw_front_left_wall_in_2()      
+  elseif map[p.l+21] ~= nil and p.v=='s' then
+    if map[p.l]==3 or map[p.l]==4 or map[p.l+21]>1 and map[p.l+21]<14 then
+      draw_front_l_wall_in_2()      
+    end
+      if map[p.l+21]>1 and map[p.l+21]<7 then
+        draw_l_side_wall_in_2()
+      end
+  -- left side of screen door
+    if map[p.l+21]==4 then
+      draw_front_l_door_in_2()
     end
   -- west
-  elseif map[S+19] ~= nil and p.view=='w' then
-    if map[S+19]>1 and map[S+19]<14 then
-      draw_front_left_wall_in_2()
+  elseif map[p.l+19] ~= nil and p.v=='w' then
+    if map[p.l+19]>1 and map[p.l+19]<14 then
+      draw_front_l_wall_in_2()
+    end
+      if map[p.l+19]>1 and map[p.l+19]<7 then
+        draw_l_side_wall_in_2()
+      end
+  -- left side of screen door
+    if map[p.l+19]==6 then
+      draw_front_l_door_in_2()
     end
   end  
-  
+
+      
+  --draw_front_r_wall_in_2
+  --north
+  if p.v=='n' and map[p.l-19] ~= nil then
+    if map[p.l-19]>1 and map[p.l-19]<14 then
+      draw_front_r_wall_in_2()
+    end
+  --door
+    if map[p.l-19]>1 and map[p.l-19]<14 then
+      draw_front_r_door_in_2()
+    end
+  --east
+  elseif p.v=='e' and map[p.l+21] ~= nil then
+    if map[p.l+21]>1 and map[p.l+21]<14 then
+      draw_front_r_wall_in_2()
+    end
+  --door
+    if map[p.l+21]>1 and map[p.l+21]<14 then
+      draw_front_r_door_in_2()
+    end
+  --south
+  elseif p.v=='s' and map[p.l+19] ~= nil then
+    if map[p.l+19]>1 and map[p.l+19]<14 then
+      draw_front_r_wall_in_2()
+    end
+  --door
+    if map[p.l+19]>1 and map[p.l+19]<14 then
+      draw_front_r_door_in_2()
+    end
+  --west
+  elseif p.v=='w' and map[p.l-21] ~= nil then
+    if map[p.l-21]>1 and map[p.l-21]<14 then
+      draw_front_r_wall_in_2()
+    end
+    --door front in 2
+    if map[p.l-21]>1 and map[p.l-21]<14 then
+      draw_front_r_door_in_2()
+    end
+  end
+
   -- draw a building from 2 blocks away
   --north
-  if map[S-20] ~= nil then    -- this is to prevent errors
-    if p.view=='n' and map[S-20]>1 and map[S-20]<8 then
+  if map[p.l-20] ~= nil then    -- this is to prevent errors
+    if p.v=='n' and map[p.l-20]>1 and map[p.l-20]<8 then
       draw_distance_2_block()
     end
   --east
-  elseif map[S+2] ~= nil then    -- this is to prevent errors
-    if p.view=='e' and map[S+2]> 1 and map[S+2]<8 then
+  elseif map[p.l+2] ~= nil then    -- this is to prevent errors
+    if p.v=='e' and map[p.l+2]> 1 and map[p.l+2]<8 then
       draw_distance_2_block()
     end
   --south
-  elseif map[S+20] ~= nil then    -- this is to prevent errors
-    if p.view=='s' and map[S+20]> 1 and map[S+20]<8 then
+  elseif map[p.l+20] ~= nil then    -- this is to prevent errors
+    if p.v=='s' and map[p.l+20]> 1 and map[p.l+20]<8 then
       draw_distance_2_block()
     end
   --east
-  elseif map[S-2] ~= nil then    -- this is to prevent errors
-    if p.view=='w' and map[S-2]> 1 and map[S-2]<8 then
+  elseif map[p.l-2] ~= nil then    -- this is to prevent errors
+    if p.v=='w' and map[p.l-2]> 1 and map[p.l-2]<8 then
       draw_distance_2_block()
     end
   end
 
   -- a door will be drawn if the door block is 2 clocks away
   --north
-  if map[S-20] ~= nil then    -- this is to prevent errors
-    if p.view=='n' and map[S-20]==3 then
+  if map[p.l-20] ~= nil then    -- this is to prevent errors
+    if p.v=='n' and map[p.l-20]==3 then
       draw_distance_2_door()
     end
   --east 
-  elseif map[S+2] ~= nil then    -- this is to prevent errors
-    if p.view=='e' and map[S+2]==3 then
+  elseif map[p.l+2] ~= nil then    -- this is to prevent errors
+    if p.v=='e' and map[p.l+2]==3 then
        draw_distance_2_door()
     end
   --south
-  elseif map[S+20] ~= nil then    -- this is to prevent errors
-    if p.view=='s' and map[S+20]==3 then
+  elseif map[p.l+20] ~= nil then    -- this is to prevent errors
+    if p.v=='s' and map[p.l+20]==3 then
       draw_distance_2_door()
     end
   --west
-  elseif map[S-2] ~= nil then    -- this is to prevent errors
-    if p.view=='w' and map[S-2]==3 then
+  elseif map[p.l-2] ~= nil then    -- this is to prevent errors
+    if p.v=='w' and map[p.l-2]==3 then
       draw_distance_2_door()
     end
   end  
@@ -465,16 +536,16 @@ function furthest()
   --ceiling distance 2 block away
   if map[-21]~=nil then
   -- North
-    if p.view=='n' and map[S-20]==14 then-- and map[S-20]<16 then
+    if p.v=='n' and map[p.l-20]==14 then-- and map[p.l-20]<16 then
       draw_distance_2_ceiling()
     --east
-    elseif p.view=='e' and map[S+2]==14 then --and map[S+2]<16 then
+    elseif p.v=='e' and map[p.l+2]==14 then --and map[p.l+2]<16 then
       draw_distance_2_ceiling()
     --south
-    elseif p.view=='s' and map[S+20]==14 then--2 and map[S+20]<16 then
+    elseif p.v=='s' and map[p.l+20]==14 then--2 and map[p.l+20]<16 then
       draw_distance_2_ceiling()
     --west
-    elseif p.view=='w' and map[S-2]==14 then --2 and map[S-2]<16 then
+    elseif p.v=='w' and map[p.l-2]==14 then --2 and map[p.l-2]<16 then
       draw_distance_2_ceiling()
     end    
   end
@@ -482,272 +553,264 @@ function furthest()
   --indoor floor 1 block far
   if map[-20]~=nil then
   --north
-    if p.view == 'n' and map[S-20]>2 and map[S-20]<16 then
+    if p.v == 'n' and map[p.l-20]>2 and map[p.l-20]<16 then
     draw_distance_2_floor()
   --east
-  elseif p.view == 'e' and map[S+2]>2 and map[S+2]<16 then
+  elseif p.v == 'e' and map[p.l+2]>2 and map[p.l+2]<16 then
     draw_distance_2_floor()
   --south
-  elseif p.view == 's' and map[S+20]>2 and map[S+20]<16 then
+  elseif p.v == 's' and map[p.l+20]>2 and map[p.l+20]<16 then
     draw_distance_2_floor()
   --west
-  elseif p.view == 'w' and map[S-2]>2 and map[S-2]<16 then
+  elseif p.v == 'w' and map[p.l-2]>2 and map[p.l-2]<16 then
     draw_distance_2_floor()
     end
   end 
 end
 
 function near()
-  local S
-  S=p.start
-  --if p.view==0 then -- if player looking north
+  --if p.v==0 then -- if player looking north
   --north
-  if p.view=='n' and map[S-11] ~= nil then
-    if map[S-11]>1 and map[S-11]<14 then 
-      draw_left_side_wall_in()
+  if p.v=='n' and map[p.l-11] ~= nil then
+    if map[p.l-11]>1 and map[p.l-11]<14 then 
+      draw_l_side_wall_in()
     end
   --east
-  elseif p.view=='e' and map[S-9] ~= nil then
-    if map[S-9]>1 and map[S-9]<5 or map[S-9]>5 and map[S-9]<8 then
-      draw_left_side_wall_in()
+  elseif p.v=='e' and map[p.l-9] ~= nil then
+    if map[p.l-9]>1 and map[p.l-9]<5 or map[p.l-9]>5 and map[p.l-9]<8 then
+      draw_l_side_wall_in()
     end
   --south
-  elseif p.view=='s' and map[S+11] ~= nil then
-    if map[S+11]>1 and map[S+11]<5 or map[S+11]>5
-    and map[S+11]<8 then 
-      draw_left_side_wall_in()
+  elseif p.v=='s' and map[p.l+11] ~= nil then
+    if map[p.l+11]>1 and map[p.l+11]<5 or map[p.l+11]>5
+    and map[p.l+11]<8 then 
+      draw_l_side_wall_in()
     end
   --west
-  elseif p.view=='w' and map[S+9] ~= nil then
-    if map[S+9]>1 and map[S+9]<5 or map[S+9]>5
-    and map[S+9]<8 then 
-      draw_left_side_wall_in()
+  elseif p.v=='w' and map[p.l+9] ~= nil then
+    if map[p.l+9]>1 and map[p.l+9]<5 or map[p.l+9]>5
+    and map[p.l+9]<8 then 
+      draw_l_side_wall_in()
     end
   end
    --end
 
   --noth
-  if p.view=='n' and map[S-9] ~= nil then
-    -- map[S-10]==1 or map[S-10] >9 and map[S-10]<20
-    if map[S-9]>1 and map[S-9] <8 then
-      draw_right_side_wall_in()
+  if p.v=='n' and map[p.l-9] ~= nil then
+    -- map[p.l-10]==1 or map[p.l-10] >9 and map[p.l-10]<20
+    if map[p.l-9]>1 and map[p.l-9] <8 then
+      draw_r_side_wall_in()
     end
   --east
-  elseif p.view=='e' and map[S+11] ~= nil then
-    if map[S+11]>1 and map[S+11] <8 then
-      draw_right_side_wall_in()
+  elseif p.v=='e' and map[p.l+11] ~= nil then
+    if map[p.l+11]>1 and map[p.l+11] <8 then
+      draw_r_side_wall_in()
     end
   --south
-  elseif p.view=='s' and map[S+9] ~= nil then
-    if map[S+9]>1 and map[S+9] <8 then
-      draw_right_side_wall_in()
+  elseif p.v=='s' and map[p.l+9] ~= nil then
+    if map[p.l+9]>1 and map[p.l+9] <8 then
+      draw_r_side_wall_in()
     end
     --west
-  elseif p.view=='w' and map[S-11] ~= nil then
-    if map[S-11]>1 and map[S-11] <8 then
-      draw_right_side_wall_in()
+  elseif p.v=='w' and map[p.l-11] ~= nil then
+    if map[p.l-11]>1 and map[p.l-11] <8 then
+      draw_r_side_wall_in()
     end
   end 
     
   --north
-  if p.view=='n' and map[S-1]~=nil then
-    if map[S]==3 or map[S]==4 or map[S-1]>1 and map[S-1]<8 then
-      draw_left_side_wall()
+  if p.v=='n' and map[p.l-1]~=nil then
+    if map[p.l]==3 or map[p.l]==4 or map[p.l-1]>1 and map[p.l-1]<8 then
+      draw_l_side_wall()
     end
     --east
-  elseif p.view=='e' and map[S-10]~=nil then
-    if map[S]==3 or map[S]==4 or map[S-10]~= 1 and map[S-10]>1 and map[S-10]<8 then
-      draw_left_side_wall()
+  elseif p.v=='e' and map[p.l-10]~=nil then
+    if map[p.l]==3 or map[p.l]==4 or map[p.l-10]~= 1 and map[p.l-10]>1 and map[p.l-10]<8 then
+      draw_l_side_wall()
     end
     --south
-  elseif p.view=='s' and map[S+1]~=nil then
-    if map[S]==2 or map[S]==3 or map[S+1]>1 and map[S+1]<8 then
-      draw_left_side_wall()
+  elseif p.v=='s' and map[p.l+1]~=nil then
+    if map[p.l]==2 or map[p.l]==3 or map[p.l+1]>1 and map[p.l+1]<8 then
+      draw_l_side_wall()
     end
   --west
-  elseif p.view=='w' and map[S+10]~=nil then
-    if map[S]==2 or map[S]==3 or map[S+10]>1 and map[S+10]<8 then
-      draw_left_side_wall()
+  elseif p.v=='w' and map[p.l+10]~=nil then
+    if map[p.l]==2 or map[p.l]==3 or map[p.l+10]>1 and map[p.l+10]<8 then
+      draw_l_side_wall()
     end
   end 
      
   -- front wall left side of screen
-  --draw_left_wall
+  --draw_l_wall
   -- north
-  -- -11-10-9
-  -- -1  00 1
-  -- 9   10 11 
-  if p.view=='n' and map[S-11]~=nil then
-  --if map[S-10]==2 or map[S-10]==3 or
-    if map[S]>1 and map[S]<14 or map[S-11]>1 and map[S-11]<14 then 
-    --map[S-1]==2 or map[S-1]==3 or map[S-11]==2 and map[S-11]==3 then
-      draw_front_left_wall()
+  if p.v=='n' and map[p.l-11]~=nil then
+    --front wall left
+    if map[p.l]==7 or map[p.l-11]>1 and map[p.l-11]<14 then 
+      draw_front_l_wall()
+    end
+  --door left side
+    if map[p.l]==7 or map[p.l-11]==3 then 
+      draw_front_l_side_door()
     end
   -- east
-  elseif map[S-9] ~= nil and p.view=='e' then
-    if --map[S]==3 or map[S]==4 or
-      map[S-9]>1 and map[S-9]<14 then 
-        draw_front_left_wall()
+  elseif map[p.l-9] ~= nil and p.v=='e' then
+    if --map[p.l]==3 or map[p.l]==4 or
+      map[p.l-9]>1 and map[p.l-9]<14 then 
+        draw_front_l_wall()
       end
+  --door left side
+    if map[p.l]==7 or map[p.l-11]==5 then 
+      draw_front_l_side_door()
+    end
     -- south
-  elseif map[S+11] ~= nil and p.view=='s' then
-    if map[S]==3 or map[S]==4 or map[S+11]>1 and map[S+11]<14 then
-      draw_front_left_wall()      
+  elseif map[p.l+11] ~= nil and p.v=='s' then
+    if map[p.l]==4 or map[p.l+11]>1 and map[p.l+11]<14 then
+      draw_front_l_wall()      
+    end
+  --door left side
+    if map[p.l]==7 or map[p.l-11]==4 then 
+      draw_front_l_side_door()
     end
     -- west
-  elseif map[S+9] ~= nil and p.view=='w' then
-    if map[S]==3 or map[S]==4 or map[S+9]>1 and map[S+9]<14 then
-      draw_front_left_wall()
+  elseif map[p.l+9] ~= nil and p.v=='w' then
+    if map[p.l]==4 or map[p.l+9]>1 and map[p.l+9]<14 then
+      draw_front_l_wall()
+    end
+  --door left side
+    if map[p.l]==7 or map[p.l-11]==6 then 
+      draw_front_l_side_door()
     end
   end
-          
+  
   --draw_front_wall
   -- north
-  if map[S+c_i_mod[p.view]] ~= nil then --and p.view=='n' then
-    if --[[map[S-9]==2 or map[S-11]==3 or map[S-1]==2 or map[S-1]==3  or--]] map[S]>1 and map[S]<14 or map[S+c_i_mod[p.view]]>1 and map[S+c_i_mod[p.view]]<14 then
+  if map[p.l+c_mod[p.v]] ~= nil then --and p.v=='n' then
+    if --[[map[p.l-9]==2 or map[p.l-11]==3 or map[p.l-1]==2 or map[p.l-1]==3  or--]] map[p.l]>1 and map[p.l]<14 or map[p.l+c_mod[p.v]]>1 and map[p.l+c_mod[p.v]]<14 then
       draw_front_wall()
     end
   end
   --[[ east
-    elseif map[S+1] ~= nil and p.view=='e' then
-      if map[S]==2 or map[S]==3 or map[S+1]>1 and map[S+1]<8 then
+    elseif map[p.l+1] ~= nil and p.v=='e' then
+      if map[p.l]==2 or map[p.l]==3 or map[p.l+1]>1 and map[p.l+1]<8 then
           draw_front_wall()
         end
      -- south
-    elseif map[S+10] ~= nil and p.view=='s' then
-        if map[S]==2 or map[S]==3 or map[S+10]>1 and map[S+10]<8 then
+    elseif map[p.l+10] ~= nil and p.v=='s' then
+        if map[p.l]==2 or map[p.l]==3 or map[p.l+10]>1 and map[p.l+10]<8 then
           draw_front_wall()
         end
      -- west
-    elseif map[S-1] ~= nil and p.view=='w' then
-        if map[S]==3 or map[S]==4 or map[S-1]>1 and map[S-1]<8 then
+    elseif map[p.l-1] ~= nil and p.v=='w' then
+        if map[p.l]==3 or map[p.l]==4 or map[p.l-1]>1 and map[p.l-1]<8 then
           draw_front_wall()
         end
       end]]--
       
       -- front wall right side of screen
-    --  if -- not (map[S]>9 and map[S]<20) or
-    --  map[S] ~= 1 or map[S]>3 and map[S]<7 or map[S+1]>3 and map[S+1]<=7 
-      --(map[S-9]>9 and map[S-9]<20) or 
-      --map[S-9] ~= 1 or 
-      --draw_front_right_wall
+    --  if -- not (map[p.l]>9 and map[p.l]<20) or
+    --  map[p.l] ~= 1 or map[p.l]>3 and map[p.l]<7 or map[p.l+1]>3 and map[p.l+1]<=7 
+      --(map[p.l-9]>9 and map[p.l-9]<20) or 
+      --map[p.l-9] ~= 1 or 
+      --draw_front_r_wall
       --north
-  if p.view=='n' and map[S-9] ~= nil then
-    if map[S-9]>1 and map[S-9]<14 then
-      draw_front_right_wall()
+  if p.v=='n' and map[p.l-9] ~= nil then
+    if map[p.l-9]>1 and map[p.l-9]<14 then
+      draw_front_r_wall()
+    end
+  --door right side
+    if map[p.l]==7 or map[p.l-11]==3 then 
+      draw_front_r_side_door()
     end
   --east
-  elseif p.view=='e' and map[S+11] ~= nil then
-    if map[S+11]>1 and map[S+11]<14 then
-      draw_front_right_wall()
+  elseif p.v=='e' and map[p.l+11] ~= nil then
+    if map[p.l+11]>1 and map[p.l+11]<14 then
+      draw_front_r_wall()
+    end
+  --door right side
+    if map[p.l]==7 or map[p.l-11]==3 then 
+      draw_front_r_side_door()
     end
   --south
-  elseif p.view=='s' and map[S+9] ~= nil then
-    if map[S+9]>1 and map[S+9]<14 then
-      draw_front_right_wall()
+  elseif p.v=='s' and map[p.l+9] ~= nil then
+    if map[p.l+9]>1 and map[p.l+9]<14 then
+      draw_front_r_wall()
     end
   --west
-  elseif p.view=='w' and map[S-11] ~= nil then
-    if map[S-11]>1 and map[S-11]<14 then
-      draw_front_right_wall()
-    end
-  end
-      
-  --draw_front_right_wall_in_2
-  --north
-  if p.view=='n' and map[S-19] ~= nil then
-    if map[S-19]>1 and map[S-19]<14 then
-      draw_front_right_wall_in_2()
-    end
-  --east
-  elseif p.view=='e' and map[S+21] ~= nil then
-    if map[S+21]>1 and map[S+21]<14 then
-      draw_front_right_wall_in_2()
-    end
-  --south
-  elseif p.view=='s' and map[S+19] ~= nil then
-    if map[S+19]>1 and map[S+19]<14 then
-      draw_front_right_wall_in_2()
-    end
-  --west
-  elseif p.view=='w' and map[S-21] ~= nil then
-    if map[S-21]>1 and map[S-21]<14 then
-      draw_front_right_wall_in_2()
+  elseif p.v=='w' and map[p.l-11] ~= nil then
+    if map[p.l-11]>1 and map[p.l-11]<14 then
+      draw_front_r_wall()
     end
   end
     
   -- right side wall
   --north
-  if p.view=='n' and map[S+1] ~= nil then
-    if map[S]==3 or map[S]==4 or map[S+1]>1 and map[S+1]<14 then 
-      draw_right_side_wall()
+  if p.v=='n' and map[p.l+1] ~= nil then
+    if map[p.l]==3 or map[p.l]==4 or map[p.l+1]>1 and map[p.l+1]<14 then 
+      draw_r_side_wall()
     end
   --east
-  elseif p.view=='e' and map[S+10] ~= nil then
-    if map[S]==3 or map[S]==4 or map[S+10]>1 and map[S+10]<14 then 
-      draw_right_side_wall()
+  elseif p.v=='e' and map[p.l+10] ~= nil then
+    if map[p.l]==3 or map[p.l]==4 or map[p.l+10]>1 and map[p.l+10]<14 then 
+      draw_r_side_wall()
     end
   --south
-  elseif p.view=='s' and map[S-1] ~= nil then
-    if map[S]==3 or map[S]==4 or map[S-1]>1 and map[S-1]<14 then 
-      draw_right_side_wall()
+  elseif p.v=='s' and map[p.l-1] ~= nil then
+    if map[p.l]==3 or map[p.l]==4 or map[p.l-1]>1 and map[p.l-1]<14 then 
+      draw_r_side_wall()
     end
   --west
-  elseif p.view=='w' and map[S-10] ~= nil then
-    if map[S]==3 or map[S]==4 or map[S-10]>1 and map[S-10]<14 then 
-      draw_right_side_wall()
+  elseif p.v=='w' and map[p.l-10] ~= nil then
+    if map[p.l]==3 or map[p.l]==4 or map[p.l-10]>1 and map[p.l-10]<14 then 
+      draw_r_side_wall()
     end
   end
   
   --ceiling distance 1 block away
-  --if map[S+20]
-  if map[S+c_i_mod[p.view]]==14 then 
-  -- and map[S+c_i_mod[p.view]]<16 then
+  --if map[p.l+20]
+  if map[p.l+c_mod[p.v]]==14 then 
+  -- and map[p.l+c_mod[p.v]]<16 then
     draw_distance_1_ceiling()
   end
        
   --indoor floor 1 block far
-  if map[S+c_i_mod[p.view]]==14 then--and map[S+c_i_mod[p.view]]<16 then
+  if map[p.l+c_mod[p.v]]==14 then--and map[p.l+c_mod[p.v]]<16 then
     draw_distance_1_floor()
   end   
 end
 
 
 function here()
-  local S
-  S=p.start
     --ceiling
-  if map[S]>2 and map[S]<16 then
+  if map[p.l]>2 and map[p.l]<16 then
      draw_ceiling()
   end
     
   --indoor floor    
-  if map[S]>2 and map[S]<30 then
+  if map[p.l]>2 and map[p.l]<30 then
     draw_indoor_floor()
-    if map[S] == 15 then
+    if map[p.l] == 15 then
       draw_npc()
-    elseif map[S] == 16 then
+    elseif map[p.l] == 16 then
       draw_table()
     end
   end
 end
 
 function draw_land()
-  local S=p.start
   --paint the sky
   draw_day_cycle()
  -- lg.setColor(C_L_BLUE)
  -- lg.rectangle('fill',1,1,w,h/2)    
-  --if map[S]==0 then
+  --if map[p.l]==0 then
   -- sea , beach and field
   
   --top left corner
-  if p.view=='n' and map[S+1]==0 and map[S-10]==0
-  and map[S]==0 
-  or p.view=='e' and map[S+1]==0 and map[S+10]==0
-  and map[S]==0
-  or p.view=='s' and map[S+10]==0 and map[S-1]==0
-  and map[S]==0 then
+  if p.v=='n' and map[p.l+1]==0 and map[p.l-10]==0
+  and map[p.l]==0 
+  or p.v=='e' and map[p.l+1]==0 and map[p.l+10]==0
+  and map[p.l]==0
+  or p.v=='s' and map[p.l+10]==0 and map[p.l-1]==0
+  and map[p.l]==0 then
     --  lg.setColor(C_BLUE)
       --lg.polygon('fill',w/3,h-192,1,h,1,h/2,w,h/2,w,h-192, w-w/4,h-192)
       --lg.rectangle('fill',1,h-192,w/2,h/3)
@@ -757,8 +820,8 @@ function draw_land()
     lg.setColor(C_YELLOW)
    -- lg.polygon('fill',1,h,w/3,h-192,w-w/3,h-192,w,h-192,w,h)
       lg.rectangle("fill",w/2,h-192,w/8,h/3)
- --[[ elseif p.view=='n' and map[S-1]==0 and map[S]==0 and
-    map[S-10]==0 then --top right corner
+ --[[ elseif p.v=='n' and map[p.l-1]==0 and map[p.l]==0 and
+    map[p.l-10]==0 then --top right corner
     lg.setColor(C_BLUE)
     lg.polygon('fill', w/3,h, w/2-64,h/2, 0,h/2, 0,h)
     --lg.rectangle('fill',1,h-192,w-w/3,h/2,w,h-192)
@@ -767,7 +830,7 @@ function draw_land()
     lg.setColor(C_BLUE)
     lg.rectangle('fill',0,0, w,h/2)  ]]-- --lg.polygon('fill',0,h/2,w,h/2,w,h,w/4,h-192,1,h-192)--w,h,w-w/3,h-192,1,h-192)
 
- -- elseif map[S]==0 and map[S+1]>=11 and map[S+1]<=13 or map[S]==0 and map[S+1]<=11 and map[S+1]<=13 then -- left side
+ -- elseif map[p.l]==0 and map[p.l+1]>=11 and map[p.l+1]<=13 or map[p.l]==0 and map[p.l+1]<=11 and map[p.l+1]<=13 then -- left side
     
    --[[ lg.setColor(C_BLUE)
     lg.rectangle("fill",1,h/2,w/2,h/2)
@@ -778,14 +841,14 @@ function draw_land()
  --]]
 
  --sea shore
-  elseif p.view=='n' and map[S]==0 and map[S+10]==0 and map[S-10]==0
-  and map[S+1]~=0
-  or p.view=='e' and map[S]==0 and map[S+1]==0 and map[S-1]==0
-  and map[S-10]~=0
-  or p.view=='s' and map[S]==0 and map[S+10]==0 and map[S-10]==0
-  and map[S-1]~=0
-  or p.view=='w' and map[S]==0 and map[S+1]==0 and map[S-1]==0 and
-  map[S+10]==nil then
+  elseif p.v=='n' and map[p.l]==0 and map[p.l+10]==0 and map[p.l-10]==0
+  and map[p.l+1]~=0
+  or p.v=='e' and map[p.l]==0 and map[p.l+1]==0 and map[p.l-1]==0
+  and map[p.l-10]~=0
+  or p.v=='s' and map[p.l]==0 and map[p.l+10]==0 and map[p.l-10]==0
+  and map[p.l-1]~=0
+  or p.v=='w' and map[p.l]==0 and map[p.l+1]==0 and map[p.l-1]==0 and
+  map[p.l+10]==nil then
     lg.setColor(C_BLUE)  --water to the left
     lg.polygon('fill',0,h, w/3,h, w/2-64,h/2, 0,h/2)
     lg.setColor(C_YELLOW)
@@ -793,14 +856,14 @@ function draw_land()
     lg.setColor(C_GREEN)
     lg.polygon('fill',w-w/3,h, w/2+64,h/2, w,h/2, w,h )
  --sea shore left and right
-  elseif p.view=='n' and map[S]==0 and map[S+10]==0 and map[S-10]==0
-  and map[S-1]~=0
-  or p.view=='e' and map[S]==0 and map[S+1]==0 and map[S-1]==0
-  and map[S+10]~=0
-  or p.view=='s' and map[S]==0 and map[S+10]==0 and map[S-10]==0
-  and map[S+1]~=0
-  or p.view=='w' and map[S]==0 and map[S+1]==0 and map[S-1]==0 
-  and map[S-10]==nil
+  elseif p.v=='n' and map[p.l]==0 and map[p.l+10]==0 and map[p.l-10]==0
+  and map[p.l-1]~=0
+  or p.v=='e' and map[p.l]==0 and map[p.l+1]==0 and map[p.l-1]==0
+  and map[p.l+10]~=0
+  or p.v=='s' and map[p.l]==0 and map[p.l+10]==0 and map[p.l-10]==0
+  and map[p.l+1]~=0
+  or p.v=='w' and map[p.l]==0 and map[p.l+1]==0 and map[p.l-1]==0 
+  and map[p.l-10]==nil
   then
     lg.setColor(C_BLUE)  --water to the right
     lg.polygon('fill',w-w/3,h, w,h, w,h/2, w/2+64,h/2)
@@ -808,12 +871,12 @@ function draw_land()
     lg.polygon('fill',0,h, w/2-64,h/2, w/2+64,h/2, w,h)
     lg.setColor(C_GREEN)
     lg.polygon('fill',0,h/2, 0,h, w/3,h, w/2-32,h/2 )
-  elseif p.view=='n' and map[S]==0 and map[S-10]==nil -- top side
-  or p.view=='e' and map[S-1]~=0 and map[S-10]==0 and
-  map[S+10]==0 and map[S]==0
-  or p.view=='s' and map[S]==0 and map[S+10]==nil   
-  or p.view=='w' and map[S+1]~=0 and map[S-10]==0 and
- map[S+10]==0 and map[S]==0 then
+  elseif p.v=='n' and map[p.l]==0 and map[p.l-10]==nil -- top side
+  or p.v=='e' and map[p.l-1]~=0 and map[p.l-10]==0 and
+  map[p.l+10]==0 and map[p.l]==0
+  or p.v=='s' and map[p.l]==0 and map[p.l+10]==nil   
+  or p.v=='w' and map[p.l+1]~=0 and map[p.l-10]==0 and
+ map[p.l+10]==0 and map[p.l]==0 then
     lg.setColor(C_BLUE)
     lg.rectangle("fill",1,h/2,w,h/3)
     lg.setColor(C_GREEN)
@@ -822,11 +885,11 @@ function draw_land()
     lg.rectangle("fill",1,h-192,w,h/8)
   
   --top side in
-  elseif p.view=='n' and map[S]==0 and map[S+10]==nil
-  or p.view=='e' and map[S]==0 and map[S-1]~=0 
-  or p.view=='s' and map[S]==0 and map[S-10]==nil   
-  or p.view=='w' and map[S+1]~=0 and map[S-10]==0 and
-  map[S+10]==0 and map[S]==0 then
+  elseif p.v=='n' and map[p.l]==0 and map[p.l+10]==nil
+  or p.v=='e' and map[p.l]==0 and map[p.l-1]~=0 
+  or p.v=='s' and map[p.l]==0 and map[p.l-10]==nil   
+  or p.v=='w' and map[p.l+1]~=0 and map[p.l-10]==0 and
+  map[p.l+10]==0 and map[p.l]==0 then
     lg.setColor(C_GREEN)
     lg.rectangle("fill",0,h/2,w,h/6)
     lg.setColor(C_BLUE)
@@ -834,7 +897,7 @@ function draw_land()
     lg.setColor(C_YELLOW)
     lg.rectangle("fill",0,h-192,w,h/16)
     
- --[[ elseif map[S]==0 and map[S+10]==nil then -- bottom side
+ --[[ elseif map[p.l]==0 and map[p.l+10]==nil then -- bottom side
     
     lg.setColor(C_BLUE)
     lg.rectangle("fill",1,h/2,w,h/3)
@@ -843,13 +906,13 @@ function draw_land()
         lg.setColor(C_GREEN)
     lg.rectangle("fill",1,h/2,w,h/8)]]--
   -- 1 land with grass
-  elseif map[S]==1 or map[S]==8 or map[S] >10 and map[S]<20 then
+  elseif map[p.l]==1 or map[p.l]==30 or map[p.l] >10 and map[p.l]<20 then
     --if player
     -- paint th field
 
     lg.setColor(C_GREEN)
     lg.rectangle("fill",1,h/2,w,h/2)
-  --elseif map[S]==2 then
+  --elseif map[p.l]==2 then
     --draw inside a building
     lg.setColor(C_GREEN)
     lg.polygon('line',w/2-192,h/2+128 , w/2-128,h/2+64, w/2-256,h/2+64, w/2-378,h/2+128)
@@ -857,74 +920,74 @@ function draw_land()
   
     -- draw sea visible if is 1 blocks away
     -- north
-    if p.view=='n' and map[S]~=0 and map[S-10] ~= nil then    -- this is to prevent errors
-        if map[S-10]==0 then
+    if p.v=='n' and map[p.l]~=0 and map[p.l-10] ~= nil then    -- this is to prevent errors
+        if map[p.l-10]==0 then
           lg.setColor(C_BLUE)
           lg.rectangle('fill',1,h/2,w,h/8)
         end
     -- north
-  elseif p.view=='e' and map[S]~=0 and map[S+1] ~= nil 
+  elseif p.v=='e' and map[p.l]~=0 and map[p.l+1] ~= nil 
   -- this is to prevent errors
-  and  map[S+1]==0 then
+  and  map[p.l+1]==0 then
           lg.setColor(C_BLUE)
           lg.rectangle('fill',1,h/2,w,h/8)
     -- north
-  elseif p.view=='s' and map[S]~=0 and map[S+10]==0 and
-  map[S+10]~= nil then    -- this is to prevent errors
-        if map[S-10]==0 then
+  elseif p.v=='s' and map[p.l]~=0 and map[p.l+10]==0 and
+  map[p.l+10]~= nil then    -- this is to prevent errors
+        if map[p.l-10]==0 then
           lg.setColor(C_BLUE)
           lg.rectangle('fill',1,h/2,w,h/8)
         end
     -- north
-    elseif p.view=='w' and map[S]~=0 and map[S-1]~= nil then    -- this is to prevent errors
-        if map[S-1]==0 then
+    elseif p.v=='w' and map[p.l]~=0 and map[p.l-1]~= nil then    -- this is to prevent errors
+        if map[p.l-1]==0 then
           lg.setColor(C_BLUE)
           lg.rectangle('fill',1,h/2,w,h/8)
       end
     end  
   
     -- draw sea visible if is 2 blocks away
-    if p.view=='n' and map[S]~=0 and map[S-20] ~= nil then    -- this is to prevent errors
-     if map[S-20]==0 then
+    if p.v=='n' and map[p.l]~=0 and map[p.l-20] ~= nil then    -- this is to prevent errors
+     if map[p.l-20]==0 then
        lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/12)
       end  
-    elseif p.view=='e' and map[S]~=0 and map[S+2] ~= nil then    -- this is to prevent errors
-      if map[S+2]==0 then
+    elseif p.v=='e' and map[p.l]~=0 and map[p.l+2] ~= nil then    -- this is to prevent errors
+      if map[p.l+2]==0 then
         lg.setColor(C_BLUE)
         lg.rectangle('fill',1,h/2,w,h/12)
       end 
-    elseif p.view=='s' and map[S]~=0 and map[S-20]==0 and 
-    map[S+20] ~= nil then    -- this is to prevent errors
-     if map[S+20]==0 then
+    elseif p.v=='s' and map[p.l]~=0 and map[p.l-20]==0 and 
+    map[p.l+20] ~= nil then    -- this is to prevent errors
+     if map[p.l+20]==0 then
        lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/12)
       end      
-    elseif p.view=='w' and map[S]~=0 and map[S-2] ~= nil then    -- this is to prevent errors
-     if map[S-2]==0 then
+    elseif p.v=='w' and map[p.l]~=0 and map[p.l-2] ~= nil then    -- this is to prevent errors
+     if map[p.l-2]==0 then
        lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/12)
       end
     end  
     
     -- draw sea visible if is 3 blocks away
-    if map[S-30] ~= nil and map[S]~=0 and p.view=='n' then    -- this is to prevent errors
-     if map[S-30]==0 then
+    if map[p.l-30] ~= nil and map[p.l]~=0 and p.v=='n' then    -- this is to prevent errors
+     if map[p.l-30]==0 then
        lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/24)
       end
-    elseif map[S+3] ~= nil and map[S]~=0 and p.view=='e' then    -- this is to prevent errors
-     if map[S+3]==0 then
+    elseif map[p.l+3] ~= nil and map[p.l]~=0 and p.v=='e' then    -- this is to prevent errors
+     if map[p.l+3]==0 then
        lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/24)
       end
-    elseif map[S+30] ~= nil and map[S]~=0 and p.view=='s' then    -- this is to prevent errors
-     if map[S+30]==0 then
+    elseif map[p.l+30] ~= nil and map[p.l]~=0 and p.v=='s' then    -- this is to prevent errors
+     if map[p.l+30]==0 then
       lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/24)
       end
-    elseif map[S-3] ~= nil and map[S]~=0 and p.view=='w' then    -- this is to prevent errors
-     if map[S-3]==0 then
+    elseif map[p.l-3] ~= nil and map[p.l]~=0 and p.v=='w' then    -- this is to prevent errors
+     if map[p.l-3]==0 then
        lg.setColor(C_BLUE)
        lg.rectangle('fill',1,h/2,w,h/24)
       end
@@ -1304,18 +1367,18 @@ function draw_objects()
   --outside
   -- on_sc_objects() -- on screen objects
   -- npc
-  if map[S]==30 then
+  if map[p.l]==30 then
     draw_npc()
   end
      
   -- sticks
-    if objects.c[S] ~= nil then
+    if objects.c[p.l] ~= nil then
        
-      if map[S]==11 then 
+      if map[p.l]==11 then 
         lg.setColor(C_BROWN)
         lg.polygon('fill' , w/2-64, h/2+192 , w/2+64, h/2+192, w/2+64, h/2+184, w/2-64, h/2+184)
         lg.setColor(C_BLACK)
-        lgp( tostring( objects.c[S] )..'x' , w/2-64, h/2+156)
+        lgp( tostring( objects.c[p.l] )..'x' , w/2-64, h/2+156)
        
        --lg.polygon('line',w/2-16,h/2+128, w/2+16,h/2+64, w/2+16,h/2, w/2-8,h/2+64)
         objects.x=w/2-64
@@ -1325,39 +1388,39 @@ function draw_objects()
       end  -- end of painting sticks
     end
     --draw stone code
-    if map[S]==12 then
+    if map[p.l]==12 then
       lg.setColor(C_GRAY)
       lg.rectangle("fill",w/2-16,h/2+128,32,32)
       lg.setColor(C_BLACK)
-      lgp( tostring( objects.c[S] )..'x' , w/2-64, h/2+156)
+      lgp( tostring( objects.c[p.l] )..'x' , w/2-64, h/2+156)
       -- draw hud icon
       lg.setColor(0,0,0,64)
       lg.rectangle('fill',w/2+32,h/2+32,64,64)
     end -- end of painting stones
     
     --leaves
-    if map[S]==13 then
+    if map[p.l]==13 then
       lg.setColor(C_BLACK)
       lg.polygon('line',w/2-64,h/2+64,w/2-72,h/2+72,w/2-96,h/2+96,w/2+64,h/2+96)
     end
     
     --grass
-    if map[S]==20 then
+    if map[p.l]==20 then
       lg.setColor(C_BLACK)
-      --if objects.c[S] ~= 0 then
+      --if objects.c[p.l] ~= 0 then
       local I=0
       repeat
-      -- if I<objects.c[S] then
+      -- if I<objects.c[p.l] then
       --  I=I+1
       --end
           
       lg.rectangle('line',w/2-16*I,h/2+128,8,16)
       --lg.setColor(C_GREEN)
       --lg.rectangle('fill',w/2-14*I,h/2+128,6,14)
-      if I<objects.c[S] then
+      if I<objects.c[p.l] then
         I=I+1
       end
-    until I==objects.c[S]
+    until I==objects.c[p.l]
     --end
   end
 end
